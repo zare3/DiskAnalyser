@@ -9,8 +9,10 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QToolBar>
-#include "directoryexplorerthread.h"
 #include "checkdiskfragmentation.h"
+#include <QStack>
+#include "StatisticsThread.h"
+
 namespace Ui {
 class FileExplorer;
 }
@@ -26,20 +28,34 @@ public:
 private slots:
     void onListItemDoubleClicked(QModelIndex index);
     void upButtonPressed();
-    void resultsFinished(quint64);
     void on_actionCheck_Disk_Fragmentation_triggered();
+    void forwardButtonPressed();
+    void backButtonPressed();
 
 private:
     Ui::FileExplorer *ui;
-    QFileSystemModel *dirModel;
-    QTreeView *treeView;
-    QListView *listView;
-    QTabWidget *tabWidget;
     QToolBar *toolBar;
     QToolBar *mainToolBar;
-    DirectoryExplorerThread* directoryThread;
     CheckDiskFragmentation* chkFrgmntionWin;
  
+    
+    //Stats
+    StatisticsThread* Stats;
+    QFileSystemModel *dirModel;
+    //End of Stats
+    
+    //DirTreeView
+    QTreeView *dirTreeView;
+    QListView *dirListView;
+    QTabWidget *dirTabWidget;
+    QStack<QString> backStack, forwardStack;
+    void initializeDirectory();
+    //End of DirTreeView
+
+    //Extentions
+    QTreeView *tv_ext;
+    void extinit();
+    //End of Extentions
 };
 
 #endif // FILEEXPLORER_H

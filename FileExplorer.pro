@@ -14,16 +14,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         fileexplorer.cpp \
-    directoryexplorerthread.cpp \
     checkdiskfragmentation.cpp \
     nightchart.cpp \
-    piechart.cpp
+    piechart.cpp \
+    StatisticsThread.cpp
 
-HEADERS  += fileexplorer.h \
-    directoryexplorerthread.h \
+HEADERS  += fileexplorer.h \ 
     checkdiskfragmentation.h \
     nightchart.h \
-    piechart.h
+    piechart.h \
+    StatisticsThread.h
 
 FORMS    += fileexplorer.ui \
     checkdiskfragmentation.ui
