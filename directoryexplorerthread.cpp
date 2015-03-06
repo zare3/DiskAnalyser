@@ -31,3 +31,4 @@ quint64 DirectoryExplorerThread::dirSize(const QString & str)
     }
     return sizex;
 }
+

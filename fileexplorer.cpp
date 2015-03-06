@@ -19,6 +19,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
     listView = new QListView(this);
     tabWidget = new QTabWidget(this);
     toolBar = new QToolBar(this);
+    mainToolBar = new QToolBar (this);
     QGroupBox* groupBox = new QGroupBox(this);
     QToolButton *upButton = new QToolButton(this);
     QVBoxLayout *vbox = new QVBoxLayout(this);
@@ -52,6 +53,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
 
     connect(listView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListItemDoubleClicked(QModelIndex)));
     connect(upButton, SIGNAL(clicked ()), this, SLOT(upButtonPressed()));
+
 }
 
 FileExplorer::~FileExplorer()
@@ -92,6 +94,7 @@ void FileExplorer::upButtonPressed()
     dir.cdUp();
 
     listView->setRootIndex(dirModel->index(dir.path()));
+
 }
 
 void FileExplorer::resultsFinished(quint64 size)
@@ -100,4 +103,10 @@ void FileExplorer::resultsFinished(quint64 size)
     directoryThread = NULL;
 
     qDebug() << size;
+}
+
+void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
+{
+    chkFrgmntionWin = new CheckDiskFragmentation(this);
+    (*chkFrgmntionWin).show();
 }

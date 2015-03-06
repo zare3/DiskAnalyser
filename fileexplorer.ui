@@ -23,6 +23,14 @@
      <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuAdvanced">
+    <property name="title">
+     <string>Advanced</string>
+    </property>
+    <addaction name="actionCheck_Disk_Fragmentation"/>
+    <addaction name="actionCheck_Security_Threats"/>
+   </widget>
+   <addaction name="menuAdvanced"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -39,6 +47,16 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents"/>
   </widget>
+  <action name="actionCheck_Disk_Fragmentation">
+   <property name="text">
+    <string>Check Disk Fragmentation</string>
+   </property>
+  </action>
+  <action name="actionCheck_Security_Threats">
+   <property name="text">
+    <string>Check Security Threats</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

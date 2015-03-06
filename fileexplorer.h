@@ -10,6 +10,7 @@
 #include <QTabWidget>
 #include <QToolBar>
 #include "directoryexplorerthread.h"
+#include "checkdiskfragmentation.h"
 namespace Ui {
 class FileExplorer;
 }
@@ -26,6 +27,8 @@ private slots:
     void onListItemDoubleClicked(QModelIndex index);
     void upButtonPressed();
     void resultsFinished(quint64);
+    void on_actionCheck_Disk_Fragmentation_triggered();
+
 private:
     Ui::FileExplorer *ui;
     QFileSystemModel *dirModel;
@@ -33,7 +36,10 @@ private:
     QListView *listView;
     QTabWidget *tabWidget;
     QToolBar *toolBar;
+    QToolBar *mainToolBar;
     DirectoryExplorerThread* directoryThread;
+    CheckDiskFragmentation* chkFrgmntionWin;
+ 
 };
 
 #endif // FILEEXPLORER_H
