@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/folder/icons">
+        <file>left.png</file>
+        <file>right.png</file>
+        <file>up.png</file>
+    </qresource>
+</RCC>
