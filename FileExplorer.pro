@@ -14,10 +14,10 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         fileexplorer.cpp \
-    directoryexplorerthread.cpp
+    StatisticsThread.cpp
 
 HEADERS  += fileexplorer.h \
-    directoryexplorerthread.h
+    StatisticsThread.h
 
 FORMS    += fileexplorer.ui
 

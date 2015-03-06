@@ -9,7 +9,7 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QToolBar>
-#include "directoryexplorerthread.h"
+#include "StatisticsThread.h"
 namespace Ui {
 class FileExplorer;
 }
@@ -28,12 +28,21 @@ private slots:
     void resultsFinished(quint64);
 private:
     Ui::FileExplorer *ui;
+    
+    //Stats
+    StatisticsThread* Stats;
+    //End of Stats
+    
     QFileSystemModel *dirModel;
     QTreeView *treeView;
     QListView *listView;
     QTabWidget *tabWidget;
     QToolBar *toolBar;
-    DirectoryExplorerThread* directoryThread;
+
+    //Extentions
+    QTreeView *tv_ext;
+    void extinit();
+    //End of Extentions
 };
 
 #endif // FILEEXPLORER_H
