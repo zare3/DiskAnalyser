@@ -4,7 +4,7 @@
 #include <QFileInfoList>
 
 void StatisticsThread::run(){
-    //dirSize(filePath);
+    dirSize(fsModel->blockSignals());
     done = true;
 }
 StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
@@ -13,43 +13,28 @@ StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
     QThread::start();
 }
 
-quint64 StatisticsThread::dirSize(QModelIndex idx){
-    /*QFileInfo fInfo = fsModel->fileInfo(index);
+quint64 StatisticsThread::dirSize(QModelIndex idx){ //Return the sum of sizes of all the files and subfolders of the current directory
+    QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile()) return fInfo.isFile();
-    if(mpSize.contains(idx)) return mp[idx];
+    if(mpSize.contains(idx)) return mpSize[idx];
     
-    quint64 sizex = 0;
-    QFileInfo str_info(str);
-    if (str_info.isDir())
-    {
-        QDir dir(str);
-        QFileInfoList list = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot); // QDir::Hidden | QDir::NoSymLinks |
-        for (int i = 0; i < list.size(); ++i)
-        {
-            QFileInfo fileInfo = list.at(i);
-            if(fileInfo.isDir())
-            {
-                sizex += dirSize(fileInfo.absoluteFilePath());
-            }
-            else
-                sizex += fileInfo.size();
-
-        }
-    }
-    return sizex;*/
-    return 0;
+    quint64& ret = mpSize[idx];
+    ret = 0;
+    
+    QDir dInfo = fInfo.absoluteDir();
+    QFileInfoList dList = dInfo.entryInfoList(QDir::AllEntries | QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System);
+    for(int i = 0; i < dList.size(); i++)
+        ret += dirSize(fsModel->index(dList[i].absoluteFilePath())); 
+    return ret;
 }
 
-bool StatisticsThread::hasExec(QModelIndex idx){
+bool StatisticsThread::hasExec(QModelIndex idx){    //Returns true if the directory or any of its children have an executeable file.
     QFileInfo fInfo = fsModel->fileInfo(idx);
-    if(fInfo.isFile() && fInfo.isExecutable())
-        return true;
-    if(fInfo.isFile() && !fInfo.isExecutable()) 
-        return false;
-    if(mpHasExec.contains(idx))
-        return mpHasExec[idx];
-    bool& ret = mpHasExec[idx];
-    ret = false;
+    if(fInfo.isFile() && fInfo.isExecutable()) return true;
+    if(fInfo.isFile() && !fInfo.isExecutable()) return false;
+    if(mpHasExec.contains(idx)) return mpHasExec[idx];
+    
+    bool& ret = mpHasExec[idx]; ret = false;
     QDir dInfo = fInfo.absoluteDir();
     QFileInfoList dList = dInfo.entryInfoList(QDir::AllDirs | QDir::Drives | QDir::Hidden);
     for(int i = 0; i < dList.size(); i++)
@@ -59,7 +44,6 @@ bool StatisticsThread::hasExec(QModelIndex idx){
         ret = true;
     return ret;
 }
-
 
 bool StatisticsThread::isReady() const{
     return done;
