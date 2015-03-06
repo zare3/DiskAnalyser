@@ -9,6 +9,7 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QToolBar>
+#include "checkdiskfragmentation.h"
 #include <QStack>
 #include "StatisticsThread.h"
 
@@ -27,12 +28,16 @@ public:
 private slots:
     void onListItemDoubleClicked(QModelIndex index);
     void upButtonPressed();
+    void on_actionCheck_Disk_Fragmentation_triggered();
     void forwardButtonPressed();
     void backButtonPressed();
 
 private:
     Ui::FileExplorer *ui;
     QToolBar *toolBar;
+    QToolBar *mainToolBar;
+    CheckDiskFragmentation* chkFrgmntionWin;
+ 
     
     //Stats
     StatisticsThread* Stats;

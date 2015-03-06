@@ -25,6 +25,7 @@ void FileExplorer::initializeDirectory()
     dirTabWidget = new QTabWidget(this);
 
     toolBar = new QToolBar(this);
+    mainToolBar = new QToolBar (this);
     QGroupBox* groupBox = new QGroupBox(this);
     QToolButton *upButton = new QToolButton(this);
     QToolButton *backButton = new QToolButton(this);
@@ -135,4 +136,10 @@ void FileExplorer::forwardButtonPressed()
 void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     ui->dw_ext->setWidget(tv_ext);
+}
+
+void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
+{
+    chkFrgmntionWin = new CheckDiskFragmentation(this);
+    (*chkFrgmntionWin).show();
 }
