@@ -12,6 +12,9 @@ FileExplorer::FileExplorer(QWidget *parent) :
     ui->setupUi(this);
     QWidget::showMaximized();
 
+    QString filePath = "/";
+    dirModel = new QFileSystemModel(this);
+    dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
     
     initializeDirectory();
@@ -62,9 +65,6 @@ void FileExplorer::initializeDirectory()
     vbox->setSpacing(0);
     //vbox->setContentsMargins();
 
-    QString filePath = "/";
-    dirModel = new QFileSystemModel(this);
-    dirModel->setRootPath(filePath);
     dirTreeView->setModel(dirModel);
 
     dirListView->setModel(dirModel);

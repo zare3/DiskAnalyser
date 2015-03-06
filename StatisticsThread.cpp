@@ -2,9 +2,11 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QFileInfoList>
+#include <QDebug>
 
 void StatisticsThread::run(){
-    dirSize(fsModel->blockSignals());
+    //qDebug() << QString("Was here!");
+    dirSize(fsModel->index(fsModel->rootPath()));
     done = true;
 }
 StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
@@ -17,7 +19,6 @@ quint64 StatisticsThread::dirSize(QModelIndex idx){ //Return the sum of sizes of
     QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile()) return fInfo.isFile();
     if(mpSize.contains(idx)) return mpSize[idx];
-    
     quint64& ret = mpSize[idx];
     ret = 0;
     
