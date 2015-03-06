@@ -9,7 +9,9 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QToolBar>
+#include <QStack>
 #include "StatisticsThread.h"
+
 namespace Ui {
 class FileExplorer;
 }
@@ -25,19 +27,25 @@ public:
 private slots:
     void onListItemDoubleClicked(QModelIndex index);
     void upButtonPressed();
-    void resultsFinished(quint64);
+    void forwardButtonPressed();
+    void backButtonPressed();
+
 private:
     Ui::FileExplorer *ui;
+    QToolBar *toolBar;
     
     //Stats
     StatisticsThread* Stats;
+    QFileSystemModel *dirModel;
     //End of Stats
     
-    QFileSystemModel *dirModel;
-    QTreeView *treeView;
-    QListView *listView;
-    QTabWidget *tabWidget;
-    QToolBar *toolBar;
+    //DirTreeView
+    QTreeView *dirTreeView;
+    QListView *dirListView;
+    QTabWidget *dirTabWidget;
+    QStack<QString> backStack, forwardStack;
+    void initializeDirectory();
+    //End of DirTreeView
 
     //Extentions
     QTreeView *tv_ext;

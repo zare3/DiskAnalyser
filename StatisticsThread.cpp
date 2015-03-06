@@ -4,17 +4,17 @@
 #include <QFileInfoList>
 
 void StatisticsThread::run(){
-    dirSize(filePath);
+    //dirSize(filePath);
     done = true;
 }
 StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
-    fsm = ptr;
+    fsModel = ptr;
     done = false;
     QThread::start();
 }
 
 quint64 StatisticsThread::dirSize(QModelIndex idx){
-    QFileInfo fInfo = fsModel->fileInfo(index);
+    /*QFileInfo fInfo = fsModel->fileInfo(index);
     if(fInfo.isFile()) return fInfo.isFile();
     if(mpSize.contains(idx)) return mp[idx];
     
@@ -36,11 +36,12 @@ quint64 StatisticsThread::dirSize(QModelIndex idx){
 
         }
     }
-    return sizex;
+    return sizex;*/
+    return 0;
 }
 
 bool StatisticsThread::hasExec(QModelIndex idx){
-    QFileInfo fInfo = fsModel->fileIcon(idx);
+    QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile() && fInfo.isExecutable())
         return true;
     if(fInfo.isFile() && !fInfo.isExecutable()) 

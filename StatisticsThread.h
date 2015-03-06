@@ -14,15 +14,14 @@ private:
     QMap<QModelIndex, quint64> mpSize;
     QMap<QModelIndex, bool> mpHasExec;
     bool done;
+    
 public:
     StatisticsThread(QFileSystemModel *);
     
     quint64 dirSize(QModelIndex);
     bool hasExec(QModelIndex);
     
-    bool isRead() const;
-signals:
-    void resultReady(quint64 x);
+    bool isReady() const;
 };
 
 #endif // DIRECTORYEXPLORERTHREAD_H
