@@ -9,6 +9,7 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QToolBar>
+#include <QStack>
 #include "directoryexplorerthread.h"
 namespace Ui {
 class FileExplorer;
@@ -25,15 +26,22 @@ public:
 private slots:
     void onListItemDoubleClicked(QModelIndex index);
     void upButtonPressed();
+    void forwardButtonPressed();
+    void backButtonPressed();
+
     void resultsFinished(quint64);
 private:
     Ui::FileExplorer *ui;
     QFileSystemModel *dirModel;
-    QTreeView *treeView;
-    QListView *listView;
-    QTabWidget *tabWidget;
+    QTreeView *dirTreeView;
+    QListView *dirListView;
+    QTabWidget *dirTabWidget;
     QToolBar *toolBar;
     DirectoryExplorerThread* directoryThread;
+
+    QStack<QString> backStack, forwardStack;
+
+    void initializeDirectory();
 };
 
 #endif // FILEEXPLORER_H

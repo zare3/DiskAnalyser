@@ -3,5 +3,8 @@
         <file>left.png</file>
         <file>right.png</file>
         <file>up.png</file>
+        <file>directory.png</file>
+        <file>grid.png</file>
+        <file>tree.png</file>
     </qresource>
 </RCC>
