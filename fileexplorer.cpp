@@ -143,3 +143,9 @@ void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
     chkFrgmntionWin = new CheckDiskFragmentation(this);
     (*chkFrgmntionWin).show();
 }
+
+void FileExplorer::on_actionCheck_Security_Threats_triggered()
+{
+    chckScurityThreats = new CheckSecurityThreats(this);
+    (*chckScurityThreats).show();
+}

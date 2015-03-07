@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<<<<<<< HEAD
-<!-- Written by QtCreator 3.2.1, 2015-03-06T20:02:33. -->
+<!-- Written by QtCreator 3.2.1, 2015-03-06T22:13:25. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
   <value type="QByteArray">{2fed5557-bd68-4498-b9eb-fe56c0060321}</value>
  </data>
  <data>
-=======
-<!-- Written by QtCreator 3.1.1, 2015-03-06T18:13:33. -->
-<qtcreator>
- <data>
->>>>>>> 31db40daf0f53bb4e32babbcbff2f5f11545f475
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">-1</value>
+  <value type="int">0</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -45,16 +39,16 @@
    <value type="int" key="EditorConfiguration.PaddingMode">1</value>
    <value type="bool" key="EditorConfiguration.ScrollWheelZooming">true</value>
    <value type="bool" key="EditorConfiguration.ShowMargin">false</value>
-   <value type="int" key="EditorConfiguration.SmartBackspaceBehavior">1</value>
+   <value type="int" key="EditorConfiguration.SmartBackspaceBehavior">0</value>
    <value type="bool" key="EditorConfiguration.SpacesForTabs">true</value>
-   <value type="int" key="EditorConfiguration.TabKeyBehavior">2</value>
+   <value type="int" key="EditorConfiguration.TabKeyBehavior">0</value>
    <value type="int" key="EditorConfiguration.TabSize">8</value>
    <value type="bool" key="EditorConfiguration.UseGlobal">true</value>
    <value type="int" key="EditorConfiguration.Utf8BomBehavior">1</value>
    <value type="bool" key="EditorConfiguration.addFinalNewLine">true</value>
    <value type="bool" key="EditorConfiguration.cleanIndentation">true</value>
-   <value type="bool" key="EditorConfiguration.cleanWhitespace">false</value>
-   <value type="bool" key="EditorConfiguration.inEntireDocument">true</value>
+   <value type="bool" key="EditorConfiguration.cleanWhitespace">true</value>
+   <value type="bool" key="EditorConfiguration.inEntireDocument">false</value>
   </valuemap>
  </data>
  <data>
@@ -62,7 +56,6 @@
   <valuemap type="QVariantMap"/>
  </data>
  <data>
-<<<<<<< HEAD
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Desktop Qt 5.3 GCC 64bit</value>
@@ -260,26 +253,15 @@
   </valuemap>
  </data>
  <data>
-=======
->>>>>>> 31db40daf0f53bb4e32babbcbff2f5f11545f475
   <variable>ProjectExplorer.Project.TargetCount</variable>
-  <value type="int">0</value>
+  <value type="int">1</value>
  </data>
  <data>
-<<<<<<< HEAD
   <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
   <value type="int">16</value>
  </data>
  <data>
   <variable>Version</variable>
   <value type="int">16</value>
-=======
-  <variable>ProjectExplorer.Project.Updater.EnvironmentId</variable>
-  <value type="QByteArray">{74a07c0f-9c14-43dc-8d62-258eb537e5fc}</value>
- </data>
- <data>
-  <variable>ProjectExplorer.Project.Updater.FileVersion</variable>
-  <value type="int">15</value>
->>>>>>> 31db40daf0f53bb4e32babbcbff2f5f11545f475
  </data>
 </qtcreator>

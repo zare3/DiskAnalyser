@@ -17,18 +17,25 @@ SOURCES += main.cpp\
     checkdiskfragmentation.cpp \
     nightchart.cpp \
     piechart.cpp \
-    StatisticsThread.cpp
+    StatisticsThread.cpp \
+    checksecuritythreats.cpp \
+    executeTerminalCmndThread.cpp
 
 HEADERS  += fileexplorer.h \ 
     checkdiskfragmentation.h \
     nightchart.h \
     piechart.h \
-    StatisticsThread.h
+    StatisticsThread.h \
+    checksecuritythreats.h \
+    executeTerminalCmndThread.h
 
 FORMS    += fileexplorer.ui \
-    checkdiskfragmentation.ui
+    checkdiskfragmentation.ui \
+    checksecuritythreats.ui
 
 RESOURCES += \
     directoryresources.qrc
+
+OTHER_FILES +=
 
 
