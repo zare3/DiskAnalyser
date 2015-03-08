@@ -22,4 +22,5 @@ HEADERS  += fileexplorer.h \
 FORMS    += fileexplorer.ui
 
 RESOURCES += \
-    directoryresources.qrc
+    directoryresources.qrc \
+    qdarkstyle/style.qrc
