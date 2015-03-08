@@ -146,6 +146,6 @@ void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 
 void FileExplorer::on_actionCheck_Security_Threats_triggered()
 {
-    chckScurityThreats = new CheckSecurityThreats(this);
+    chckScurityThreats = new CheckSecurityThreats(dirModel,Stats,this);
     (*chckScurityThreats).show();
 }

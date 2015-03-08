@@ -8,9 +8,9 @@
 void StatisticsThread::run(){
     QModelIndex start = fsModel->index("/");
     qDebug() << fsModel->filePath(start);
-    nExec(start);
+   // nExec(start);
     qDebug() << "hasExec is done";
-    dirSize(start);
+    //dirSize(start);
     done = true;
     qDebug() << "Thread was done";
 }
@@ -77,7 +77,7 @@ quint64 StatisticsThread::nExec(QModelIndex idx){
     
     quint64& ret = mpNExec[idx]; ret = 0;
     QDir dInfo(fInfo.absoluteFilePath());
-    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::AllDirs | QDir::Drives | QDir::Hidden | QDir::NoSymLinks);
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::AllDirs | QDir::Drives | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
     for(int i = 0; i < dList.size(); i++)
         ret += nExec(fsModel->index(dList[i].absoluteFilePath()));
     //ret += dInfo.entryInfoList(QDir::Files | QDir::Executable | QDir::System | QDir::NoSymLinks).size();
