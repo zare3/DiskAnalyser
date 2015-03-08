@@ -16,7 +16,17 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel = new QFileSystemModel(this);
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
-    
+
+
+     ownershipBarChart = new BarChart(this);
+     ui->ownershipChartDockWidget->setMinimumSize(400,120);
+     ui->ownershipChartDockWidget->setWidget(ownershipBarChart);
+
+
+     infoLayout = new QVBoxLayout(this);
+     selectedFileNameLabel = new QLabel(this);
+     selectedFileSizeLabel = new QLabel(this);
+
     initializeDirectory();
     extinit();
 }
@@ -73,6 +83,9 @@ void FileExplorer::initializeDirectory()
     dirListView->setUniformItemSizes(true);
     dirListView->setRootIndex(dirModel->index("/"));
 
+
+
+    connect(dirListView, SIGNAL(clicked(QModelIndex)), this, SLOT(onListItemClicked(QModelIndex)));
     connect(dirListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListItemDoubleClicked(QModelIndex)));
     connect(upButton, SIGNAL(clicked ()), this, SLOT(upButtonPressed()));
     connect(backButton, SIGNAL(clicked()), this, SLOT(backButtonPressed()));
@@ -82,6 +95,22 @@ void FileExplorer::initializeDirectory()
 FileExplorer::~FileExplorer()
 {
     delete ui;
+}
+
+
+void FileExplorer::onListItemClicked(QModelIndex index)
+{
+
+    QWidget* multiWidget = new QWidget();
+    selectedFileNameLabel->setText(dirModel->fileInfo(index).filePath());
+    selectedFileSizeLabel->setText(QString::number(dirModel->fileInfo(index).size()));
+
+    infoLayout->addWidget(selectedFileNameLabel);
+    infoLayout->addWidget(selectedFileSizeLabel);
+
+    multiWidget->setLayout(infoLayout);
+
+    ui->informationDockWidget->setWidget(multiWidget);
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -103,6 +132,8 @@ void FileExplorer::onListItemDoubleClicked(QModelIndex index)
         }
     }
 }
+
+
 void FileExplorer::upButtonPressed()
 {
     forwardStack.clear();
