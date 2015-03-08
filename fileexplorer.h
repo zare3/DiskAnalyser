@@ -11,9 +11,13 @@
 #include <QToolBar>
 #include "checkdiskfragmentation.h"
 #include <QStack>
+#include <QLabel>
+#include <QFrame>
+#include <QVBoxLayout>
 #include "StatisticsThread.h"
 #include "checksecuritythreats.h"
 #include "ExtTreeModel.h"
+#include "barchart.h"
 
 namespace Ui {
 class FileExplorer;
@@ -29,6 +33,7 @@ public:
 
 private slots:
     void onListItemDoubleClicked(QModelIndex index);
+    void onListItemClicked (QModelIndex index);
     void upButtonPressed();
     void on_actionCheck_Disk_Fragmentation_triggered();
     void forwardButtonPressed();
@@ -42,8 +47,11 @@ private:
     QToolBar *mainToolBar;
     CheckDiskFragmentation* chkFrgmntionWin;
     CheckSecurityThreats* chckScurityThreats;
- 
-    
+    BarChart* ownershipBarChart;
+    QLabel* selectedFileNameLabel;
+    QLabel* selectedFileSizeLabel;
+    QVBoxLayout* infoLayout;
+
     //Stats
     StatisticsThread* Stats;
     QFileSystemModel *dirModel;

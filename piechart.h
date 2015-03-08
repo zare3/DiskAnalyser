@@ -11,9 +11,13 @@ class PieChart : public QWidget
 public:
     PieChart(QWidget* );
     virtual void paintEvent (QPaintEvent* );
-    void setIndex(int index);
+    void setData(int index, double percentage_1, double percentage_2,QString percentage_1_name, QString percentage_2_name  );
  private:
     int index;
+    double percentage_1;
+    double percentage_2;
+    QString percentage_1_name;
+    QString percentage_2_name;
 };
 
 #endif // PIECHART_H

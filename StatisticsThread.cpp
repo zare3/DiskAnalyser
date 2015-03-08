@@ -9,6 +9,7 @@ void StatisticsThread::run(){
     //QModelIndex start = fsModel->index("/home/danmaklen");
     QModelIndex start = fsModel->index("/");
     qDebug() << fsModel->filePath(start);
+
     //nExec(start);
     qDebug() << "hasExec is done";
     //dirSize(start);

@@ -52,7 +52,7 @@ void CheckDiskFragmentation::hideAll()
     ui->contiguityLabelTitle->hide(); ui->contiguityPercentage->hide();
     index = -1;
 
-    ui->pieChart->setIndex(index);
+    ui->pieChart->setData(index,0.0,0.0,"Non-Contigous","Contigous");
     ui->pieChart->update();
 }
 
@@ -104,7 +104,7 @@ void CheckDiskFragmentation::fragmentationCmndFinished(QString contigousPercenta
         ui->sadFaceLabelImg->show();
 
 
-        ui->pieChart->setIndex(index);
+        ui->pieChart->setData(index,percent.toDouble(),100.0-percent.toDouble(),"Non-Contigous","Contigous");
         ui->pieChart->update();
     }
     else{
@@ -125,7 +125,7 @@ void CheckDiskFragmentation::fragmentationCmndFinished(QString contigousPercenta
         ui->sadFaceLabelImg->hide();
 
 
-        ui->pieChart->setIndex(index);
+        ui->pieChart->setData(index,percent.toDouble(),100.0-percent.toDouble(),"Non-Contigous","Contigous");
         ui->pieChart->update();
     }
     hideLoading();
