@@ -14,27 +14,21 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         fileexplorer.cpp \
+    directoryexplorerthread.cpp \
     checkdiskfragmentation.cpp \
     nightchart.cpp \
-    piechart.cpp \
-    StatisticsThread.cpp \
-    checksecuritythreats.cpp \
-    executeTerminalCmndThread.cpp
+    piechart.cpp
 
-HEADERS  += fileexplorer.h \ 
+HEADERS  += fileexplorer.h \
+    directoryexplorerthread.h \
     checkdiskfragmentation.h \
     nightchart.h \
-    piechart.h \
-    StatisticsThread.h \
-    checksecuritythreats.h \
-    executeTerminalCmndThread.h
+    piechart.h
 
 FORMS    += fileexplorer.ui \
-    checkdiskfragmentation.ui \
-    checksecuritythreats.ui
+    checkdiskfragmentation.ui
 
 RESOURCES += \
-    directoryresources.qrc \
-    qdarkstyle/style.qrc
+    directoryresources.qrc
 
-OTHER_FILES +=
+

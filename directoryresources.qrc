@@ -6,5 +6,7 @@
         <file>directory.png</file>
         <file>grid.png</file>
         <file>tree.png</file>
+        <file>sadFace.png</file>
+        <file>loading.gif</file>
     </qresource>
 </RCC>

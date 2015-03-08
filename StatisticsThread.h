@@ -12,15 +12,17 @@ class StatisticsThread : public QThread
 private:
     QFileSystemModel *fsModel;
     QMap<QModelIndex, quint64> mpSize;
-    QMap<QModelIndex, bool> mpHasExec;
+    QMap<QModelIndex, quint64> mpNExec;
     bool done;
-    
+    QFileInfoList fiLExec;
 public:
     StatisticsThread(QFileSystemModel *);
     
+    //quint64 dirSize(const QString &);
     quint64 dirSize(QModelIndex);
-    bool hasExec(QModelIndex);
-    
+    quint64 nExec(QModelIndex);
+    QFileInfoList* lExec();
+    void lExecClear();
     bool isReady() const;
 };
 

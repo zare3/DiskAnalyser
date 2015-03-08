@@ -12,6 +12,9 @@ FileExplorer::FileExplorer(QWidget *parent) :
     ui->setupUi(this);
     QWidget::showMaximized();
 
+    QString filePath = "/";
+    dirModel = new QFileSystemModel(this);
+    dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
     
     initializeDirectory();
@@ -25,6 +28,7 @@ void FileExplorer::initializeDirectory()
     dirTabWidget = new QTabWidget(this);
 
     toolBar = new QToolBar(this);
+    mainToolBar = new QToolBar (this);
     QGroupBox* groupBox = new QGroupBox(this);
     QToolButton *upButton = new QToolButton(this);
     QToolButton *backButton = new QToolButton(this);
@@ -61,9 +65,6 @@ void FileExplorer::initializeDirectory()
     vbox->setSpacing(0);
     //vbox->setContentsMargins();
 
-    QString filePath = "/";
-    dirModel = new QFileSystemModel(this);
-    dirModel->setRootPath(filePath);
     dirTreeView->setModel(dirModel);
 
     dirListView->setModel(dirModel);
@@ -135,4 +136,16 @@ void FileExplorer::forwardButtonPressed()
 void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     ui->dw_ext->setWidget(tv_ext);
+}
+
+void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
+{
+    chkFrgmntionWin = new CheckDiskFragmentation(this);
+    (*chkFrgmntionWin).show();
+}
+
+void FileExplorer::on_actionCheck_Security_Threats_triggered()
+{
+    chckScurityThreats = new CheckSecurityThreats(this);
+    (*chckScurityThreats).show();
 }
