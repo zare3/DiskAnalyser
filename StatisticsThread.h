@@ -9,10 +9,17 @@ class StatisticsThread : public QThread
 {
     Q_OBJECT
     void run();
+public:
+    class ExtStat{
+    public:
+        QMap<QString, quint64> nExt;
+    };
+
 private:
     QFileSystemModel *fsModel;
     QMap<QModelIndex, quint64> mpSize;
     QMap<QModelIndex, quint64> mpNExec;
+    QMap<QModelIndex, ExtStat> mpExt;
     bool done;
     QFileInfoList fiLExec;
 public:
@@ -23,6 +30,8 @@ public:
     quint64 nExec(QModelIndex);
     QFileInfoList* lExec();
     void lExecClear();
+    const ExtStat* const getExt(QModelIndex);
+    
     bool isReady() const;
 };
 

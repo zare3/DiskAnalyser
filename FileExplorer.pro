@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     checkdiskfragmentation.cpp \
     nightchart.cpp \
     piechart.cpp \
-    StatisticsThread.cpp
+    StatisticsThread.cpp \
+    ExtTreeModel.cpp
 
 HEADERS  += fileexplorer.h \ 
     checkdiskfragmentation.h \
     nightchart.h \
     piechart.h \
-    StatisticsThread.h
+    StatisticsThread.h \
+    ExtTreeModel.h
 
 FORMS    += fileexplorer.ui \
     checkdiskfragmentation.ui
