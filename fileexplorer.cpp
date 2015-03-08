@@ -84,6 +84,14 @@ FileExplorer::~FileExplorer()
     delete ui;
 }
 
+void FileExplorer::extinit(){
+    tv_ext = new QTreeView(this);
+    extModel = new ExtTreeModel(this, Stats);
+    extModel->SetDir(dirModel->index("/home/danmaklen/Desktop/"));
+    ui->dw_ext->setWidget(tv_ext);
+    tv_ext->setModel(extModel);
+}
+
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
 {
     if(dirModel->fileInfo(index).isDir()){
@@ -131,11 +139,6 @@ void FileExplorer::forwardButtonPressed()
         forwardStack.pop();
         dirListView->setRootIndex(dirModel->index(nextPath));
     }
-}
-
-void FileExplorer::extinit(){
-    tv_ext = new QTreeView(this);
-    ui->dw_ext->setWidget(tv_ext);
 }
 
 void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()

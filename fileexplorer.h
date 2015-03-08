@@ -13,6 +13,7 @@
 #include <QStack>
 #include "StatisticsThread.h"
 #include "checksecuritythreats.h"
+#include "ExtTreeModel.h"
 
 namespace Ui {
 class FileExplorer;
@@ -58,6 +59,7 @@ private:
 
     //Extentions
     QTreeView *tv_ext;
+    ExtTreeModel* extModel;
     void extinit();
     //End of Extentions
 
