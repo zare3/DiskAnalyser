@@ -7,13 +7,26 @@ CheckDiskFragmentation::CheckDiskFragmentation(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Check Disk Fragmentation");
-    index = -1;
+    ui->sadFaceLabelImg->setPixmap(QPixmap(":/folder/icons/sadFace.png"));
+    spinnerMovie = new QMovie(":/folder/icons/loading.gif");
+    ui->loadingLbl->setMovie(spinnerMovie);
+    spinnerMovie->start();
 
+    hideAll();
+
+    index = -1;
     QStringList getPrtnsArgs;
     getPrtnsArgs<<"-l";
-    QString getAllPrtitions = executeTerminalCmnd("fdisk",getPrtnsArgs);
-    qDebug()<<getAllPrtitions;
+    getPrtitionsThread = new ExecuteTerminalCmndThread("fdisk",getPrtnsArgs);
+    connect (getPrtitionsThread,SIGNAL(cmndFinished(QString)),this,SLOT(getDrivesCmndFinished(QString)));
+    hideAll();
+    showLoading();
+    getPrtitionsThread->start();
+}
 
+
+void CheckDiskFragmentation::getDrivesCmndFinished(QString getAllPrtitions)
+{
     QRegExp rx ("/dev/sd\\w+\\d");
     QStringList prtitionsStringList;
     int pos = 0;
@@ -24,33 +37,34 @@ CheckDiskFragmentation::CheckDiskFragmentation(QWidget *parent) :
 
     for (int i=0; i<prtitionsStringList.size(); i++)
     {
-        // qDebug() <<  "DRIVES" << prtitionsStringList.at(i) <<"/n";
         ui->prtitionsCmboBx->addItem(prtitionsStringList.at(i));
     }
 
-
+    hideLoading();
 }
 
-
-QString CheckDiskFragmentation:: executeTerminalCmnd(QString cmnd, QStringList args)
+void CheckDiskFragmentation::hideAll()
 {
-    QProcess OProcess;
+    ui->unsupportedLabel->hide();
+    ui->sadFaceLabelImg->hide();
+    ui->fileNumbers->hide(); ui->filesLabelTitle->hide();
+    ui->blocksLabelTitle->hide(); ui->blocksNumber->hide();
+    ui->contiguityLabelTitle->hide(); ui->contiguityPercentage->hide();
+    index = -1;
 
-    //cmnd = "fdisk";
-    // args<<"-l"<<"/";
+    ui->pieChart->setIndex(index);
+    ui->pieChart->update();
+}
 
-    OProcess.start(cmnd,args,QIODevice::ReadOnly); //Starts execution of command
-    OProcess.waitForFinished(); //Waits for execution to complete
+void CheckDiskFragmentation::showLoading()
+{
+    ui->loadingLbl->show();
+    spinnerMovie->start();
+}
 
-    QString out = OProcess.readAllStandardOutput(); //Reads standard output
-    QString err = OProcess.readAllStandardError(); //Reads standard error
-
-    qDebug()<<"\n Printing the standard output..........\n";
-    qDebug()<<out;
-    qDebug()<<"\n Printing the standard error..........\n";
-    qDebug()<<err;
-
-    return out;
+void CheckDiskFragmentation::hideLoading()
+{
+    ui->loadingLbl->hide();
 }
 
 CheckDiskFragmentation::~CheckDiskFragmentation()
@@ -60,9 +74,19 @@ CheckDiskFragmentation::~CheckDiskFragmentation()
 
 void CheckDiskFragmentation::on_prtitionsCmboBx_currentIndexChanged(const QString &arg1)
 {
-    QStringList getFragmntationArgs;
-    getFragmntationArgs<<"-fn"<<arg1;
-    QString contigousPercentage = executeTerminalCmnd("fsck",getFragmntationArgs);
+    QStringList args;
+    this->arg1 = arg1;
+    args<<"-fn"<<arg1;
+    chkFrgmnThread = new ExecuteTerminalCmndThread("fsck", args);
+    connect (chkFrgmnThread,SIGNAL(cmndFinished(QString)),this,SLOT(fragmentationCmndFinished(QString)));
+    hideAll();
+    showLoading();
+    chkFrgmnThread->start();
+}
+
+
+void CheckDiskFragmentation::fragmentationCmndFinished(QString contigousPercentage )
+{
 
     QRegExp rx = QRegExp(arg1 + ": (\\d+)/(\\d+) files \\((\\d+\\.\\d+)% non-contiguous\\), (\\d+)/(\\d+) blocks");
     index = rx.indexIn(contigousPercentage);
@@ -72,11 +96,16 @@ void CheckDiskFragmentation::on_prtitionsCmboBx_currentIndexChanged(const QStrin
     QString percent;
     QString blocks_1;
     QString blocks_2;
-
     if(index == -1) {  ui->fileNumbers->hide(); ui->filesLabelTitle->hide();
         ui->blocksLabelTitle->hide(); ui->blocksNumber->hide();
         ui->contiguityLabelTitle->hide(); ui->contiguityPercentage->hide();
 
+        ui->unsupportedLabel->show();
+        ui->sadFaceLabelImg->show();
+
+
+        ui->pieChart->setIndex(index);
+        ui->pieChart->update();
     }
     else{
         whole = rx.cap(0);
@@ -92,8 +121,13 @@ void CheckDiskFragmentation::on_prtitionsCmboBx_currentIndexChanged(const QStrin
         ui->blocksLabelTitle->show(); ui->blocksNumber->show();
         ui->contiguityLabelTitle->show(); ui->contiguityPercentage->show();
 
+        ui->unsupportedLabel->hide();
+        ui->sadFaceLabelImg->hide();
+
+
         ui->pieChart->setIndex(index);
         ui->pieChart->update();
     }
-
+    hideLoading();
 }
+

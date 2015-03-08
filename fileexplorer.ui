@@ -43,7 +43,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="treeDockWidget">
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>4</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents"/>
   </widget>

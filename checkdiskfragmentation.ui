@@ -140,6 +140,50 @@
      <height>421</height>
     </rect>
    </property>
+   <widget class="QLabel" name="sadFaceLabelImg">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>0</y>
+      <width>321</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="loadingLbl">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>-30</y>
+      <width>181</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="unsupportedLabel">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>80</y>
+     <width>401</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Unsuppored File System Format</string>
+   </property>
   </widget>
  </widget>
  <customwidgets>
