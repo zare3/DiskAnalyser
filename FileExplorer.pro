@@ -18,6 +18,7 @@ SOURCES += main.cpp\
     nightchart.cpp \
     piechart.cpp \
     StatisticsThread.cpp \
+    ExtTreeModel.cpp \
     checksecuritythreats.cpp \
     executeTerminalCmndThread.cpp
 
@@ -26,6 +27,7 @@ HEADERS  += fileexplorer.h \
     nightchart.h \
     piechart.h \
     StatisticsThread.h \
+    ExtTreeModel.h \
     checksecuritythreats.h \
     executeTerminalCmndThread.h
 
@@ -34,8 +36,7 @@ FORMS    += fileexplorer.ui \
     checksecuritythreats.ui
 
 RESOURCES += \
-    directoryresources.qrc
+    directoryresources.qrc \
+    qdarkstyle/style.qrc
 
 OTHER_FILES +=
-
-

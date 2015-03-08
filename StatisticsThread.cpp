@@ -8,17 +8,22 @@
 void StatisticsThread::run(){
     QModelIndex start = fsModel->index("/");
     qDebug() << fsModel->filePath(start);
-   // nExec(start);
+
+    //nExec(start);
     qDebug() << "hasExec is done";
     //dirSize(start);
+    qDebug() << "dirSize is done";
+    getExt(start);
+    qDebug() << "getExt is done";
     done = true;
-    qDebug() << "Thread was done";
+    qDebug() << "Thread is done";
 }
 StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
     fsModel = ptr;
     done = false;
     QThread::start();
 }
+
 /*quint64 StatisticsThread::dirSize(const QString & str)
 {
     quint64 sizex = 0;
@@ -42,12 +47,11 @@ StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
     qDebug() << str;
     return mpSize[fsModel->index(str)] = sizex;
 }*/
-
 quint64 StatisticsThread::dirSize(QModelIndex idx){
     //Return the sum of sizes of all the files and subfolders of the current directory
     QFileInfo fInfo = fsModel->fileInfo(idx);
     
-    if(fInfo.isFile()) return fInfo.isFile();
+    if(fInfo.isFile()) return fInfo.size();
     //qDebug() << fInfo.absoluteFilePath();
     //qDebug() << idx;
     if(mpSize.contains(idx)) return mpSize[idx];
@@ -66,7 +70,7 @@ quint64 StatisticsThread::dirSize(QModelIndex idx){
 }
 
 quint64 StatisticsThread::nExec(QModelIndex idx){
-    //Returns true if the directory or any of its children have an executeable file.
+    //Returns number of Executable files in a given directory.
     QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile() && fInfo.isExecutable()) {
         fiLExec.append(fInfo);
@@ -77,19 +81,39 @@ quint64 StatisticsThread::nExec(QModelIndex idx){
     
     quint64& ret = mpNExec[idx]; ret = 0;
     QDir dInfo(fInfo.absoluteFilePath());
-    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::AllDirs | QDir::Drives | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks);
     for(int i = 0; i < dList.size(); i++)
         ret += nExec(fsModel->index(dList[i].absoluteFilePath()));
-    //ret += dInfo.entryInfoList(QDir::Files | QDir::Executable | QDir::System | QDir::NoSymLinks).size();
-    //qDebug() << fInfo.absoluteFilePath();
+    // qDebug() << fInfo.absoluteFilePath();
     return ret;
 }
-
 QFileInfoList *StatisticsThread::lExec(){
     return &fiLExec;
 }
 void StatisticsThread::lExecClear(){
     fiLExec.clear();
+}
+
+const StatisticsThread::ExtStat* const StatisticsThread::getExt(QModelIndex idx){
+    //Returns statistics about the files inside a given directory.
+    QFileInfo fInfo = fsModel->fileInfo(idx);
+    if(fInfo.isFile()) return 0;
+    if(mpExt.contains(idx)) return &mpExt[idx];
+    
+    ExtStat& ret = mpExt[idx];
+    
+    QDir dInfo (fInfo.absoluteFilePath());
+    QFileInfoList fList = dInfo.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    for(int i = 0; i < fList.size(); i++) ret.nExt[fList[i].completeSuffix()]++;
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    for(int i = 0; i < dList.size(); i++){
+        getExt(fsModel->index(dList[i].absoluteFilePath()));
+        ExtStat& r = mpExt[fsModel->index(dList[i].absoluteFilePath())];
+        for(QMap<QString, quint64>::iterator it = r.nExt.begin(); it != r.nExt.end(); it++)
+            ret.nExt[it.key()] += it.value();
+    }
+    qDebug() << fInfo.absoluteFilePath();
+    return &mpExt[idx];
 }
 
 bool StatisticsThread::isReady() const{
