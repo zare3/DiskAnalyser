@@ -54,6 +54,7 @@ void ExtTreeModel::SetDir(const QModelIndex& dir){
     while(!Stat->isReady());
     const StatisticsThread::ExtStat* const data = Stat->getExt(dir);
     delete root;
+    root = new Item();
     root->push("Document", 0);
     root->push("Audio", 0);
     root->push("Archive", 0);

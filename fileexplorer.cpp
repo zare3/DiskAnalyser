@@ -100,7 +100,7 @@ FileExplorer::~FileExplorer()
 void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     extModel = new ExtTreeModel(this, Stats);
-    //extModel->SetDir(dirModel->index("/home/danmaklen/Desktop/"));
+    extModel->SetDir(dirModel->index("/home/danmaklen/Desktop/"));
     ui->dw_ext->setWidget(tv_ext);
     tv_ext->setModel(extModel);
 }
