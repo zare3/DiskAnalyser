@@ -122,7 +122,7 @@ int Nightcharts::draw(QPainter *painter)
 
       //Options
       QLinearGradient gradient(cX+0.5*cW,cY,cX+0.5*cW,cY+cH*2.5);
-      gradient.setColorAt(1,Qt::black);
+      gradient.setColorAt(1,Qt::white);
 
 
       //Draw

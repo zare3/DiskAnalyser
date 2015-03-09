@@ -54,6 +54,7 @@ private:
     BarChart* groupOwnershipBarChart;
     QLabel* selectedFileNameLabel;
     QLabel* selectedFileSizeLabel;
+    QLabel* selectedFilePermissionsLabel;
     QVBoxLayout* infoLayout;
     FileInfo* fileInfo;
 

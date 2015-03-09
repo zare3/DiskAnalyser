@@ -28,6 +28,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
      infoLayout = new QVBoxLayout(this);
      selectedFileNameLabel = new QLabel(this);
      selectedFileSizeLabel = new QLabel(this);
+     selectedFilePermissionsLabel = new QLabel (this);
 
      fileInfo = new FileInfo(dirModel);
 
@@ -241,11 +242,13 @@ void FileExplorer::initializeOwnershipCharts()
 void FileExplorer::updateInfo(QModelIndex index)
 {
     QWidget* multiWidget = new QWidget();
-    selectedFileNameLabel->setText(dirModel->fileInfo(index).filePath());
-    selectedFileSizeLabel->setText(QString::number(dirModel->fileInfo(index).size()));
+    selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(index).filePath()));
+    selectedFileSizeLabel->setText(QString::number(fileInfo->getSize(dirModel->fileInfo(index).filePath())));
+    selectedFilePermissionsLabel->setText(fileInfo->getPermissions(dirModel->fileInfo(index).filePath()));
 
     infoLayout->addWidget(selectedFileNameLabel);
     infoLayout->addWidget(selectedFileSizeLabel);
+    infoLayout->addWidget(selectedFilePermissionsLabel);
 
     multiWidget->setLayout(infoLayout);
 
