@@ -16,6 +16,7 @@
 #include <QVBoxLayout>
 #include "StatisticsThread.h"
 #include "checksecuritythreats.h"
+#include "ExtTreeModel.h"
 #include "barchart.h"
 
 namespace Ui {
@@ -51,9 +52,6 @@ private:
     QLabel* selectedFileSizeLabel;
     QVBoxLayout* infoLayout;
 
-
- 
-    
     //Stats
     StatisticsThread* Stats;
     QFileSystemModel *dirModel;
@@ -69,6 +67,7 @@ private:
 
     //Extentions
     QTreeView *tv_ext;
+    ExtTreeModel* extModel;
     void extinit();
     //End of Extentions
 

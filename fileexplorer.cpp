@@ -97,10 +97,16 @@ FileExplorer::~FileExplorer()
     delete ui;
 }
 
+void FileExplorer::extinit(){
+    tv_ext = new QTreeView(this);
+    extModel = new ExtTreeModel(this, Stats);
+    extModel->SetDir(dirModel->index("/home/zarie/Desktop"));
+    ui->dw_ext->setWidget(tv_ext);
+    tv_ext->setModel(extModel);
+}
 
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
-
     QWidget* multiWidget = new QWidget();
     selectedFileNameLabel->setText(dirModel->fileInfo(index).filePath());
     selectedFileSizeLabel->setText(QString::number(dirModel->fileInfo(index).size()));
@@ -164,10 +170,6 @@ void FileExplorer::forwardButtonPressed()
     }
 }
 
-void FileExplorer::extinit(){
-    tv_ext = new QTreeView(this);
-    ui->dw_ext->setWidget(tv_ext);
-}
 
 void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 {

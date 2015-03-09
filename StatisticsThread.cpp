@@ -6,6 +6,7 @@
 #include <QMessageBox>
 
 void StatisticsThread::run(){
+    //QModelIndex start = fsModel->index("/home/danmaklen");
     QModelIndex start = fsModel->index("/");
     qDebug() << fsModel->filePath(start);
 
@@ -84,7 +85,7 @@ quint64 StatisticsThread::nExec(QModelIndex idx){
     QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks);
     for(int i = 0; i < dList.size(); i++)
         ret += nExec(fsModel->index(dList[i].absoluteFilePath()));
-    // qDebug() << fInfo.absoluteFilePath();
+    //qDebug() << fInfo.absoluteFilePath();
     return ret;
 }
 QFileInfoList *StatisticsThread::lExec(){
@@ -104,7 +105,7 @@ const StatisticsThread::ExtStat* const StatisticsThread::getExt(QModelIndex idx)
     
     QDir dInfo (fInfo.absoluteFilePath());
     QFileInfoList fList = dInfo.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-    for(int i = 0; i < fList.size(); i++) ret.nExt[fList[i].completeSuffix()]++;
+    for(int i = 0; i < fList.size(); i++) ret.nExt[fList[i].suffix()]++;
     QFileInfoList dList = dInfo.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
     for(int i = 0; i < dList.size(); i++){
         getExt(fsModel->index(dList[i].absoluteFilePath()));
