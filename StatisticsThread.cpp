@@ -10,12 +10,16 @@ void StatisticsThread::run(){
     QModelIndex start = fsModel->index("/");
     qDebug() << fsModel->filePath(start);
 
-    //nExec(start);
+    nExec(start);
     qDebug() << "hasExec is done";
-    //dirSize(start);
+    dirSize(start);
     qDebug() << "dirSize is done";
-    //getExt(start);
+    getExt(start);
     qDebug() << "getExt is done";
+    getOwn(start);
+    qDebug() << "getOwn is done";
+    getGroup(start);
+    qDebug() << "getGroup is done";
     done = true;
     qDebug() << "Thread is done";
 }
@@ -49,24 +53,20 @@ StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
     return mpSize[fsModel->index(str)] = sizex;
 }*/
 quint64 StatisticsThread::dirSize(QModelIndex idx){
-    //Return the sum of sizes of all the files and subfolders of the current directory
     QFileInfo fInfo = fsModel->fileInfo(idx);
     
     if(fInfo.isFile()) return fInfo.size();
-    //qDebug() << fInfo.absoluteFilePath();
-    //qDebug() << idx;
     if(mpSize.contains(idx)) return mpSize[idx];
     quint64& ret = mpSize[idx];
     ret = 0;
     
     QDir dInfo (fInfo.absoluteFilePath());
-    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;//| QDir::Hidden | QDir::System);
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks) ;//| QDir::Hidden | QDir::System);
     
-    //qDebug() << dList[0].absoluteFilePath();
     for(int i = 0; i < dList.size(); i++)
         ret += dirSize(fsModel->index(dList[i].absoluteFilePath())); 
     
-    //qDebug() << fInfo.absoluteFilePath();
+    qDebug() << "dirSize\t" << fInfo.absoluteFilePath();
     return ret;
 }
 
@@ -85,7 +85,7 @@ quint64 StatisticsThread::nExec(QModelIndex idx){
     QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks);
     for(int i = 0; i < dList.size(); i++)
         ret += nExec(fsModel->index(dList[i].absoluteFilePath()));
-    //qDebug() << fInfo.absoluteFilePath();
+    qDebug() << "nExec\t" << fInfo.absoluteFilePath();
     return ret;
 }
 QFileInfoList *StatisticsThread::lExec(){
@@ -113,8 +113,57 @@ const StatisticsThread::ExtStat* const StatisticsThread::getExt(QModelIndex idx)
         for(QMap<QString, quint64>::iterator it = r.nExt.begin(); it != r.nExt.end(); it++)
             ret.nExt[it.key()] += it.value();
     }
-    qDebug() << fInfo.absoluteFilePath();
+    qDebug() << "getExt\t" << fInfo.absoluteFilePath();
     return &mpExt[idx];
+}
+
+const StatisticsThread::OwnStat* const StatisticsThread::getOwn(QModelIndex idx){
+    QFileInfo fInfo = fsModel->fileInfo(idx);
+    if(fInfo.isFile()){
+        OwnRet.nOwn.clear();
+        OwnRet.nOwn[fInfo.owner()] = 1;
+        return &OwnRet;
+    }
+    if(mpOwn.contains(idx)) return &mpOwn[idx];
+    
+    OwnStat& ret = mpOwn[idx];
+    
+    QDir dInfo(fInfo.absoluteFilePath());
+    QFileInfoList fList = dInfo.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    for(int i = 0; i < fList.size(); i++) ret.nOwn[fList[i].owner()]++;
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    for(int i = 0; i < dList.size(); i++){
+        getOwn(fsModel->index(dList[i].absoluteFilePath()));
+        OwnStat& r = mpOwn[fsModel->index(dList[i].absoluteFilePath())];
+        for(QMap<QString, quint64>::iterator it = r.nOwn.begin(); it != r.nOwn.end(); it++)
+            ret.nOwn[it.key()] += it.value();
+    }
+    qDebug() << "getOwn\t" << fInfo.absoluteFilePath();
+    return &mpOwn[idx];
+}
+const StatisticsThread::GroupStat* const StatisticsThread::getGroup(QModelIndex idx){
+    QFileInfo fInfo = fsModel->fileInfo(idx);
+    if(fInfo.isFile()){
+        GroupRet.nGroup.clear();
+        GroupRet.nGroup[fInfo.owner()] = 1;
+        return &GroupRet;
+    }
+    if(mpGroup.contains(idx)) return &mpGroup[idx];
+    
+    GroupStat& ret = mpGroup[idx];
+    
+    QDir dInfo(fInfo.absoluteFilePath());
+    QFileInfoList fList = dInfo.entryInfoList(QDir::Files | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    for(int i = 0; i < fList.size(); i++) ret.nGroup[fList[i].group()]++;
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+    for(int i = 0; i < dList.size(); i++){
+        getGroup(fsModel->index(dList[i].absoluteFilePath()));
+        GroupStat& r = mpGroup[fsModel->index(dList[i].absoluteFilePath())];
+        for(QMap<QString, quint64>::iterator it = r.nGroup.begin(); it != r.nGroup.end(); it++)
+            ret.nGroup[it.key()] += it.value();
+    }
+    qDebug() << "getGroup\t" << fInfo.absoluteFilePath();
+    return &mpGroup[idx];
 }
 
 bool StatisticsThread::isReady() const{

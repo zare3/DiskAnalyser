@@ -16,7 +16,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel = new QFileSystemModel(this);
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
-
+    while(!Stats->isReady());
 
      userOwnershipBarChart = new BarChart(this);
      groupOwnershipBarChart = new BarChart (this);
@@ -107,13 +107,12 @@ void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     extModel = new ExtTreeModel(this, Stats);
     tv_ext->setModel(extModel);
+    tv_ext->setAlternatingRowColors(true);
     ui->dw_ext->setWidget(tv_ext);
-
 }
 
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
-
     updateInfo(index);
     updateOwnershipUsersGraph(index);
     updateOwnsershipGroupsGraph(index);

@@ -1,6 +1,3 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
 #include "fileinfo.h"
 
 #include <QFileSystemModel>
@@ -56,7 +53,6 @@ qint64 FileInfo :: getSize(const QString & filepath)
             sum += getSize(dList[i].absoluteFilePath());
         return sum;
     }
-
 }
 
 QVector<QVector<bool> >  FileInfo :: getPermissions(const QString & filepath)
@@ -76,7 +72,6 @@ QVector<QVector<bool> >  FileInfo :: getPermissions(const QString & filepath)
     permissionsGrid[otherRow][readCol] = (file_permissions & 0x0004) ? 1: 0;
     permissionsGrid[otherRow][writeCol] = (file_permissions & 0x0002) ? 1: 0;
     permissionsGrid[otherRow][execCol] = (file_permissions & 0x0001) ? 1: 0;
-
 
     return permissionsGrid;
 }
@@ -128,7 +123,7 @@ void FileInfo :: calcOwners(const QString& filepath)
     else
     {
         // get a list of the directories inside the current directory
-        QFileInfoList dList = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;
+        QFileInfoList dList = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;
 
         // for each entry in the list of directories, search for the files' owners (recursion)
         for(int i = 0; i < dList.size(); i++)
