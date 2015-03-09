@@ -1,3 +1,5 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 #include "fileinfo.h"
 
@@ -30,8 +32,28 @@ QString FileInfo :: getType(const QString & filepath)
 
 qint64 FileInfo :: getSize(const QString & filepath)
 {
-    // gets directory's size
-    return (file->size(file->index(filepath)));
+    QDir dir(filepath);
+    qint64 sum = 0;
+    // find info about the file
+    QFileInfo file_info = file->fileInfo(file->index(filepath));
+
+    // if the path is that of a file, get its size
+    if (file_info.isFile())
+    {
+        return (file->size(file->index(filepath)));
+    }
+    else
+    {
+        // if the path is that of a folder, get the size of the content files
+        // get a list of the directories inside the current directory
+        QFileInfoList dList = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;
+
+        // for each entry in the list of directories, search for the files' size (recursion)
+        for(int i = 0; i < dList.size(); i++)
+            sum += getSize(dList[i].absoluteFilePath());
+        return sum;
+    }
+
 }
 
 QString FileInfo :: getPermissions(const QString & filepath)
@@ -59,7 +81,6 @@ QString FileInfo :: getPermissions(const QString & filepath)
     // the returned message is a string with all permisison statuses
     return permissions;
 }
-
 
 /*
 QString FileInfo ::getOwner(const QString & filepath)
