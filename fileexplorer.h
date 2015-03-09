@@ -28,6 +28,7 @@ public:
 
 private slots:
     void onListItemDoubleClicked(QModelIndex index);
+    void onTreeItemClicked(QModelIndex index);
     void upButtonPressed();
     void on_actionCheck_Disk_Fragmentation_triggered();
     void forwardButtonPressed();

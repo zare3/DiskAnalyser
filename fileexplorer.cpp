@@ -74,6 +74,7 @@ void FileExplorer::initializeDirectory()
     dirListView->setRootIndex(dirModel->index("/"));
 
     connect(dirListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListItemDoubleClicked(QModelIndex)));
+    connect(dirTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onTreeItemClicked(QModelIndex)));
     connect(upButton, SIGNAL(clicked ()), this, SLOT(upButtonPressed()));
     connect(backButton, SIGNAL(clicked()), this, SLOT(backButtonPressed()));
     connect(forwardButton, SIGNAL(clicked()), this, SLOT(forwardButtonPressed()));
@@ -90,6 +91,7 @@ void FileExplorer::onListItemDoubleClicked(QModelIndex index)
         forwardStack.clear();
         backStack.push(dirModel->filePath(dirListView->rootIndex()));
         dirListView->setRootIndex(index);
+        dirTreeView->setCurrentIndex(index);
     }
     else{
         if(dirModel->fileInfo(index).isExecutable()){
@@ -103,6 +105,16 @@ void FileExplorer::onListItemDoubleClicked(QModelIndex index)
         }
     }
 }
+
+void FileExplorer::onTreeItemClicked(QModelIndex index)
+{
+    if(dirModel->fileInfo(index).isDir()){
+        forwardStack.clear();
+        backStack.push(dirModel->filePath(dirListView->rootIndex()));
+        dirListView->setRootIndex(index);
+    }
+}
+
 void FileExplorer::upButtonPressed()
 {
     forwardStack.clear();
