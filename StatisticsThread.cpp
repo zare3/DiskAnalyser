@@ -14,7 +14,7 @@ void StatisticsThread::run(){
     qDebug() << "hasExec is done";
     //dirSize(start);
     qDebug() << "dirSize is done";
-    getExt(start);
+    //getExt(start);
     qDebug() << "getExt is done";
     done = true;
     qDebug() << "Thread is done";

@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     ExtTreeModel.cpp \
     checksecuritythreats.cpp \
     executeTerminalCmndThread.cpp \
-    barchart.cpp
+    barchart.cpp \
+    fileinfo.cpp
 
 HEADERS  += fileexplorer.h \ 
     checkdiskfragmentation.h \
@@ -31,7 +32,8 @@ HEADERS  += fileexplorer.h \
     ExtTreeModel.h \
     checksecuritythreats.h \
     executeTerminalCmndThread.h \
-    barchart.h
+    barchart.h \
+    fileinfo.h
 
 FORMS    += fileexplorer.ui \
     checkdiskfragmentation.ui \

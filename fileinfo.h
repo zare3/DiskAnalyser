@@ -5,6 +5,14 @@
 #include <QString>
 #include <QDir>
 #include <QFile>
+#include <QMap>
+
+class statistics
+{
+public:
+    QString name;
+    qint64 file_count;
+};
 
 class FileInfo
 {
@@ -13,23 +21,32 @@ public:
     //public member functions
     FileInfo ();                                        // contructor
 
-    void getInfo (const QString&);                      // gets directory credentials
-    QString displayInfo();                              // prepares output of info
+    // functions that get attributes
+    QString getName(const QString&);                   // gets name of directory indicated by QString path
+    QString getType(const QString&);                   // gets type of directory indicated by QString path
+    qint64 getSize(const QString&);                    // gets size of directory indicated by QString path
+    QString getPermissions(const QString&);            // gets permission states (read/write/execute) for owner/user/group/other
+    void getOwners(const QString&);                    // gets list of owners for folder/file and folder children; saved in a map
+    void getGroups(const QString& );                   // gets list of groups for folder/file and folder children; saved in a map
+
+    // functions that display (used for testing)
+    //QString displayInfo();                              // prepares output of info
     QString displayPermissions();                       // prepares output of permissions
+    QString displayOwners();
+    QString displayGroups();
+
+    //QString getOwner(const QString&);
 
 private:
 
     // private variables
     QFileSystemModel *file;                             // used to access file credentials
-
-    QString filename;                                   // file/folder name
-    QString path;                                       // file/folder directory
-    QString type;                                       // type of directory
+    QModelIndex index;                                  // file index
     QString permissions;                                // interpreted permissions
-
-    qint64 size;                                        // file size
-
     QFile::Permissions file_permissions;                // obtained permissions from library function
+    QMap <uint, statistics> owners;                    // contains owner ID, name, and corresponding number of owned files
+    QMap <uint, statistics> groups;                    // contains group ID, name, and corresponding number of owned files
+    QMap <QModelIndex, QMap<uint,statistics> > IndexedOwners;
 
 };
 #endif // FILEINFO

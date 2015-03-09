@@ -100,7 +100,11 @@ FileExplorer::~FileExplorer()
 void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     extModel = new ExtTreeModel(this, Stats);
+<<<<<<< HEAD
     extModel->SetDir(dirModel->index("/home/zarie/Desktop"));
+=======
+    extModel->SetDir(dirModel->index("/home/danmaklen/Desktop/"));
+>>>>>>> 2cc355909c950078b84ee5ed233d96ca55f766e1
     ui->dw_ext->setWidget(tv_ext);
     tv_ext->setModel(extModel);
 }
@@ -170,7 +174,10 @@ void FileExplorer::forwardButtonPressed()
     }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2cc355909c950078b84ee5ed233d96ca55f766e1
 void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 {
     chkFrgmntionWin = new CheckDiskFragmentation(this);
