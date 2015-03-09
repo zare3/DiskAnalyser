@@ -22,9 +22,6 @@ FileExplorer::FileExplorer(QWidget *parent) :
      groupOwnershipBarChart = new BarChart (this);
      ownershipTabBar = new QTabWidget (this);
 
-
-
-
      infoLayout = new QVBoxLayout(this);
      selectedFileNameLabel = new QLabel(this);
      selectedFileSizeLabel = new QLabel(this);
@@ -109,9 +106,9 @@ FileExplorer::~FileExplorer()
 void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     extModel = new ExtTreeModel(this, Stats);
-    extModel->SetDir(dirModel->index("/home/zarie/Desktop"));
-    ui->dw_ext->setWidget(tv_ext);
     tv_ext->setModel(extModel);
+    ui->dw_ext->setWidget(tv_ext);
+
 }
 
 void FileExplorer::onListItemClicked(QModelIndex index)
@@ -120,7 +117,8 @@ void FileExplorer::onListItemClicked(QModelIndex index)
     updateInfo(index);
     updateOwnershipUsersGraph(index);
     updateOwnsershipGroupsGraph(index);
-
+    extModel->SetDir(index);
+    ui->dw_ext->setWidget(tv_ext);
 
 }
 
@@ -255,12 +253,33 @@ void FileExplorer::updateInfo(QModelIndex index)
 {
     QWidget* multiWidget = new QWidget();
     selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(index).filePath()));
-    selectedFileSizeLabel->setText(QString::number(fileInfo->getSize(dirModel->fileInfo(index).filePath())));
-    selectedFilePermissionsLabel->setText(fileInfo->getPermissions(dirModel->fileInfo(index).filePath()));
+    selectedFileSizeLabel->setText(QString::number(Stats->dirSize(index)));
+  //selectedFilePermissionsLabel->setText(fileInfo->getPermissions(dirModel->fileInfo(index).filePath()));
 
     infoLayout->addWidget(selectedFileNameLabel);
     infoLayout->addWidget(selectedFileSizeLabel);
-    infoLayout->addWidget(selectedFilePermissionsLabel);
+  //infoLayout->addWidget(selectedFilePermissionsLabel);
+
+
+
+    /*model = new QStandardItemModel(0,2,this); //2 Rows and 3 Columns
+    model->setHorizontalHeaderItem(0, new QStandardItem(QString("Path")));
+    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Issue")));
+
+
+    qDebug()<<"IN SEC THREATS: " << this->execList->size();
+    for (int i=0; i<this->execList->size(); i++)
+    {
+
+        model->setItem(i,0,new QStandardItem(QString(this->execList->at(i).filePath())));
+        if (this->execList->at(i).isHidden())
+        model->setItem(i,1,new QStandardItem(QString("Dangerous: Executable && Hidden Nature")));
+        else model->setItem(i,1,new QStandardItem(QString("Executable Nature")));
+    }
+
+    ui->threatsTableView->setModel(model);*/
+
+
 
     multiWidget->setLayout(infoLayout);
 

@@ -14,6 +14,9 @@ FileInfo :: FileInfo (QFileSystemModel* file)
     this->file = file;
     permissions = "";
     file_permissions = 0;
+    permissionsGrid.resize(4);
+    for (int i=0; i<4; i++)
+        permissionsGrid[i].resize(3);
 }
 
 QString FileInfo :: getName(const QString & filepath)
@@ -34,30 +37,26 @@ qint64 FileInfo :: getSize(const QString & filepath)
     return (file->size(file->index(filepath)));
 }
 
-QString FileInfo :: getPermissions(const QString & filepath)
+QVector<QVector<bool> >  FileInfo :: getPermissions(const QString & filepath)
 {
     // recieves directory's permissions as binary
     file_permissions = file->permissions(file->index(filepath));
 
-    // resets the permissions string message to save new permissions
-    permissions  = "";
+    permissionsGrid[ownerRow][readCol] = (file_permissions & 0x4000) ? 1 : 0;
+    permissionsGrid[ownerRow][writeCol] = (file_permissions & 0x2000) ? 1: 0;
+    permissionsGrid[ownerRow][execCol] = (file_permissions & 0x1000) ? 1: 0;
+    permissionsGrid[userRow][readCol] = (file_permissions & 0x0400) ? 1: 0;
+    permissionsGrid[userRow][writeCol] = (file_permissions & 0x0200) ? 1: 0;
+    permissionsGrid[userRow][execCol] = (file_permissions & 0x0100) ? 1: 0;
+    permissionsGrid[groupRow][readCol] = (file_permissions & 0x0040) ? 1: 0;
+    permissionsGrid[groupRow][writeCol] = (file_permissions & 0x0020) ? 1: 0;
+    permissionsGrid[groupRow][execCol] = (file_permissions & 0x0010) ? 1: 0;
+    permissionsGrid[otherRow][readCol] = (file_permissions & 0x0004) ? 1: 0;
+    permissionsGrid[otherRow][writeCol] = (file_permissions & 0x0002) ? 1: 0;
+    permissionsGrid[otherRow][execCol] = (file_permissions & 0x0001) ? 1: 0;
 
-    // decode the permissions' binary into its equivalent read/write/execute permissions for owner/user/group/others
-    permissions = (file_permissions & 0x4000) ? (permissions + "Read Owner\n") : (permissions);
-    permissions = (file_permissions & 0x2000) ? (permissions + "Write Owner\n") : (permissions);
-    permissions = (file_permissions & 0x1000) ? (permissions + "Execute Owner\n") : (permissions);
-    permissions = (file_permissions & 0x0400) ? (permissions + "Read User\n") : (permissions);
-    permissions = (file_permissions & 0x0200) ? (permissions + "Write User\n") : (permissions);
-    permissions = (file_permissions & 0x0100) ? (permissions + "Execute User\n") : (permissions);
-    permissions = (file_permissions & 0x0040) ? (permissions + "Read Group\n") : (permissions);
-    permissions = (file_permissions & 0x0020) ? (permissions + "Write Group\n") : (permissions);
-    permissions = (file_permissions & 0x0010) ? (permissions + "Execute Group\n") : (permissions);
-    permissions = (file_permissions & 0x0004) ? (permissions + "Read Other\n") : (permissions);
-    permissions = (file_permissions & 0x0002) ? (permissions + "Write Other\n") : (permissions);
-    permissions = (file_permissions & 0x0001) ? (permissions + "Execute Other\n") : (permissions);
 
-    // the returned message is a string with all permisison statuses
-    return permissions;
+    return permissionsGrid;
 }
 
 
