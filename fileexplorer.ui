@@ -47,18 +47,6 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents"/>
   </widget>
-
-  <action name="actionCheck_Disk_Fragmentation">
-   <property name="text">
-    <string>Check Disk Fragmentation</string>
-   </property>
-  </action>
-  <action name="actionCheck_Security_Threats">
-   <property name="text">
-    <string>Check Security Threats</string>
-   </property>
-  </action>
-
   <widget class="QDockWidget" name="dw_ext">
    <property name="floating">
     <bool>false</bool>
@@ -70,7 +58,28 @@
     <layout class="QHBoxLayout" name="horizontalLayout"/>
    </widget>
   </widget>
-
+  <widget class="QDockWidget" name="ownershipChartDockWidget">
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3"/>
+  </widget>
+  <widget class="QDockWidget" name="informationDockWidget">
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_4"/>
+  </widget>
+  <action name="actionCheck_Disk_Fragmentation">
+   <property name="text">
+    <string>Check Disk Fragmentation</string>
+   </property>
+  </action>
+  <action name="actionCheck_Security_Threats">
+   <property name="text">
+    <string>Check Security Threats</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -18,16 +18,22 @@ SOURCES += main.cpp\
     nightchart.cpp \
     piechart.cpp \
     StatisticsThread.cpp \
+    ExtTreeModel.cpp \
     checksecuritythreats.cpp \
-    executeTerminalCmndThread.cpp
+    executeTerminalCmndThread.cpp \
+    barchart.cpp \
+    fileinfo.cpp
 
 HEADERS  += fileexplorer.h \ 
     checkdiskfragmentation.h \
     nightchart.h \
     piechart.h \
     StatisticsThread.h \
+    ExtTreeModel.h \
     checksecuritythreats.h \
-    executeTerminalCmndThread.h
+    executeTerminalCmndThread.h \
+    barchart.h \
+    fileinfo.h
 
 FORMS    += fileexplorer.ui \
     checkdiskfragmentation.ui \

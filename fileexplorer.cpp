@@ -16,7 +16,17 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel = new QFileSystemModel(this);
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
-    
+
+
+     ownershipBarChart = new BarChart(this);
+     ui->ownershipChartDockWidget->setMinimumSize(400,120);
+     ui->ownershipChartDockWidget->setWidget(ownershipBarChart);
+
+
+     infoLayout = new QVBoxLayout(this);
+     selectedFileNameLabel = new QLabel(this);
+     selectedFileSizeLabel = new QLabel(this);
+
     initializeDirectory();
     extinit();
 }
@@ -73,6 +83,9 @@ void FileExplorer::initializeDirectory()
     dirListView->setUniformItemSizes(true);
     dirListView->setRootIndex(dirModel->index("/"));
 
+
+
+    connect(dirListView, SIGNAL(clicked(QModelIndex)), this, SLOT(onListItemClicked(QModelIndex)));
     connect(dirListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListItemDoubleClicked(QModelIndex)));
     connect(dirTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onTreeItemClicked(QModelIndex)));
     connect(upButton, SIGNAL(clicked ()), this, SLOT(upButtonPressed()));
@@ -83,6 +96,28 @@ void FileExplorer::initializeDirectory()
 FileExplorer::~FileExplorer()
 {
     delete ui;
+}
+
+void FileExplorer::extinit(){
+    tv_ext = new QTreeView(this);
+    extModel = new ExtTreeModel(this, Stats);
+    extModel->SetDir(dirModel->index("/home/zarie/Desktop"));
+    ui->dw_ext->setWidget(tv_ext);
+    tv_ext->setModel(extModel);
+}
+
+void FileExplorer::onListItemClicked(QModelIndex index)
+{
+    QWidget* multiWidget = new QWidget();
+    selectedFileNameLabel->setText(dirModel->fileInfo(index).filePath());
+    selectedFileSizeLabel->setText(QString::number(dirModel->fileInfo(index).size()));
+
+    infoLayout->addWidget(selectedFileNameLabel);
+    infoLayout->addWidget(selectedFileSizeLabel);
+
+    multiWidget->setLayout(infoLayout);
+
+    ui->informationDockWidget->setWidget(multiWidget);
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -106,6 +141,7 @@ void FileExplorer::onListItemDoubleClicked(QModelIndex index)
     }
 }
 
+
 void FileExplorer::onTreeItemClicked(QModelIndex index)
 {
     if(dirModel->fileInfo(index).isDir()){
@@ -114,6 +150,7 @@ void FileExplorer::onTreeItemClicked(QModelIndex index)
         dirListView->setRootIndex(index);
     }
 }
+
 
 void FileExplorer::upButtonPressed()
 {
@@ -145,10 +182,6 @@ void FileExplorer::forwardButtonPressed()
     }
 }
 
-void FileExplorer::extinit(){
-    tv_ext = new QTreeView(this);
-    ui->dw_ext->setWidget(tv_ext);
-}
 
 void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 {
@@ -158,6 +191,6 @@ void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 
 void FileExplorer::on_actionCheck_Security_Threats_triggered()
 {
-    chckScurityThreats = new CheckSecurityThreats(this);
+    chckScurityThreats = new CheckSecurityThreats(dirModel,Stats,this);
     (*chckScurityThreats).show();
 }
