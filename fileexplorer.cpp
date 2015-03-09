@@ -25,9 +25,11 @@ FileExplorer::FileExplorer(QWidget *parent) :
      infoLayout = new QVBoxLayout(this);
      selectedFileNameLabel = new QLabel(this);
      selectedFileSizeLabel = new QLabel(this);
-     selectedFilePermissionsLabel = new QLabel (this);
+
 
      fileInfo = new FileInfo(dirModel);
+
+     permissionsTable = new QTableView(this);
 
     initializeDirectory();
     initializeOwnershipCharts();
@@ -254,31 +256,33 @@ void FileExplorer::updateInfo(QModelIndex index)
     QWidget* multiWidget = new QWidget();
     selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(index).filePath()));
     selectedFileSizeLabel->setText(QString::number(Stats->dirSize(index)));
-  //selectedFilePermissionsLabel->setText(fileInfo->getPermissions(dirModel->fileInfo(index).filePath()));
+
 
     infoLayout->addWidget(selectedFileNameLabel);
     infoLayout->addWidget(selectedFileSizeLabel);
-  //infoLayout->addWidget(selectedFilePermissionsLabel);
 
 
+    permissionsModel = new QStandardItemModel(4,3,this); //2 Rows and 3 Columns
+    permissionsModel->setHorizontalHeaderItem(0, new QStandardItem(QString("READ")));
+    permissionsModel->setHorizontalHeaderItem(1, new QStandardItem(QString("WRITE")));
+    permissionsModel->setHorizontalHeaderItem(2, new QStandardItem(QString("EXECUTE")));
+    permissionsModel->setVerticalHeaderItem(0, new QStandardItem(QString("OWNER")));
+     permissionsModel->setVerticalHeaderItem(1, new QStandardItem(QString("GROUP")));
+      permissionsModel->setVerticalHeaderItem(2, new QStandardItem(QString("USER")));
+       permissionsModel->setVerticalHeaderItem(3, new QStandardItem(QString("OTHER")));
+    permissionsGrid = fileInfo->getPermissions(dirModel->fileInfo(index).filePath());
 
-    /*model = new QStandardItemModel(0,2,this); //2 Rows and 3 Columns
-    model->setHorizontalHeaderItem(0, new QStandardItem(QString("Path")));
-    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Issue")));
 
-
-    qDebug()<<"IN SEC THREATS: " << this->execList->size();
-    for (int i=0; i<this->execList->size(); i++)
+    for (int i=0; i<4; i++)
     {
-
-        model->setItem(i,0,new QStandardItem(QString(this->execList->at(i).filePath())));
-        if (this->execList->at(i).isHidden())
-        model->setItem(i,1,new QStandardItem(QString("Dangerous: Executable && Hidden Nature")));
-        else model->setItem(i,1,new QStandardItem(QString("Executable Nature")));
+        for (int j=0; j<3; j++)
+        {
+           permissionsModel->setItem(i,j,new QStandardItem(QString::number(permissionsGrid.at(i).at(j))));
+        }
     }
 
-    ui->threatsTableView->setModel(model);*/
-
+    permissionsTable->setModel(permissionsModel);
+    ui->permissionsDockWidget->setWidget(permissionsTable);
 
 
     multiWidget->setLayout(infoLayout);
