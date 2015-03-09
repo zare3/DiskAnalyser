@@ -4,7 +4,17 @@
 
 #include <QWidget>
 #include <QDebug>
+#include <QString>
+#include <QColor>
+#include <QVector>
 #include "nightchart.h"
+
+struct Piece
+{
+    QString name;
+    QColor color;
+    float percentage;
+};
 
 class BarChart : public QWidget
 {
@@ -13,9 +23,11 @@ public:
 public:
     BarChart(QWidget* );
     virtual void paintEvent (QPaintEvent* );
-    void setIndex(int index);
+    void setData(int index, QVector<Piece>*);
  private:
     int index;
+    QVector<Piece>* pieces;
+
 };
 
 #endif // BARCHART_H

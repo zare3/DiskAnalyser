@@ -1,5 +1,3 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 #include "fileinfo.h"
 
@@ -10,10 +8,10 @@
 #include <QMap>
 #include <QFileInfo>
 
-FileInfo :: FileInfo ()
+FileInfo :: FileInfo (QFileSystemModel* file)
 {
     // initializes all variables
-    file = new QFileSystemModel;
+    this->file = file;
     permissions = "";
     file_permissions = 0;
 }
@@ -71,7 +69,7 @@ QString FileInfo ::getOwner(const QString & filepath)
 }
 */
 
-void FileInfo :: getOwners(const QString& filepath)
+void FileInfo :: calcOwners(const QString& filepath)
 {
     uint id;                                        // owner ID
     QDir dir(filepath);                             // QDir pointing to the 'filepath' directory
@@ -114,13 +112,14 @@ void FileInfo :: getOwners(const QString& filepath)
 
         // for each entry in the list of directories, search for the files' owners (recursion)
         for(int i = 0; i < dList.size(); i++)
-            getOwners(dList[i].absoluteFilePath());
+            calcOwners(dList[i].absoluteFilePath());
 
         //IndexedOwners.insert(index, owners);
     }
 }
 
-void FileInfo :: getGroups(const QString& filepath)
+
+void FileInfo :: calcGroups(const QString& filepath)
 {
     uint id;                                        // group ID
     QDir dir(filepath);                             // QDir pointing to the 'filepath' directory
@@ -163,10 +162,11 @@ void FileInfo :: getGroups(const QString& filepath)
 
         // for each entry in the list of directories, search for the files' owners (recursion)
         for(int i = 0; i < dList.size(); i++)
-            getGroups(dList[i].absoluteFilePath());
+            calcGroups(dList[i].absoluteFilePath());
 
         //IndexedGroups.insert(index, groups);
     }
+
 }
 
 /*
@@ -227,6 +227,46 @@ QString FileInfo ::displayGroups()
     groups.clear();
 
     return message;
+}
+
+QVector<UserOwner>* FileInfo::getOwners()
+{
+    QVector<UserOwner>* userOwners = new QVector<UserOwner>();
+    QMap <uint, statistics> :: iterator i  = owners.begin();
+
+    for(i = owners.begin() ; i != owners.end();  i++)
+    {
+        UserOwner t;
+        t.ownerName = (i.value()).name;
+        t.numOwnedFiles = QString ::number(i.value().file_count);
+        userOwners->push_back(t);
+    }
+
+    owners.clear();
+
+    return userOwners;
+}
+
+QVector<GroupOwner>* FileInfo::getGroups()
+{
+
+    QVector<GroupOwner>* groupsOwners = new QVector<GroupOwner>();
+    QMap <uint, statistics> :: iterator i  = groups.begin();
+
+    for(i = groups.begin() ; i != groups.end();  i++)
+
+    {
+        GroupOwner t;
+        t.groupName = (i.value()).name;
+        t.numOwnedFiles = QString ::number(i.value().file_count);
+        groupsOwners->push_back(t);
+
+   }
+    groups.clear();
+
+    return groupsOwners;
+
+
 }
 
 

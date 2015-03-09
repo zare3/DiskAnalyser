@@ -6,6 +6,20 @@
 #include <QDir>
 #include <QFile>
 #include <QMap>
+#include <QVector>
+
+
+struct UserOwner
+{
+    QString ownerName;
+    QString numOwnedFiles;
+};
+
+struct GroupOwner
+{
+    QString groupName;
+    QString numOwnedFiles;
+};
 
 class statistics
 {
@@ -19,23 +33,26 @@ class FileInfo
 public:
 
     //public member functions
-    FileInfo ();                                        // contructor
+    FileInfo (QFileSystemModel*);                                        // contructor
 
     // functions that get attributes
     QString getName(const QString&);                   // gets name of directory indicated by QString path
     QString getType(const QString&);                   // gets type of directory indicated by QString path
     qint64 getSize(const QString&);                    // gets size of directory indicated by QString path
     QString getPermissions(const QString&);            // gets permission states (read/write/execute) for owner/user/group/other
-    void getOwners(const QString&);                    // gets list of owners for folder/file and folder children; saved in a map
-    void getGroups(const QString& );                   // gets list of groups for folder/file and folder children; saved in a map
+    void calcOwners(const QString&);                    // gets list of owners for folder/file and folder children; saved in a map
+    void calcGroups(const QString& );                   // gets list of groups for folder/file and folder children; saved in a map
 
     // functions that display (used for testing)
     //QString displayInfo();                              // prepares output of info
     QString displayPermissions();                       // prepares output of permissions
     QString displayOwners();
     QString displayGroups();
+    QVector<UserOwner>* getOwners();
+    QVector<GroupOwner>* getGroups();
 
     //QString getOwner(const QString&);
+
 
 private:
 

@@ -18,16 +18,21 @@ FileExplorer::FileExplorer(QWidget *parent) :
     Stats = new StatisticsThread(dirModel);
 
 
-     ownershipBarChart = new BarChart(this);
-     ui->ownershipChartDockWidget->setMinimumSize(400,120);
-     ui->ownershipChartDockWidget->setWidget(ownershipBarChart);
+     userOwnershipBarChart = new BarChart(this);
+     groupOwnershipBarChart = new BarChart (this);
+     ownershipTabBar = new QTabWidget (this);
+
+
 
 
      infoLayout = new QVBoxLayout(this);
      selectedFileNameLabel = new QLabel(this);
      selectedFileSizeLabel = new QLabel(this);
 
+     fileInfo = new FileInfo(dirModel);
+
     initializeDirectory();
+    initializeOwnershipCharts();
     extinit();
 }
 
@@ -48,6 +53,8 @@ void FileExplorer::initializeDirectory()
     toolBar->addWidget(upButton);
     toolBar->addWidget(backButton);
     toolBar->addWidget(forwardButton);
+
+
 
     upButton->setIcon(QIcon(":/folder/icons/up.png"));
     backButton->setIcon(QIcon(":/folder/icons/left.png"));
@@ -100,27 +107,19 @@ FileExplorer::~FileExplorer()
 void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     extModel = new ExtTreeModel(this, Stats);
-<<<<<<< HEAD
     extModel->SetDir(dirModel->index("/home/zarie/Desktop"));
-=======
-    extModel->SetDir(dirModel->index("/home/danmaklen/Desktop/"));
->>>>>>> 2cc355909c950078b84ee5ed233d96ca55f766e1
     ui->dw_ext->setWidget(tv_ext);
     tv_ext->setModel(extModel);
 }
 
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
-    QWidget* multiWidget = new QWidget();
-    selectedFileNameLabel->setText(dirModel->fileInfo(index).filePath());
-    selectedFileSizeLabel->setText(QString::number(dirModel->fileInfo(index).size()));
 
-    infoLayout->addWidget(selectedFileNameLabel);
-    infoLayout->addWidget(selectedFileSizeLabel);
+    updateInfo(index);
+    updateOwnershipUsersGraph(index);
+    updateOwnsershipGroupsGraph(index);
 
-    multiWidget->setLayout(infoLayout);
 
-    ui->informationDockWidget->setWidget(multiWidget);
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -174,10 +173,6 @@ void FileExplorer::forwardButtonPressed()
     }
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 2cc355909c950078b84ee5ed233d96ca55f766e1
 void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 {
     chkFrgmntionWin = new CheckDiskFragmentation(this);
@@ -188,4 +183,71 @@ void FileExplorer::on_actionCheck_Security_Threats_triggered()
 {
     chckScurityThreats = new CheckSecurityThreats(dirModel,Stats,this);
     (*chckScurityThreats).show();
+}
+
+void FileExplorer::updateOwnershipUsersGraph(QModelIndex index)
+{
+    fileInfo->calcOwners(dirModel->fileInfo(index).filePath());
+    qDebug()<<"TEST";
+    QVector<UserOwner>* owners = fileInfo->getOwners();
+    QVector<Piece>* pieces = new QVector<Piece> ();
+    for (int i=0; i<owners->size(); i++)
+    {
+       Piece t;
+       t.color = Qt::green;
+       t.name = owners->at(i).ownerName;
+       t.percentage = owners->at(i).numOwnedFiles.toDouble();
+       qDebug()<<t.name;
+       pieces->push_back(t);
+    }
+
+
+    userOwnershipBarChart->setData(1,pieces);
+    userOwnershipBarChart->update();
+}
+
+void FileExplorer::updateOwnsershipGroupsGraph(QModelIndex index)
+{
+    fileInfo->calcGroups(dirModel->fileInfo(index).filePath());
+    QVector<GroupOwner>* groups = fileInfo->getGroups();
+    QVector<Piece>* pieces = new QVector<Piece> ();
+    for (int i=0; i<groups->size(); i++)
+    {
+       Piece t;
+       t.color = Qt::green;
+       t.name = groups->at(i).groupName;
+       t.percentage = groups->at(i).numOwnedFiles.toDouble();
+       pieces->push_back(t);
+    }
+
+
+    groupOwnershipBarChart->setData(1,pieces);
+    groupOwnershipBarChart->update();
+}
+
+void FileExplorer::initializeOwnershipCharts()
+{
+    ownershipTabBar->addTab(userOwnershipBarChart, "Users");
+    ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/tree.png"));
+    ownershipTabBar->addTab(groupOwnershipBarChart, "Groups");
+    ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/grid.png"));
+    ownershipTabBar->setTabPosition(QTabWidget::West);
+    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
+
+
+    ui->ownershipChartDockWidget->setMinimumSize(400,120);
+}
+
+void FileExplorer::updateInfo(QModelIndex index)
+{
+    QWidget* multiWidget = new QWidget();
+    selectedFileNameLabel->setText(dirModel->fileInfo(index).filePath());
+    selectedFileSizeLabel->setText(QString::number(dirModel->fileInfo(index).size()));
+
+    infoLayout->addWidget(selectedFileNameLabel);
+    infoLayout->addWidget(selectedFileSizeLabel);
+
+    multiWidget->setLayout(infoLayout);
+
+    ui->informationDockWidget->setWidget(multiWidget);
 }
