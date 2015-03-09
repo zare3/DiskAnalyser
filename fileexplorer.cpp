@@ -25,9 +25,11 @@ FileExplorer::FileExplorer(QWidget *parent) :
      infoLayout = new QVBoxLayout(this);
      selectedFileNameLabel = new QLabel(this);
      selectedFileSizeLabel = new QLabel(this);
-     selectedFilePermissionsLabel = new QLabel (this);
+
 
      fileInfo = new FileInfo(dirModel);
+
+     permissionsTable = new QTableView(this);
 
     initializeDirectory();
     initializeOwnershipCharts();
@@ -142,7 +144,6 @@ void FileExplorer::onListItemDoubleClicked(QModelIndex index)
     }
 }
 
-
 void FileExplorer::onTreeItemClicked(QModelIndex index)
 {
     if(dirModel->fileInfo(index).isDir()){
@@ -195,18 +196,18 @@ void FileExplorer::on_actionCheck_Security_Threats_triggered()
     (*chckScurityThreats).show();
 }
 
-void FileExplorer::updateOwnershipUsersGraph(QModelIndex index)
-{
-    fileInfo->calcOwners(dirModel->fileInfo(index).filePath());
+void FileExplorer::updateOwnershipUsersGraph(QModelIndex index){
+    //fileInfo->calcOwners(dirModel->fileInfo(index).filePath());
+    const StatisticsThread::OwnStat* const owners = Stats->getOwn(index);
     qDebug()<<"TEST";
-    QVector<UserOwner>* owners = fileInfo->getOwners();
+    //QVector<UserOwner>* owners = fileInfo->getOwners();
     QVector<Piece>* pieces = new QVector<Piece> ();
-    for (int i=0; i<owners->size(); i++)
-    {
+    //for (int i=0; i<owners->size(); i++)
+    for(QMap<QString, quint64>::const_iterator it = owners->nOwn.begin(); it != owners->nOwn.end(); it++){
        Piece t;
        t.color = Qt::green;
-       t.name = owners->at(i).ownerName;
-       t.percentage = owners->at(i).numOwnedFiles.toDouble();
+       t.name = it.key();//owners->at(i).ownerName;
+       t.percentage = it.value();//owners->at(i).numOwnedFiles.toDouble();
        qDebug()<<t.name;
        pieces->push_back(t);
     }
@@ -216,17 +217,17 @@ void FileExplorer::updateOwnershipUsersGraph(QModelIndex index)
     userOwnershipBarChart->update();
 }
 
-void FileExplorer::updateOwnsershipGroupsGraph(QModelIndex index)
-{
-    fileInfo->calcGroups(dirModel->fileInfo(index).filePath());
-    QVector<GroupOwner>* groups = fileInfo->getGroups();
+void FileExplorer::updateOwnsershipGroupsGraph(QModelIndex index){
+    //fileInfo->calcGroups(dirModel->fileInfo(index).filePath());
+    const StatisticsThread::GroupStat* const groups = Stats->getGroup(index);
+    //QVector<GroupOwner>* groups = fileInfo->getGroups();
     QVector<Piece>* pieces = new QVector<Piece> ();
-    for (int i=0; i<groups->size(); i++)
-    {
+    //for (int i=0; i<groups->size(); i++)
+    for(QMap<QString, quint64>::const_iterator it = groups->nGroup.begin(); it != groups->nGroup.end(); it++){
        Piece t;
        t.color = Qt::green;
-       t.name = groups->at(i).groupName;
-       t.percentage = groups->at(i).numOwnedFiles.toDouble();
+       t.name = it.key();   //groups->at(i).groupName;
+       t.percentage = it.value();   //groups->at(i).numOwnedFiles.toDouble();
        pieces->push_back(t);
     }
 
@@ -253,31 +254,33 @@ void FileExplorer::updateInfo(QModelIndex index)
     QWidget* multiWidget = new QWidget();
     selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(index).filePath()));
     selectedFileSizeLabel->setText(QString::number(Stats->dirSize(index)));
-  //selectedFilePermissionsLabel->setText(fileInfo->getPermissions(dirModel->fileInfo(index).filePath()));
+
 
     infoLayout->addWidget(selectedFileNameLabel);
     infoLayout->addWidget(selectedFileSizeLabel);
-  //infoLayout->addWidget(selectedFilePermissionsLabel);
 
 
+    permissionsModel = new QStandardItemModel(4,3,this); //2 Rows and 3 Columns
+    permissionsModel->setHorizontalHeaderItem(0, new QStandardItem(QString("READ")));
+    permissionsModel->setHorizontalHeaderItem(1, new QStandardItem(QString("WRITE")));
+    permissionsModel->setHorizontalHeaderItem(2, new QStandardItem(QString("EXECUTE")));
+    permissionsModel->setVerticalHeaderItem(0, new QStandardItem(QString("OWNER")));
+     permissionsModel->setVerticalHeaderItem(1, new QStandardItem(QString("GROUP")));
+      permissionsModel->setVerticalHeaderItem(2, new QStandardItem(QString("USER")));
+       permissionsModel->setVerticalHeaderItem(3, new QStandardItem(QString("OTHER")));
+    permissionsGrid = fileInfo->getPermissions(dirModel->fileInfo(index).filePath());
 
-    /*model = new QStandardItemModel(0,2,this); //2 Rows and 3 Columns
-    model->setHorizontalHeaderItem(0, new QStandardItem(QString("Path")));
-    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Issue")));
 
-
-    qDebug()<<"IN SEC THREATS: " << this->execList->size();
-    for (int i=0; i<this->execList->size(); i++)
+    for (int i=0; i<4; i++)
     {
-
-        model->setItem(i,0,new QStandardItem(QString(this->execList->at(i).filePath())));
-        if (this->execList->at(i).isHidden())
-        model->setItem(i,1,new QStandardItem(QString("Dangerous: Executable && Hidden Nature")));
-        else model->setItem(i,1,new QStandardItem(QString("Executable Nature")));
+        for (int j=0; j<3; j++)
+        {
+           permissionsModel->setItem(i,j,new QStandardItem(QString::number(permissionsGrid.at(i).at(j))));
+        }
     }
 
-    ui->threatsTableView->setModel(model);*/
-
+    permissionsTable->setModel(permissionsModel);
+    ui->permissionsDockWidget->setWidget(permissionsTable);
 
 
     multiWidget->setLayout(infoLayout);

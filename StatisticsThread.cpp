@@ -10,15 +10,15 @@ void StatisticsThread::run(){
     QModelIndex start = fsModel->index("/");
     qDebug() << fsModel->filePath(start);
 
-    nExec(start);
+    //nExec(start);
     qDebug() << "hasExec is done";
-    dirSize(start);
+    //dirSize(start);
     qDebug() << "dirSize is done";
-    getExt(start);
+    //getExt(start);
     qDebug() << "getExt is done";
-    getOwn(start);
+    //getOwn(start);
     qDebug() << "getOwn is done";
-    getGroup(start);
+    //getGroup(start);
     qDebug() << "getGroup is done";
     done = true;
     qDebug() << "Thread is done";

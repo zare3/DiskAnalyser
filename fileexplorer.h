@@ -55,9 +55,11 @@ private:
     BarChart* groupOwnershipBarChart;
     QLabel* selectedFileNameLabel;
     QLabel* selectedFileSizeLabel;
-    QLabel* selectedFilePermissionsLabel;
     QVBoxLayout* infoLayout;
     FileInfo* fileInfo;
+    QStandardItemModel* permissionsModel;
+    QVector<QVector<bool> > permissionsGrid;
+    QTableView* permissionsTable;
 
     void updateOwnershipUsersGraph (QModelIndex index);
     void updateOwnsershipGroupsGraph(QModelIndex index);
