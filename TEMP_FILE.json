@@ -1,0 +1,1158 @@
+{
+    "children": [
+        {
+            "children": [
+            ],
+            "name": "DesktopzzZzzDir"
+        },
+        {
+            "children": [
+            ],
+            "name": "DocumentszzZzzDir"
+        },
+        {
+            "children": [
+                {
+                    "name": "prof_pic.jpg",
+                    "size": 22187
+                }
+            ],
+            "name": "DownloadszzZzzDir"
+        },
+        {
+            "name": "examples.desktop",
+            "size": 8980
+        },
+        {
+            "name": "Makefile",
+            "size": 144584
+        },
+        {
+            "children": [
+            ],
+            "name": "MusiczzZzzDir"
+        },
+        {
+            "children": [
+            ],
+            "name": "PictureszzZzzDir"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "name": "barchart.cpp",
+                            "size": 879
+                        },
+                        {
+                            "name": "barchart.h",
+                            "size": 315
+                        },
+                        {
+                            "name": "barchart.o",
+                            "size": 678456
+                        },
+                        {
+                            "name": "checkdiskfragmentation.cpp",
+                            "size": 3969
+                        },
+                        {
+                            "name": "checkdiskfragmentation.cpp.Uq2485",
+                            "size": 342
+                        },
+                        {
+                            "name": "checkdiskfragmentation.h",
+                            "size": 1069
+                        },
+                        {
+                            "name": "checkdiskfragmentation.o",
+                            "size": 610472
+                        },
+                        {
+                            "name": "checkdiskfragmentation.ui",
+                            "size": 4239
+                        },
+                        {
+                            "name": "checksecuritythreats.cpp",
+                            "size": 1389
+                        },
+                        {
+                            "name": "checksecuritythreats.h",
+                            "size": 686
+                        },
+                        {
+                            "name": "checksecuritythreats.o",
+                            "size": 590184
+                        },
+                        {
+                            "name": "checksecuritythreats.ui",
+                            "size": 1784
+                        },
+                        {
+                            "name": "directory.png",
+                            "size": 735
+                        },
+                        {
+                            "name": "directoryresources.qrc",
+                            "size": 319
+                        },
+                        {
+                            "name": "executeTerminalCmndThread.cpp",
+                            "size": 848
+                        },
+                        {
+                            "name": "executeTerminalCmndThread.h",
+                            "size": 452
+                        },
+                        {
+                            "name": "executeTerminalCmndThread.o",
+                            "size": 287304
+                        },
+                        {
+                            "name": "ExtTreeModel.cpp",
+                            "size": 3521
+                        },
+                        {
+                            "name": "ExtTreeModel.h",
+                            "size": 969
+                        },
+                        {
+                            "name": "ExtTreeModel.o",
+                            "size": 542448
+                        },
+                        {
+                            "name": "FileExplorer",
+                            "size": 3549862
+                        },
+                        {
+                            "name": "fileexplorer.cpp",
+                            "size": 5873
+                        },
+                        {
+                            "name": "fileexplorer.h",
+                            "size": 1796
+                        },
+                        {
+                            "name": "fileexplorer.o",
+                            "size": 1001072
+                        },
+                        {
+                            "name": "FileExplorer.pro",
+                            "size": 996
+                        },
+                        {
+                            "name": "FileExplorer.pro.user",
+                            "size": 18348
+                        },
+                        {
+                            "name": "fileexplorer.ui",
+                            "size": 2726
+                        },
+                        {
+                            "name": "fileinfo.cpp",
+                            "size": 7922
+                        },
+                        {
+                            "name": "fileinfo.h",
+                            "size": 2116
+                        },
+                        {
+                            "name": "flare.json",
+                            "size": 303
+                        },
+                        {
+                            "name": "flare.json~",
+                            "size": 301
+                        },
+                        {
+                            "name": "grid.png",
+                            "size": 2120
+                        },
+                        {
+                            "name": "interactivechart.cpp",
+                            "size": 278
+                        },
+                        {
+                            "name": "interactivechart.h",
+                            "size": 330
+                        },
+                        {
+                            "name": "interactivechart.o",
+                            "size": 237000
+                        },
+                        {
+                            "name": "left.png",
+                            "size": 2629
+                        },
+                        {
+                            "name": "loading.gif",
+                            "size": 2883
+                        },
+                        {
+                            "name": "main.cpp",
+                            "size": 448
+                        },
+                        {
+                            "name": "main.o",
+                            "size": 589152
+                        },
+                        {
+                            "name": "Makefile",
+                            "size": 212458
+                        },
+                        {
+                            "name": "moc_barchart.cpp",
+                            "size": 2529
+                        },
+                        {
+                            "name": "moc_barchart.o",
+                            "size": 644072
+                        },
+                        {
+                            "name": "moc_checkdiskfragmentation.cpp",
+                            "size": 4556
+                        },
+                        {
+                            "name": "moc_checkdiskfragmentation.o",
+                            "size": 284648
+                        },
+                        {
+                            "name": "moc_checksecuritythreats.cpp",
+                            "size": 2747
+                        },
+                        {
+                            "name": "moc_checksecuritythreats.o",
+                            "size": 539736
+                        },
+                        {
+                            "name": "moc_executeTerminalCmndThread.cpp",
+                            "size": 4197
+                        },
+                        {
+                            "name": "moc_executeTerminalCmndThread.o",
+                            "size": 283648
+                        },
+                        {
+                            "name": "moc_fileexplorer.cpp",
+                            "size": 4571
+                        },
+                        {
+                            "name": "moc_fileexplorer.o",
+                            "size": 629248
+                        },
+                        {
+                            "name": "moc_interactivechart.cpp",
+                            "size": 2675
+                        },
+                        {
+                            "name": "moc_interactivechart.o",
+                            "size": 240256
+                        },
+                        {
+                            "name": "moc_piechart.cpp",
+                            "size": 2529
+                        },
+                        {
+                            "name": "moc_piechart.o",
+                            "size": 650360
+                        },
+                        {
+                            "name": "moc_StatisticsThread.cpp",
+                            "size": 2675
+                        },
+                        {
+                            "name": "moc_StatisticsThread.o",
+                            "size": 496136
+                        },
+                        {
+                            "name": "nightchart.cpp",
+                            "size": 13747
+                        },
+                        {
+                            "name": "nightchart.h",
+                            "size": 2362
+                        },
+                        {
+                            "name": "nightchart.o",
+                            "size": 766536
+                        },
+                        {
+                            "name": "piechart.cpp",
+                            "size": 1143
+                        },
+                        {
+                            "name": "piechart.h",
+                            "size": 514
+                        },
+                        {
+                            "name": "piechart.o",
+                            "size": 684008
+                        },
+                        {
+                            "children": [
+                                {
+                                    "name": "__init__.py",
+                                    "size": 3636
+                                },
+                                {
+                                    "name": "compile_qrc.py",
+                                    "size": 2060
+                                },
+                                {
+                                    "name": "pyqt5_style_rc.py",
+                                    "size": 50683
+                                },
+                                {
+                                    "name": "pyqt_style_rc.py",
+                                    "size": 50683
+                                },
+                                {
+                                    "name": "pyside_style_rc.py",
+                                    "size": 51305
+                                },
+                                {
+                                    "name": "rczzZzz",
+                                    "size": 6132
+                                },
+                                {
+                                    "name": "style.qrc",
+                                    "size": 1102
+                                },
+                                {
+                                    "name": "style.qss",
+                                    "size": 22089
+                                }
+                            ],
+                            "name": "qdarkstylezzZzzDir"
+                        },
+                        {
+                            "name": "qrc_directoryresources.cpp",
+                            "size": 114457
+                        },
+                        {
+                            "name": "qrc_directoryresources.o",
+                            "size": 36976
+                        },
+                        {
+                            "name": "qrc_style.cpp",
+                            "size": 65018
+                        },
+                        {
+                            "name": "qrc_style.o",
+                            "size": 26072
+                        },
+                        {
+                            "name": "README.md",
+                            "size": 131
+                        },
+                        {
+                            "name": "right.png",
+                            "size": 1190
+                        },
+                        {
+                            "name": "sadFace.png",
+                            "size": 5582
+                        },
+                        {
+                            "name": "StatisticsThread.cpp",
+                            "size": 5161
+                        },
+                        {
+                            "name": "StatisticsThread.h",
+                            "size": 980
+                        },
+                        {
+                            "name": "StatisticsThread.o",
+                            "size": 712872
+                        },
+                        {
+                            "name": "Sunburst.html",
+                            "size": 3707
+                        },
+                        {
+                            "name": "Sunburst.html~",
+                            "size": 3703
+                        },
+                        {
+                            "name": "TEMP_FILE.json",
+                            "size": 0
+                        },
+                        {
+                            "name": "TEMP_FILE.json~",
+                            "size": 30468
+                        },
+                        {
+                            "name": "tree.png",
+                            "size": 4540
+                        },
+                        {
+                            "name": "ui_checkdiskfragmentation.h",
+                            "size": 5268
+                        },
+                        {
+                            "name": "ui_checksecuritythreats.h",
+                            "size": 3077
+                        },
+                        {
+                            "name": "ui_fileexplorer.h",
+                            "size": 6177
+                        },
+                        {
+                            "name": "up.png",
+                            "size": 2546
+                        }
+                    ],
+                    "name": "DiskAnalyserzzZzzDir"
+                }
+            ],
+            "name": "ProjectszzZzzDir"
+        },
+        {
+            "children": [
+            ],
+            "name": "PubliczzZzzDir"
+        },
+        {
+            "name": "qt-opensource-linux-x64-5.3.2.run",
+            "size": 468521191
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "name": "binzzZzz",
+                                    "size": 15753238
+                                },
+                                {
+                                    "name": "importszzZzz",
+                                    "size": 552352
+                                },
+                                {
+                                    "name": "includezzZzz",
+                                    "size": 23327585
+                                },
+                                {
+                                    "name": "libzzZzz",
+                                    "size": 131629430
+                                },
+                                {
+                                    "name": "libexeczzZzz",
+                                    "size": 16568
+                                },
+                                {
+                                    "name": "mkspecszzZzz",
+                                    "size": 997472
+                                },
+                                {
+                                    "name": "phrasebookszzZzz",
+                                    "size": 296539
+                                },
+                                {
+                                    "name": "pluginszzZzz",
+                                    "size": 8153544
+                                },
+                                {
+                                    "name": "qmlzzZzz",
+                                    "size": 4766027
+                                },
+                                {
+                                    "name": "translationszzZzz",
+                                    "size": 8638045
+                                }
+                            ],
+                            "name": "gcc_64zzZzzDir"
+                        }
+                    ],
+                    "name": "5.3zzZzzDir"
+                },
+                {
+                    "name": "components.xml",
+                    "size": 3370
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "name": "activeqtzzZzz",
+                                    "size": 1491725
+                                },
+                                {
+                                    "name": "activeqt.qch",
+                                    "size": 377856
+                                },
+                                {
+                                    "name": "globalzzZzz",
+                                    "size": 211809
+                                },
+                                {
+                                    "name": "qdoczzZzz",
+                                    "size": 880940
+                                },
+                                {
+                                    "name": "qdoc.qch",
+                                    "size": 305152
+                                },
+                                {
+                                    "name": "qmakezzZzz",
+                                    "size": 559795
+                                },
+                                {
+                                    "name": "qmake.qch",
+                                    "size": 203776
+                                },
+                                {
+                                    "name": "qtandroidextraszzZzz",
+                                    "size": 388350
+                                },
+                                {
+                                    "name": "qtandroidextras.qch",
+                                    "size": 108544
+                                },
+                                {
+                                    "name": "qtassistantzzZzz",
+                                    "size": 881806
+                                },
+                                {
+                                    "name": "qtassistant.qch",
+                                    "size": 731136
+                                },
+                                {
+                                    "name": "qtbluetoothzzZzz",
+                                    "size": 2707358
+                                },
+                                {
+                                    "name": "qtbluetooth.qch",
+                                    "size": 1189888
+                                },
+                                {
+                                    "name": "qtconcurrentzzZzz",
+                                    "size": 411579
+                                },
+                                {
+                                    "name": "qtconcurrent.qch",
+                                    "size": 119808
+                                },
+                                {
+                                    "name": "qtcorezzZzz",
+                                    "size": 22225486
+                                },
+                                {
+                                    "name": "qtcore.qch",
+                                    "size": 4250624
+                                },
+                                {
+                                    "name": "qtdbuszzZzz",
+                                    "size": 1561874
+                                },
+                                {
+                                    "name": "qtdbus.qch",
+                                    "size": 342016
+                                },
+                                {
+                                    "name": "qtdesignerzzZzz",
+                                    "size": 6394203
+                                },
+                                {
+                                    "name": "qtdesigner.qch",
+                                    "size": 2284544
+                                },
+                                {
+                                    "name": "qtdoczzZzz",
+                                    "size": 8117340
+                                },
+                                {
+                                    "name": "qtdoc.qch",
+                                    "size": 3358720
+                                },
+                                {
+                                    "name": "qtenginiozzZzz",
+                                    "size": 950664
+                                },
+                                {
+                                    "name": "qtenginio.qch",
+                                    "size": 270336
+                                },
+                                {
+                                    "name": "qtenginiooverviewzzZzz",
+                                    "size": 272661
+                                },
+                                {
+                                    "name": "qtenginiooverview.qch",
+                                    "size": 134144
+                                },
+                                {
+                                    "name": "qtenginioqmlzzZzz",
+                                    "size": 788430
+                                },
+                                {
+                                    "name": "qtenginioqml.qch",
+                                    "size": 314368
+                                },
+                                {
+                                    "name": "qtgraphicaleffectszzZzz",
+                                    "size": 16930008
+                                },
+                                {
+                                    "name": "qtgraphicaleffects.qch",
+                                    "size": 16263168
+                                },
+                                {
+                                    "name": "qtguizzZzz",
+                                    "size": 51678177
+                                },
+                                {
+                                    "name": "qtgui.qch",
+                                    "size": 6595584
+                                },
+                                {
+                                    "name": "qthelpzzZzz",
+                                    "size": 932975
+                                },
+                                {
+                                    "name": "qthelp.qch",
+                                    "size": 176128
+                                },
+                                {
+                                    "name": "qtimageformatszzZzz",
+                                    "size": 150758
+                                },
+                                {
+                                    "name": "qtimageformats.qch",
+                                    "size": 36864
+                                },
+                                {
+                                    "name": "qtlinguistzzZzz",
+                                    "size": 813875
+                                },
+                                {
+                                    "name": "qtlinguist.qch",
+                                    "size": 681984
+                                },
+                                {
+                                    "name": "qtmacextraszzZzz",
+                                    "size": 364226
+                                },
+                                {
+                                    "name": "qtmacextras.qch",
+                                    "size": 89088
+                                },
+                                {
+                                    "name": "qtmultimediazzZzz",
+                                    "size": 10901573
+                                },
+                                {
+                                    "name": "qtmultimedia.qch",
+                                    "size": 2147328
+                                },
+                                {
+                                    "name": "qtmultimediawidgetszzZzz",
+                                    "size": 1069134
+                                },
+                                {
+                                    "name": "qtmultimediawidgets.qch",
+                                    "size": 296960
+                                },
+                                {
+                                    "name": "qtnetworkzzZzz",
+                                    "size": 5694882
+                                },
+                                {
+                                    "name": "qtnetwork.qch",
+                                    "size": 1157120
+                                },
+                                {
+                                    "name": "qtnfczzZzz",
+                                    "size": 2046093
+                                },
+                                {
+                                    "name": "qtnfc.qch",
+                                    "size": 1009664
+                                },
+                                {
+                                    "name": "qtopenglzzZzz",
+                                    "size": 3328448
+                                },
+                                {
+                                    "name": "qtopengl.qch",
+                                    "size": 1296384
+                                },
+                                {
+                                    "name": "qtpositioningzzZzz",
+                                    "size": 1955555
+                                },
+                                {
+                                    "name": "qtpositioning.qch",
+                                    "size": 509952
+                                },
+                                {
+                                    "name": "qtprintsupportzzZzz",
+                                    "size": 1309263
+                                },
+                                {
+                                    "name": "qtprintsupport.qch",
+                                    "size": 293888
+                                },
+                                {
+                                    "name": "qtqmlzzZzz",
+                                    "size": 8067017
+                                },
+                                {
+                                    "name": "qtqml.qch",
+                                    "size": 1093632
+                                },
+                                {
+                                    "name": "qtquickzzZzz",
+                                    "size": 23287626
+                                },
+                                {
+                                    "name": "qtquick.qch",
+                                    "size": 9982976
+                                },
+                                {
+                                    "name": "qtquickcontrolszzZzz",
+                                    "size": 2964599
+                                },
+                                {
+                                    "name": "qtquickcontrols.qch",
+                                    "size": 918528
+                                },
+                                {
+                                    "name": "qtquickdialogszzZzz",
+                                    "size": 703001
+                                },
+                                {
+                                    "name": "qtquickdialogs.qch",
+                                    "size": 156672
+                                },
+                                {
+                                    "name": "qtquicklayoutszzZzz",
+                                    "size": 388349
+                                },
+                                {
+                                    "name": "qtquicklayouts.qch",
+                                    "size": 76800
+                                },
+                                {
+                                    "name": "qtscriptzzZzz",
+                                    "size": 2085468
+                                },
+                                {
+                                    "name": "qtscript.qch",
+                                    "size": 343040
+                                },
+                                {
+                                    "name": "qtscripttoolszzZzz",
+                                    "size": 885019
+                                },
+                                {
+                                    "name": "qtscripttools.qch",
+                                    "size": 54272
+                                },
+                                {
+                                    "name": "qtsensorszzZzz",
+                                    "size": 5232567
+                                },
+                                {
+                                    "name": "qtsensors.qch",
+                                    "size": 2375680
+                                },
+                                {
+                                    "name": "qtserialportzzZzz",
+                                    "size": 1032944
+                                },
+                                {
+                                    "name": "qtserialport.qch",
+                                    "size": 296960
+                                },
+                                {
+                                    "name": "qtsqlzzZzz",
+                                    "size": 3068736
+                                },
+                                {
+                                    "name": "qtsql.qch",
+                                    "size": 872448
+                                },
+                                {
+                                    "name": "qtsvgzzZzz",
+                                    "size": 876785
+                                },
+                                {
+                                    "name": "qtsvg.qch",
+                                    "size": 197632
+                                },
+                                {
+                                    "name": "qttestlibzzZzz",
+                                    "size": 955220
+                                },
+                                {
+                                    "name": "qttestlib.qch",
+                                    "size": 142336
+                                },
+                                {
+                                    "name": "qtuitoolszzZzz",
+                                    "size": 264277
+                                },
+                                {
+                                    "name": "qtuitools.qch",
+                                    "size": 143360
+                                },
+                                {
+                                    "name": "qtwebkitzzZzz",
+                                    "size": 2633719
+                                },
+                                {
+                                    "name": "qtwebkit.qch",
+                                    "size": 847872
+                                },
+                                {
+                                    "name": "qtwebkitexampleszzZzz",
+                                    "size": 5000858
+                                },
+                                {
+                                    "name": "qtwebkitexamples.qch",
+                                    "size": 3263488
+                                },
+                                {
+                                    "name": "qtwebsocketszzZzz",
+                                    "size": 756085
+                                },
+                                {
+                                    "name": "qtwebsockets.qch",
+                                    "size": 166912
+                                },
+                                {
+                                    "name": "qtwidgetszzZzz",
+                                    "size": 49511397
+                                },
+                                {
+                                    "name": "qtwidgets.qch",
+                                    "size": 17395712
+                                },
+                                {
+                                    "name": "qtwinextraszzZzz",
+                                    "size": 1550790
+                                },
+                                {
+                                    "name": "qtwinextras.qch",
+                                    "size": 855040
+                                },
+                                {
+                                    "name": "qtx11extraszzZzz",
+                                    "size": 181613
+                                },
+                                {
+                                    "name": "qtx11extras.qch",
+                                    "size": 40960
+                                },
+                                {
+                                    "name": "qtxmlzzZzz",
+                                    "size": 1847749
+                                },
+                                {
+                                    "name": "qtxml.qch",
+                                    "size": 449536
+                                },
+                                {
+                                    "name": "qtxmlpatternszzZzz",
+                                    "size": 5015201
+                                },
+                                {
+                                    "name": "qtxmlpatterns.qch",
+                                    "size": 644096
+                                }
+                            ],
+                            "name": "Qt-5.3zzZzzDir"
+                        }
+                    ],
+                    "name": "DocszzZzzDir"
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "name": "activeqtzzZzz",
+                                    "size": 198537
+                                },
+                                {
+                                    "name": "aggregatezzZzz",
+                                    "size": 102
+                                },
+                                {
+                                    "name": "androidextraszzZzz",
+                                    "size": 28824
+                                },
+                                {
+                                    "name": "assistantzzZzz",
+                                    "size": 274491
+                                },
+                                {
+                                    "name": "bluetoothzzZzz",
+                                    "size": 387071
+                                },
+                                {
+                                    "name": "dbuszzZzz",
+                                    "size": 67059
+                                },
+                                {
+                                    "name": "declarativezzZzz",
+                                    "size": 7370385
+                                },
+                                {
+                                    "name": "designerzzZzz",
+                                    "size": 273028
+                                },
+                                {
+                                    "name": "embeddedzzZzz",
+                                    "size": 328091
+                                },
+                                {
+                                    "name": "enginiozzZzz",
+                                    "size": 224703
+                                },
+                                {
+                                    "name": "examples.pro",
+                                    "size": 432
+                                },
+                                {
+                                    "name": "guizzZzz",
+                                    "size": 25018
+                                },
+                                {
+                                    "name": "helpzzZzz",
+                                    "size": 64314
+                                },
+                                {
+                                    "name": "ipczzZzz",
+                                    "size": 46021
+                                },
+                                {
+                                    "name": "jsonzzZzz",
+                                    "size": 21285
+                                },
+                                {
+                                    "name": "linguistzzZzz",
+                                    "size": 31613
+                                },
+                                {
+                                    "name": "macextraszzZzz",
+                                    "size": 36431
+                                },
+                                {
+                                    "name": "multimediazzZzz",
+                                    "size": 1330598
+                                },
+                                {
+                                    "name": "multimediawidgetszzZzz",
+                                    "size": 176498
+                                },
+                                {
+                                    "name": "networkzzZzz",
+                                    "size": 568604
+                                },
+                                {
+                                    "name": "nfczzZzz",
+                                    "size": 312610
+                                },
+                                {
+                                    "name": "openglzzZzz",
+                                    "size": 373361
+                                },
+                                {
+                                    "name": "positioningzzZzz",
+                                    "size": 1167615
+                                },
+                                {
+                                    "name": "qmakezzZzz",
+                                    "size": 27767
+                                },
+                                {
+                                    "name": "qmlzzZzz",
+                                    "size": 394937
+                                },
+                                {
+                                    "name": "qmltestzzZzz",
+                                    "size": 7639
+                                },
+                                {
+                                    "name": "qpazzZzz",
+                                    "size": 11716
+                                },
+                                {
+                                    "name": "qtconcurrentzzZzz",
+                                    "size": 24985
+                                },
+                                {
+                                    "name": "qtestlibzzZzz",
+                                    "size": 22890
+                                },
+                                {
+                                    "name": "quickzzZzz",
+                                    "size": 8545973
+                                },
+                                {
+                                    "name": "scriptzzZzz",
+                                    "size": 246069
+                                },
+                                {
+                                    "name": "sensorszzZzz",
+                                    "size": 453959
+                                },
+                                {
+                                    "name": "serialportzzZzz",
+                                    "size": 211702
+                                },
+                                {
+                                    "name": "sqlzzZzz",
+                                    "size": 561099
+                                },
+                                {
+                                    "name": "svgzzZzz",
+                                    "size": 1766968
+                                },
+                                {
+                                    "name": "threadszzZzz",
+                                    "size": 52399
+                                },
+                                {
+                                    "name": "toolszzZzz",
+                                    "size": 30970
+                                },
+                                {
+                                    "name": "touchzzZzz",
+                                    "size": 55935
+                                },
+                                {
+                                    "name": "uitoolszzZzz",
+                                    "size": 28017
+                                },
+                                {
+                                    "name": "webkitzzZzz",
+                                    "size": 2034384
+                                },
+                                {
+                                    "name": "webkitqmlzzZzz",
+                                    "size": 69446
+                                },
+                                {
+                                    "name": "webkitwidgetszzZzz",
+                                    "size": 1349286
+                                },
+                                {
+                                    "name": "websocketszzZzz",
+                                    "size": 65414
+                                },
+                                {
+                                    "name": "widgetszzZzz",
+                                    "size": 5338546
+                                },
+                                {
+                                    "name": "winextraszzZzz",
+                                    "size": 136832
+                                },
+                                {
+                                    "name": "xmlzzZzz",
+                                    "size": 309900
+                                },
+                                {
+                                    "name": "xmlpatternszzZzz",
+                                    "size": 98506
+                                }
+                            ],
+                            "name": "Qt-5.3zzZzzDir"
+                        }
+                    ],
+                    "name": "ExampleszzZzzDir"
+                },
+                {
+                    "children": [
+                        {
+                            "name": "LGPL_EXCEPTION.txt",
+                            "size": 1186
+                        },
+                        {
+                            "name": "LICENSE.FDL",
+                            "size": 23016
+                        },
+                        {
+                            "name": "LICENSE.GPL",
+                            "size": 35147
+                        },
+                        {
+                            "name": "LICENSE.LGPL",
+                            "size": 26863
+                        },
+                        {
+                            "name": "ThirdPartySoftware_Listing.txt",
+                            "size": 81814
+                        }
+                    ],
+                    "name": "LicenseszzZzzDir"
+                },
+                {
+                    "name": "MaintenanceTool",
+                    "size": 23178948
+                },
+                {
+                    "name": "MaintenanceTool.dat",
+                    "size": 6183167
+                },
+                {
+                    "name": "MaintenanceTool.ini",
+                    "size": 10595
+                },
+                {
+                    "name": "network.xml",
+                    "size": 362
+                },
+                {
+                    "name": "qt-project.org.html",
+                    "size": 115
+                },
+                {
+                    "name": "README.txt",
+                    "size": 5442
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "name": "binzzZzz",
+                                    "size": 14094782
+                                },
+                                {
+                                    "name": "libzzZzz",
+                                    "size": 197210030
+                                },
+                                {
+                                    "name": "sharezzZzz",
+                                    "size": 36984872
+                                }
+                            ],
+                            "name": "QtCreatorzzZzzDir"
+                        }
+                    ],
+                    "name": "ToolszzZzzDir"
+                }
+            ],
+            "name": "Qt5.3.2zzZzzDir"
+        },
+        {
+            "children": [
+            ],
+            "name": "TemplateszzZzzDir"
+        },
+        {
+            "children": [
+            ],
+            "name": "VideoszzZzzDir"
+        }
+    ],
+    "name": "donzzZzzDir"
+}

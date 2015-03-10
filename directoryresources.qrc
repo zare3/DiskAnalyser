@@ -11,5 +11,7 @@
         <file>back_btn.png</file>
         <file>forward_btn.png</file>
         <file>up_btn.png</file>
+        <file>Sunburst.html</file>
+        <file>TEMP_FILE.json</file>
     </qresource>
 </RCC>

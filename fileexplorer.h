@@ -17,6 +17,8 @@
 #include "StatisticsThread.h"
 #include "checksecuritythreats.h"
 #include "ExtTreeModel.h"
+#include "interactivechart.h"
+#include <QJsonDocument>
 #include "barchart.h"
 #include "fileinfo.h"
 
@@ -87,6 +89,9 @@ private:
     ExtTreeModel* extModel;
     void extinit();
     //End of Extentions
+
+    //JS_shananigans
+        InteractiveChart* chart;
 
 };
 
