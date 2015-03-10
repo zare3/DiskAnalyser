@@ -63,12 +63,21 @@ private:
     QVector<QVector<bool> > permissionsGrid;
     QTableView* permissionsTable;
 
+    QLabel* ownershipLoadingBar;
+    QLabel* infoLoadingBar;
+    QLabel* extensionsLoadingBar;
+    QLabel* permissionsLoadingBar;
+
+    QMovie* spinnerMovie;
+
+
     void updateOwnershipUsersGraph (QModelIndex index);
     void updateOwnsershipGroupsGraph(QModelIndex index);
     void initializeOwnershipCharts();
     void updateInfo(QModelIndex index);
     void initializePermissionsTable();
     void initializeInfoBox();
+    void updatePermissionsTable(QModelIndex index);
 
 
     //Stats
