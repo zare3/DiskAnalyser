@@ -18,20 +18,13 @@ FileExplorer::FileExplorer(QWidget *parent) :
     Stats = new StatisticsThread(dirModel);
     while(!Stats->isReady());
 
-     userOwnershipBarChart = new BarChart(this);
-     groupOwnershipBarChart = new BarChart (this);
-     ownershipTabBar = new QTabWidget (this);
-
-     infoLayout = new QVBoxLayout(this);
-     selectedFileNameLabel = new QLabel(this);
-     selectedFileSizeLabel = new QLabel(this);
 
 
-     fileInfo = new FileInfo(dirModel);
 
-     permissionsTable = new QTableView(this);
 
+    initializeInfoBox();
     initializeDirectory();
+    initializePermissionsTable();
     initializeOwnershipCharts();
     extinit();
 }
@@ -238,6 +231,9 @@ void FileExplorer::updateOwnsershipGroupsGraph(QModelIndex index){
 
 void FileExplorer::initializeOwnershipCharts()
 {
+    userOwnershipBarChart = new BarChart(this);
+    groupOwnershipBarChart = new BarChart (this);
+    ownershipTabBar = new QTabWidget (this);
     ownershipTabBar->addTab(userOwnershipBarChart, "Users");
     ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/tree.png"));
     ownershipTabBar->addTab(groupOwnershipBarChart, "Groups");
@@ -260,14 +256,7 @@ void FileExplorer::updateInfo(QModelIndex index)
     infoLayout->addWidget(selectedFileSizeLabel);
 
 
-    permissionsModel = new QStandardItemModel(4,3,this); //2 Rows and 3 Columns
-    permissionsModel->setHorizontalHeaderItem(0, new QStandardItem(QString("READ")));
-    permissionsModel->setHorizontalHeaderItem(1, new QStandardItem(QString("WRITE")));
-    permissionsModel->setHorizontalHeaderItem(2, new QStandardItem(QString("EXECUTE")));
-    permissionsModel->setVerticalHeaderItem(0, new QStandardItem(QString("OWNER")));
-     permissionsModel->setVerticalHeaderItem(1, new QStandardItem(QString("GROUP")));
-      permissionsModel->setVerticalHeaderItem(2, new QStandardItem(QString("USER")));
-       permissionsModel->setVerticalHeaderItem(3, new QStandardItem(QString("OTHER")));
+
     permissionsGrid = fileInfo->getPermissions(dirModel->fileInfo(index).filePath());
 
 
@@ -286,4 +275,30 @@ void FileExplorer::updateInfo(QModelIndex index)
     multiWidget->setLayout(infoLayout);
 
     ui->informationDockWidget->setWidget(multiWidget);
+}
+
+void FileExplorer::initializePermissionsTable()
+{
+    permissionsTable = new QTableView(this);
+    permissionsModel = new QStandardItemModel(4,3,this); //2 Rows and 3 Columns
+    permissionsModel->setHorizontalHeaderItem(0, new QStandardItem(QString("READ")));
+    permissionsModel->setHorizontalHeaderItem(1, new QStandardItem(QString("WRITE")));
+    permissionsModel->setHorizontalHeaderItem(2, new QStandardItem(QString("EXECUTE")));
+    permissionsModel->setVerticalHeaderItem(0, new QStandardItem(QString("OWNER")));
+    permissionsModel->setVerticalHeaderItem(1, new QStandardItem(QString("GROUP")));
+    permissionsModel->setVerticalHeaderItem(2, new QStandardItem(QString("USER")));
+    permissionsModel->setVerticalHeaderItem(3, new QStandardItem(QString("OTHER")));
+}
+
+void FileExplorer::initializeInfoBox()
+{
+
+
+    infoLayout = new QVBoxLayout(this);
+    selectedFileNameLabel = new QLabel(this);
+    selectedFileSizeLabel = new QLabel(this);
+
+
+    fileInfo = new FileInfo(dirModel);
+
 }

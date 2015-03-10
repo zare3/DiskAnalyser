@@ -65,6 +65,8 @@ private:
     void updateOwnsershipGroupsGraph(QModelIndex index);
     void initializeOwnershipCharts();
     void updateInfo(QModelIndex index);
+    void initializePermissionsTable();
+    void initializeInfoBox();
 
 
     //Stats
