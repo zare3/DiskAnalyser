@@ -68,11 +68,17 @@ void FileExplorer::initializeDirectory()
 
 
 
-    upButton->setIcon(QIcon(":/folder/icons/up.png"));
-    backButton->setIcon(QIcon(":/folder/icons/left.png"));
-    forwardButton->setIcon(QIcon(":/folder/icons/right.png"));
+    upButton->setIcon(QIcon(":/folder/icons/up_btn.png"));
+    backButton->setIcon(QIcon(":/folder/icons/back_btn.png"));
+    forwardButton->setIcon(QIcon(":/folder/icons/forward_btn.png"));
 
-    toolBar->setIconSize(QSize(16,16));
+    QPixmap pixmap;
+    pixmap.load(":/folder/icons/up_btn.png");
+    upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
+    pixmap.load(":/folder/icons/back_btn.png");
+    backButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
+    pixmap.load(":/folder/icons/forward_btn.png");
+    forwardButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
 
     dirListView->setResizeMode(QListView::Adjust);
 
