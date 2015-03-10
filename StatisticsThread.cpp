@@ -52,6 +52,45 @@ StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
     qDebug() << str;
     return mpSize[fsModel->index(str)] = sizex;
 }*/
+
+
+
+
+QJsonObject StatisticsThread::getJson(QModelIndex idx,qint32 depth)
+{
+    QFileInfo fInfo = fsModel->fileInfo(idx);
+    if(fInfo.isFile())
+    {
+        QJsonObject temp;
+        temp.insert("name",QJsonValue(fInfo.fileName()));
+        temp.insert("size",QJsonValue(fInfo.size()));
+        return temp;
+    }
+    if(depth>=MAX_DEPTH){
+
+        QJsonObject temp;
+        temp.insert("name",QJsonValue(fInfo.fileName()+"zzZzz"));
+        temp.insert("size",QJsonValue((long long) dirSize(idx)));
+        return temp;
+    }
+    QJsonObject obj;
+    QJsonArray children;
+
+    QDir dInfo (fInfo.absoluteFilePath());
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;
+    for(int i = 0; i < dList.size(); i++)
+    {
+            children.append(getJson(fsModel->index(dList[i].absoluteFilePath()),depth+1));
+
+    }
+    obj["name"]=fInfo.fileName()+"zzZzzDir";
+    obj["children"]=children;
+    return obj;
+}
+
+
+
+
 quint64 StatisticsThread::dirSize(QModelIndex idx){
     QFileInfo fInfo = fsModel->fileInfo(idx);
     

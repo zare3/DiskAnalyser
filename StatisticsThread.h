@@ -4,6 +4,11 @@
 #include <QFileSystemModel>
 #include <QMap>
 #include <QVector>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
+#define MAX_DEPTH 4
 
 class StatisticsThread : public QThread
 {
@@ -35,7 +40,7 @@ private:
     QFileInfoList fiLExec;
 public:
     StatisticsThread(QFileSystemModel *);
-    
+    QJsonObject getJson(QModelIndex, qint32 depth);
     //quint64 dirSize(const QString &);
     quint64 dirSize(QModelIndex);
     quint64 nExec(QModelIndex);

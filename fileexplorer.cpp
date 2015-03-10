@@ -19,7 +19,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
     while(!Stats->isReady());
 
 
-
+    ui->chart_widget->setMinimumSize(400,300);
 
 
     initializeInfoBox();
@@ -34,7 +34,7 @@ void FileExplorer::initializeDirectory()
     dirTreeView = new QTreeView(this);
     dirListView = new QListView(this);
     dirTabWidget = new QTabWidget(this);
-
+    chart = new InteractiveChart(this);
     toolBar = new QToolBar(this);
     mainToolBar = new QToolBar (this);
     QGroupBox* groupBox = new QGroupBox(this);
@@ -70,6 +70,7 @@ void FileExplorer::initializeDirectory()
     dirTabWidget->setTabIcon(1, QIcon(":/folder/icons/grid.png"));
     dirTabWidget->setTabPosition(QTabWidget::West);
     ui->treeDockWidget->setWidget(dirTabWidget);
+    ui->chart_widget->setWidget(chart->GetChart());
 
     vbox->setMargin(0);
     vbox->setSpacing(0);
@@ -82,6 +83,9 @@ void FileExplorer::initializeDirectory()
     dirListView->setSpacing(10);
     dirListView->setUniformItemSizes(true);
     dirListView->setRootIndex(dirModel->index("/"));
+    QFile jsonfile("TEMP_FILE.json");
+    jsonfile.open(QFile::WriteOnly);
+    jsonfile.write(QJsonDocument(Stats->getJson(dirModel->index("/home/Projects"),qint32(0))).toJson(QJsonDocument::Indented));//.toJson(QJsonDocument::Compact);
 
 
 

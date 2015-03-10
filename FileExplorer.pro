@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui webkitwidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     checksecuritythreats.cpp \
     executeTerminalCmndThread.cpp \
     barchart.cpp \
-    fileinfo.cpp
+    fileinfo.cpp \
+    interactivechart.cpp
 
 HEADERS  += fileexplorer.h \ 
     checkdiskfragmentation.h \
@@ -33,7 +34,8 @@ HEADERS  += fileexplorer.h \
     checksecuritythreats.h \
     executeTerminalCmndThread.h \
     barchart.h \
-    fileinfo.h
+    fileinfo.h \
+    interactivechart.h
 
 FORMS    += fileexplorer.ui \
     checkdiskfragmentation.ui \
