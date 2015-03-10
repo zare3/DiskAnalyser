@@ -31,11 +31,11 @@ public:
 private:
     QFileSystemModel *fsModel;
     QMap<QModelIndex, quint64> mpSize;
+    QMap<QModelIndex, quint64> mpfileCount;
     QMap<QModelIndex, quint64> mpNExec;
     QMap<QModelIndex, ExtStat> mpExt;
     QMap<QModelIndex, OwnStat> mpOwn;
     QMap<QModelIndex, GroupStat> mpGroup;
-    
     bool done;
     QFileInfoList fiLExec;
 public:
@@ -43,6 +43,7 @@ public:
     QJsonObject getJson(QModelIndex, qint32 depth);
     //quint64 dirSize(const QString &);
     quint64 dirSize(QModelIndex);
+    quint64 fileCount(QModelIndex);
     quint64 nExec(QModelIndex);
     QFileInfoList* lExec();
     void lExecClear();
