@@ -18,6 +18,7 @@
 #include "checksecuritythreats.h"
 #include "ExtTreeModel.h"
 #include "barchart.h"
+#include "fileinfo.h"
 
 namespace Ui {
 class FileExplorer;
@@ -42,16 +43,31 @@ private slots:
 
     void on_actionCheck_Security_Threats_triggered();
 
+
 private:
     Ui::FileExplorer *ui;
     QToolBar *toolBar;
     QToolBar *mainToolBar;
+    QTabWidget* ownershipTabBar;
     CheckDiskFragmentation* chkFrgmntionWin;
     CheckSecurityThreats* chckScurityThreats;
-    BarChart* ownershipBarChart;
+    BarChart* userOwnershipBarChart;
+    BarChart* groupOwnershipBarChart;
     QLabel* selectedFileNameLabel;
     QLabel* selectedFileSizeLabel;
     QVBoxLayout* infoLayout;
+    FileInfo* fileInfo;
+    QStandardItemModel* permissionsModel;
+    QVector<QVector<bool> > permissionsGrid;
+    QTableView* permissionsTable;
+
+    void updateOwnershipUsersGraph (QModelIndex index);
+    void updateOwnsershipGroupsGraph(QModelIndex index);
+    void initializeOwnershipCharts();
+    void updateInfo(QModelIndex index);
+    void initializePermissionsTable();
+    void initializeInfoBox();
+
 
     //Stats
     StatisticsThread* Stats;

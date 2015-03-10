@@ -1,4 +1,3 @@
-
 #include "fileinfo.h"
 
 #include <QFileSystemModel>
@@ -8,12 +7,15 @@
 #include <QMap>
 #include <QFileInfo>
 
-FileInfo :: FileInfo ()
+FileInfo :: FileInfo (QFileSystemModel* file)
 {
     // initializes all variables
-    file = new QFileSystemModel;
+    this->file = file;
     permissions = "";
     file_permissions = 0;
+    permissionsGrid.resize(4);
+    for (int i=0; i<4; i++)
+        permissionsGrid[i].resize(3);
 }
 
 QString FileInfo :: getName(const QString & filepath)
@@ -30,36 +32,49 @@ QString FileInfo :: getType(const QString & filepath)
 
 qint64 FileInfo :: getSize(const QString & filepath)
 {
-    // gets directory's size
-    return (file->size(file->index(filepath)));
+    QDir dir(filepath);
+    qint64 sum = 0;
+    // find info about the file
+    QFileInfo file_info = file->fileInfo(file->index(filepath));
+
+    // if the path is that of a file, get its size
+    if (file_info.isFile())
+    {
+        return (file->size(file->index(filepath)));
+    }
+    else
+    {
+        // if the path is that of a folder, get the size of the content files
+        // get a list of the directories inside the current directory
+        QFileInfoList dList = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;
+
+        // for each entry in the list of directories, search for the files' size (recursion)
+        for(int i = 0; i < dList.size(); i++)
+            sum += getSize(dList[i].absoluteFilePath());
+        return sum;
+    }
 }
 
-QString FileInfo :: getPermissions(const QString & filepath)
+QVector<QVector<bool> >  FileInfo :: getPermissions(const QString & filepath)
 {
     // recieves directory's permissions as binary
     file_permissions = file->permissions(file->index(filepath));
 
-    // resets the permissions string message to save new permissions
-    permissions  = "";
+    permissionsGrid[ownerRow][readCol] = (file_permissions & 0x4000) ? 1 : 0;
+    permissionsGrid[ownerRow][writeCol] = (file_permissions & 0x2000) ? 1: 0;
+    permissionsGrid[ownerRow][execCol] = (file_permissions & 0x1000) ? 1: 0;
+    permissionsGrid[userRow][readCol] = (file_permissions & 0x0400) ? 1: 0;
+    permissionsGrid[userRow][writeCol] = (file_permissions & 0x0200) ? 1: 0;
+    permissionsGrid[userRow][execCol] = (file_permissions & 0x0100) ? 1: 0;
+    permissionsGrid[groupRow][readCol] = (file_permissions & 0x0040) ? 1: 0;
+    permissionsGrid[groupRow][writeCol] = (file_permissions & 0x0020) ? 1: 0;
+    permissionsGrid[groupRow][execCol] = (file_permissions & 0x0010) ? 1: 0;
+    permissionsGrid[otherRow][readCol] = (file_permissions & 0x0004) ? 1: 0;
+    permissionsGrid[otherRow][writeCol] = (file_permissions & 0x0002) ? 1: 0;
+    permissionsGrid[otherRow][execCol] = (file_permissions & 0x0001) ? 1: 0;
 
-    // decode the permissions' binary into its equivalent read/write/execute permissions for owner/user/group/others
-    permissions = (file_permissions & 0x4000) ? (permissions + "Read Owner\n") : (permissions);
-    permissions = (file_permissions & 0x2000) ? (permissions + "Write Owner\n") : (permissions);
-    permissions = (file_permissions & 0x1000) ? (permissions + "Execute Owner\n") : (permissions);
-    permissions = (file_permissions & 0x0400) ? (permissions + "Read User\n") : (permissions);
-    permissions = (file_permissions & 0x0200) ? (permissions + "Write User\n") : (permissions);
-    permissions = (file_permissions & 0x0100) ? (permissions + "Execute User\n") : (permissions);
-    permissions = (file_permissions & 0x0040) ? (permissions + "Read Group\n") : (permissions);
-    permissions = (file_permissions & 0x0020) ? (permissions + "Write Group\n") : (permissions);
-    permissions = (file_permissions & 0x0010) ? (permissions + "Execute Group\n") : (permissions);
-    permissions = (file_permissions & 0x0004) ? (permissions + "Read Other\n") : (permissions);
-    permissions = (file_permissions & 0x0002) ? (permissions + "Write Other\n") : (permissions);
-    permissions = (file_permissions & 0x0001) ? (permissions + "Execute Other\n") : (permissions);
-
-    // the returned message is a string with all permisison statuses
-    return permissions;
+    return permissionsGrid;
 }
-
 
 /*
 QString FileInfo ::getOwner(const QString & filepath)
@@ -69,7 +84,7 @@ QString FileInfo ::getOwner(const QString & filepath)
 }
 */
 
-void FileInfo :: getOwners(const QString& filepath)
+void FileInfo :: calcOwners(const QString& filepath)
 {
     uint id;                                        // owner ID
     QDir dir(filepath);                             // QDir pointing to the 'filepath' directory
@@ -108,17 +123,18 @@ void FileInfo :: getOwners(const QString& filepath)
     else
     {
         // get a list of the directories inside the current directory
-        QFileInfoList dList = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;
+        QFileInfoList dList = dir.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden |  QDir::NoDotAndDotDot | QDir::NoSymLinks) ;
 
         // for each entry in the list of directories, search for the files' owners (recursion)
         for(int i = 0; i < dList.size(); i++)
-            getOwners(dList[i].absoluteFilePath());
+            calcOwners(dList[i].absoluteFilePath());
 
         //IndexedOwners.insert(index, owners);
     }
 }
 
-void FileInfo :: getGroups(const QString& filepath)
+
+void FileInfo :: calcGroups(const QString& filepath)
 {
     uint id;                                        // group ID
     QDir dir(filepath);                             // QDir pointing to the 'filepath' directory
@@ -161,10 +177,11 @@ void FileInfo :: getGroups(const QString& filepath)
 
         // for each entry in the list of directories, search for the files' owners (recursion)
         for(int i = 0; i < dList.size(); i++)
-            getGroups(dList[i].absoluteFilePath());
+            calcGroups(dList[i].absoluteFilePath());
 
         //IndexedGroups.insert(index, groups);
     }
+
 }
 
 /*
@@ -225,6 +242,46 @@ QString FileInfo ::displayGroups()
     groups.clear();
 
     return message;
+}
+
+QVector<UserOwner>* FileInfo::getOwners()
+{
+    QVector<UserOwner>* userOwners = new QVector<UserOwner>();
+    QMap <uint, statistics> :: iterator i  = owners.begin();
+
+    for(i = owners.begin() ; i != owners.end();  i++)
+    {
+        UserOwner t;
+        t.ownerName = (i.value()).name;
+        t.numOwnedFiles = QString ::number(i.value().file_count);
+        userOwners->push_back(t);
+    }
+
+    owners.clear();
+
+    return userOwners;
+}
+
+QVector<GroupOwner>* FileInfo::getGroups()
+{
+
+    QVector<GroupOwner>* groupsOwners = new QVector<GroupOwner>();
+    QMap <uint, statistics> :: iterator i  = groups.begin();
+
+    for(i = groups.begin() ; i != groups.end();  i++)
+
+    {
+        GroupOwner t;
+        t.groupName = (i.value()).name;
+        t.numOwnedFiles = QString ::number(i.value().file_count);
+        groupsOwners->push_back(t);
+
+   }
+    groups.clear();
+
+    return groupsOwners;
+
+
 }
 
 

@@ -16,18 +16,16 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel = new QFileSystemModel(this);
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
+    while(!Stats->isReady());
 
 
-     ownershipBarChart = new BarChart(this);
-     ui->ownershipChartDockWidget->setMinimumSize(400,120);
-     ui->ownershipChartDockWidget->setWidget(ownershipBarChart);
 
 
-     infoLayout = new QVBoxLayout(this);
-     selectedFileNameLabel = new QLabel(this);
-     selectedFileSizeLabel = new QLabel(this);
 
+    initializeInfoBox();
     initializeDirectory();
+    initializePermissionsTable();
+    initializeOwnershipCharts();
     extinit();
 }
 
@@ -48,6 +46,8 @@ void FileExplorer::initializeDirectory()
     toolBar->addWidget(upButton);
     toolBar->addWidget(backButton);
     toolBar->addWidget(forwardButton);
+
+
 
     upButton->setIcon(QIcon(":/folder/icons/up.png"));
     backButton->setIcon(QIcon(":/folder/icons/left.png"));
@@ -101,23 +101,19 @@ FileExplorer::~FileExplorer()
 void FileExplorer::extinit(){
     tv_ext = new QTreeView(this);
     extModel = new ExtTreeModel(this, Stats);
-    extModel->SetDir(dirModel->index("/home/zarie/Desktop"));
-    ui->dw_ext->setWidget(tv_ext);
     tv_ext->setModel(extModel);
+    tv_ext->setAlternatingRowColors(true);
+    ui->dw_ext->setWidget(tv_ext);
 }
 
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
-    QWidget* multiWidget = new QWidget();
-    selectedFileNameLabel->setText(dirModel->fileInfo(index).filePath());
-    selectedFileSizeLabel->setText(QString::number(dirModel->fileInfo(index).size()));
+    updateInfo(index);
+    updateOwnershipUsersGraph(index);
+    updateOwnsershipGroupsGraph(index);
+    extModel->SetDir(index);
+    ui->dw_ext->setWidget(tv_ext);
 
-    infoLayout->addWidget(selectedFileNameLabel);
-    infoLayout->addWidget(selectedFileSizeLabel);
-
-    multiWidget->setLayout(infoLayout);
-
-    ui->informationDockWidget->setWidget(multiWidget);
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -140,7 +136,6 @@ void FileExplorer::onListItemDoubleClicked(QModelIndex index)
         }
     }
 }
-
 
 void FileExplorer::onTreeItemClicked(QModelIndex index)
 {
@@ -182,7 +177,6 @@ void FileExplorer::forwardButtonPressed()
     }
 }
 
-
 void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 {
     chkFrgmntionWin = new CheckDiskFragmentation(this);
@@ -193,4 +187,118 @@ void FileExplorer::on_actionCheck_Security_Threats_triggered()
 {
     chckScurityThreats = new CheckSecurityThreats(dirModel,Stats,this);
     (*chckScurityThreats).show();
+}
+
+void FileExplorer::updateOwnershipUsersGraph(QModelIndex index){
+    //fileInfo->calcOwners(dirModel->fileInfo(index).filePath());
+    const StatisticsThread::OwnStat* const owners = Stats->getOwn(index);
+    qDebug()<<"TEST";
+    //QVector<UserOwner>* owners = fileInfo->getOwners();
+    QVector<Piece>* pieces = new QVector<Piece> ();
+    //for (int i=0; i<owners->size(); i++)
+    for(QMap<QString, quint64>::const_iterator it = owners->nOwn.begin(); it != owners->nOwn.end(); it++){
+       Piece t;
+       t.color = Qt::green;
+       t.name = it.key();//owners->at(i).ownerName;
+       t.percentage = it.value();//owners->at(i).numOwnedFiles.toDouble();
+       qDebug()<<t.name;
+       pieces->push_back(t);
+    }
+
+
+    userOwnershipBarChart->setData(1,pieces);
+    userOwnershipBarChart->update();
+}
+
+void FileExplorer::updateOwnsershipGroupsGraph(QModelIndex index){
+    //fileInfo->calcGroups(dirModel->fileInfo(index).filePath());
+    const StatisticsThread::GroupStat* const groups = Stats->getGroup(index);
+    //QVector<GroupOwner>* groups = fileInfo->getGroups();
+    QVector<Piece>* pieces = new QVector<Piece> ();
+    //for (int i=0; i<groups->size(); i++)
+    for(QMap<QString, quint64>::const_iterator it = groups->nGroup.begin(); it != groups->nGroup.end(); it++){
+       Piece t;
+       t.color = Qt::green;
+       t.name = it.key();   //groups->at(i).groupName;
+       t.percentage = it.value();   //groups->at(i).numOwnedFiles.toDouble();
+       pieces->push_back(t);
+    }
+
+
+    groupOwnershipBarChart->setData(1,pieces);
+    groupOwnershipBarChart->update();
+}
+
+void FileExplorer::initializeOwnershipCharts()
+{
+    userOwnershipBarChart = new BarChart(this);
+    groupOwnershipBarChart = new BarChart (this);
+    ownershipTabBar = new QTabWidget (this);
+    ownershipTabBar->addTab(userOwnershipBarChart, "Users");
+    ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/tree.png"));
+    ownershipTabBar->addTab(groupOwnershipBarChart, "Groups");
+    ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/grid.png"));
+    ownershipTabBar->setTabPosition(QTabWidget::West);
+    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
+
+
+    ui->ownershipChartDockWidget->setMinimumSize(400,120);
+}
+
+void FileExplorer::updateInfo(QModelIndex index)
+{
+    QWidget* multiWidget = new QWidget();
+    selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(index).filePath()));
+    selectedFileSizeLabel->setText(QString::number(Stats->dirSize(index)));
+
+
+    infoLayout->addWidget(selectedFileNameLabel);
+    infoLayout->addWidget(selectedFileSizeLabel);
+
+
+
+    permissionsGrid = fileInfo->getPermissions(dirModel->fileInfo(index).filePath());
+
+
+    for (int i=0; i<4; i++)
+    {
+        for (int j=0; j<3; j++)
+        {
+           permissionsModel->setItem(i,j,new QStandardItem(QString::number(permissionsGrid.at(i).at(j))));
+        }
+    }
+
+    permissionsTable->setModel(permissionsModel);
+    ui->permissionsDockWidget->setWidget(permissionsTable);
+
+
+    multiWidget->setLayout(infoLayout);
+
+    ui->informationDockWidget->setWidget(multiWidget);
+}
+
+void FileExplorer::initializePermissionsTable()
+{
+    permissionsTable = new QTableView(this);
+    permissionsModel = new QStandardItemModel(4,3,this); //2 Rows and 3 Columns
+    permissionsModel->setHorizontalHeaderItem(0, new QStandardItem(QString("READ")));
+    permissionsModel->setHorizontalHeaderItem(1, new QStandardItem(QString("WRITE")));
+    permissionsModel->setHorizontalHeaderItem(2, new QStandardItem(QString("EXECUTE")));
+    permissionsModel->setVerticalHeaderItem(0, new QStandardItem(QString("OWNER")));
+    permissionsModel->setVerticalHeaderItem(1, new QStandardItem(QString("GROUP")));
+    permissionsModel->setVerticalHeaderItem(2, new QStandardItem(QString("USER")));
+    permissionsModel->setVerticalHeaderItem(3, new QStandardItem(QString("OTHER")));
+}
+
+void FileExplorer::initializeInfoBox()
+{
+
+
+    infoLayout = new QVBoxLayout(this);
+    selectedFileNameLabel = new QLabel(this);
+    selectedFileSizeLabel = new QLabel(this);
+
+
+    fileInfo = new FileInfo(dirModel);
+
 }

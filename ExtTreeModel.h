@@ -12,6 +12,7 @@ class ExtTreeModel : public QAbstractItemModel{
     
     Item* root;
     StatisticsThread* Stat;
+    Item* Classify(QString);
 public:
     ExtTreeModel(QObject*, StatisticsThread*);
     ~ExtTreeModel();

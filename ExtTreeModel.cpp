@@ -1,9 +1,14 @@
 #include "ExtTreeModel.h"
 #include <QDebug>
+#include <QFileSystemModel>
 
 ExtTreeModel::ExtTreeModel(QObject* parent, StatisticsThread* ptr) : QAbstractItemModel(parent){
     Stat = ptr;
     root = new Item();
+    root->push("Document", 0);
+    root->push("Audio", 0);
+    root->push("Archive", 0);
+    root->push("Others", 0);
 }
 ExtTreeModel::~ExtTreeModel(){
     if(root) delete root;
@@ -50,39 +55,31 @@ Qt::ItemFlags ExtTreeModel::flags(const QModelIndex &index) const{
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
+Item *ExtTreeModel::Classify(QString ext){
+    if(ext == "doc" || ext == "docx" || ext == "ods")
+        return root->Child[0];
+    else if(ext == "mp3" || ext == "wav" || ext == "ogg")
+        return root->Child[1];
+    else if(ext == "zip" || ext == "tar" || ext == "rar")
+        return root->Child[2];
+    else
+        return root->Child[3];
+}
 void ExtTreeModel::SetDir(const QModelIndex& dir){
-    while(!Stat->isReady());
     const StatisticsThread::ExtStat* const data = Stat->getExt(dir);
-    delete root;
-    root = new Item();
-    root->push("Document", 0);
-    root->push("Audio", 0);
-    root->push("Archive", 0);
-    root->push("Others", 0);
-    for(QMap<QString, quint64>::const_iterator it = data->nExt.begin(); it != data->nExt.end(); it++){
-        if(it.key() == "doc" || it.key() == "docx" || it.key() == "ods")
-            root->Child[0]->push(it.key(), it.value());
-        else if(it.key() == "mp3" || it.key() == "wav" || it.key() == "ogg")
-            root->Child[1]->push(it.key(), it.value());
-        else if(it.key() == "zip" || it.key() == "tar" || it.key() == "rar")
-            root->Child[2]->push(it.key(), it.value());
-        else
-            root->Child[3]->push(it.key(), it.value());
+    for(int i = 0; i < root->Child.size(); i++){
+        for(int j = 0; j < root->Child[i]->Child.size(); j++)
+            delete root->Child[i]->Child[j];
+        root->Child[i]->sz = 0;
+        root->Child[i]->Child.clear();
     }
-    //root->Child[0]->push("doc", 100);
-    //root->Child[0]->push("docx", 1000);
-    
-    //root->Child[1]->push("mp3", 1040);
-    //root->Child[1]->push("wav", 1080);
-    //root->Child[1]->push("ogg", 10);
-    
-    //root->Child[2]->push("zip", 50);
-    //root->Child[2]->push("rar", 90);
-    //root->Child[2]->push("tar", 500);
-    
-    //root->Child[3]->push("meeh", 1);
-    //root->Child[3]->push("unkown", 5);
-    //root->Child[3]->push("a5r str", 4);
+    if(data == 0){
+        QFileInfo fInfo = static_cast<const QFileSystemModel*>(dir.model())->fileInfo(dir);
+        Classify(fInfo.suffix())->push(fInfo.suffix(), 1);
+    }
+    else
+    for(QMap<QString, quint64>::const_iterator it = data->nExt.begin(); it != data->nExt.end(); it++)
+        Classify(it.key())->push(it.key(), it.value());
 }
 
 Item::Item(Item* p, QString _str, int _sz){
