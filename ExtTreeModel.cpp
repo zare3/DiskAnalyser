@@ -66,7 +66,8 @@ Item *ExtTreeModel::Classify(QString ext){
         return root->Child[3];
 }
 void ExtTreeModel::SetDir(const QModelIndex& dir){
-    const StatisticsThread::ExtStat* const data = Stat->getExt(dir);
+    QFileInfo fInfo = static_cast<const QFileSystemModel*>(dir.model())->fileInfo(dir);
+    const StatisticsThread::ExtStat * const data = Stat->_getExt(dir);
     for(int i = 0; i < root->Child.size(); i++){
         for(int j = 0; j < root->Child[i]->Child.size(); j++)
             delete root->Child[i]->Child[j];

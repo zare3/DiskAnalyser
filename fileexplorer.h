@@ -45,6 +45,11 @@ private slots:
 
     void on_actionCheck_Security_Threats_triggered();
 
+public slots:
+    void dirSizeSlot(QModelIndex);
+    void getExtSlot(QModelIndex);
+    void getOwnSlot(QModelIndex);
+    void getGroupSlot(QModelIndex);
 
 private:
     Ui::FileExplorer *ui;
@@ -71,7 +76,6 @@ private:
     QMovie* spinnerMovie;
 
 
-    void updateOwnershipUsersGraph (QModelIndex index);
     void updateOwnsershipGroupsGraph(QModelIndex index);
     void initializeOwnershipCharts();
     void updateInfo(QModelIndex index);
@@ -83,6 +87,7 @@ private:
     //Stats
     StatisticsThread* Stats;
     QFileSystemModel *dirModel;
+    void StatsInit();
     //End of Stats
     
     //DirTreeView

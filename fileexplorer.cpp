@@ -16,36 +16,32 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel = new QFileSystemModel(this);
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
-    while(!Stats->isReady());
-
-
+    
     ui->chart_widget->setMinimumSize(400,300);
-
-
+    
     spinnerMovie = new QMovie(":/folder/icons/loading.gif");
-
+    
     ownershipLoadingBar = new QLabel();
     ownershipLoadingBar->setMovie(spinnerMovie);
-
     permissionsLoadingBar = new QLabel();
     permissionsLoadingBar->setMovie(spinnerMovie);
-
     infoLoadingBar = new QLabel();
     infoLoadingBar->setMovie(spinnerMovie);
-
     extensionsLoadingBar = new QLabel();
     extensionsLoadingBar->setMovie(spinnerMovie);
 
     spinnerMovie->start();
-
-
-
 
     initializeInfoBox();
     initializeDirectory();
     initializePermissionsTable();
     initializeOwnershipCharts();
     extinit();
+    
+    connect(Stats, SIGNAL(dirSizeSignal(QModelIndex)), this, SLOT(dirSizeSlot(QModelIndex)));
+    connect(Stats, SIGNAL(getExtSignal(QModelIndex)), this, SLOT(getExtSlot(QModelIndex)));
+    connect(Stats, SIGNAL(getOwnSignal(QModelIndex)), this, SLOT(getOwnSlot(QModelIndex)));
+    connect(Stats, SIGNAL(getGroupSignal(QModelIndex)), this, SLOT(getGroupSlot(QModelIndex)));
 }
 
 void FileExplorer::initializeDirectory()
@@ -137,12 +133,14 @@ void FileExplorer::extinit(){
 
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
-    updateInfo(index);
-    updateOwnershipUsersGraph(index);
-    updateOwnsershipGroupsGraph(index);
-    updatePermissionsTable(index);
-    extModel->SetDir(index);
-    ui->dw_ext->setWidget(tv_ext);
+    ui->informationDockWidget->setWidget(infoLoadingBar);
+    Stats->dirSize(index);
+    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    Stats->getOwn(index);
+    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    Stats->getGroup(index);
+    ui->dw_ext->setWidget(extensionsLoadingBar);
+    Stats->getExt(index);
 
 }
 
@@ -166,7 +164,6 @@ void FileExplorer::onListItemDoubleClicked(QModelIndex index)
         }
     }
 }
-
 void FileExplorer::onTreeItemClicked(QModelIndex index)
 {
     if(dirModel->fileInfo(index).isDir()){
@@ -175,8 +172,6 @@ void FileExplorer::onTreeItemClicked(QModelIndex index)
         dirListView->setRootIndex(index);
     }
 }
-
-
 void FileExplorer::upButtonPressed()
 {
     forwardStack.clear();
@@ -186,7 +181,6 @@ void FileExplorer::upButtonPressed()
 
     dirListView->setRootIndex(dirModel->index(dir.path()));
 }
-
 void FileExplorer::backButtonPressed()
 {
     if(backStack.size() > 0){
@@ -196,7 +190,6 @@ void FileExplorer::backButtonPressed()
         dirListView->setRootIndex(dirModel->index(nextPath));
     }
 }
-
 void FileExplorer::forwardButtonPressed()
 {
     if(forwardStack.size() > 0){
@@ -206,63 +199,15 @@ void FileExplorer::forwardButtonPressed()
         dirListView->setRootIndex(dirModel->index(nextPath));
     }
 }
-
 void FileExplorer::on_actionCheck_Disk_Fragmentation_triggered()
 {
     chkFrgmntionWin = new CheckDiskFragmentation(this);
     (*chkFrgmntionWin).show();
 }
-
 void FileExplorer::on_actionCheck_Security_Threats_triggered()
 {
     chckScurityThreats = new CheckSecurityThreats(dirModel,Stats,this);
     (*chckScurityThreats).show();
-}
-
-void FileExplorer::updateOwnershipUsersGraph(QModelIndex index){
-
-     ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
-    //fileInfo->calcOwners(dirModel->fileInfo(index).filePath());
-    const StatisticsThread::OwnStat* const owners = Stats->getOwn(index);
-    qDebug()<<"TEST";
-    //QVector<UserOwner>* owners = fileInfo->getOwners();
-    QVector<Piece>* pieces = new QVector<Piece> ();
-    //for (int i=0; i<owners->size(); i++)
-    for(QMap<QString, quint64>::const_iterator it = owners->nOwn.begin(); it != owners->nOwn.end(); it++){
-       Piece t;
-       t.color = Qt::green;
-       t.name = it.key();//owners->at(i).ownerName;
-       t.percentage = it.value();//owners->at(i).numOwnedFiles.toDouble();
-       qDebug()<<t.name;
-       pieces->push_back(t);
-    }
-
-    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
-    userOwnershipBarChart->setData(1,pieces);
-    userOwnershipBarChart->update();
-}
-
-void FileExplorer::updateOwnsershipGroupsGraph(QModelIndex index){
-
-
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
-
-    //fileInfo->calcGroups(dirModel->fileInfo(index).filePath());
-    const StatisticsThread::GroupStat* const groups = Stats->getGroup(index);
-    //QVector<GroupOwner>* groups = fileInfo->getGroups();
-    QVector<Piece>* pieces = new QVector<Piece> ();
-    //for (int i=0; i<groups->size(); i++)
-    for(QMap<QString, quint64>::const_iterator it = groups->nGroup.begin(); it != groups->nGroup.end(); it++){
-       Piece t;
-       t.color = Qt::green;
-       t.name = it.key();   //groups->at(i).groupName;
-       t.percentage = it.value();   //groups->at(i).numOwnedFiles.toDouble();
-       pieces->push_back(t);
-    }
-
-     ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
-    groupOwnershipBarChart->setData(1,pieces);
-    groupOwnershipBarChart->update();
 }
 
 void FileExplorer::initializeOwnershipCharts()
@@ -280,28 +225,6 @@ void FileExplorer::initializeOwnershipCharts()
 
     ui->ownershipChartDockWidget->setMinimumSize(400,120);
 }
-
-void FileExplorer::updateInfo(QModelIndex index)
-{
-    ui->informationDockWidget->setWidget(infoLoadingBar);
-
-
-
-    QWidget* multiWidget = new QWidget();
-    selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(index).filePath()));
-    selectedFileSizeLabel->setText(QString::number(Stats->dirSize(index)));
-
-
-    infoLayout->addWidget(selectedFileNameLabel);
-    infoLayout->addWidget(selectedFileSizeLabel);
-
-    multiWidget->setLayout(infoLayout);
-
-    ui->informationDockWidget->setWidget(multiWidget);
-
-
-}
-
 void FileExplorer::initializePermissionsTable()
 {
     permissionsTable = new QTableView(this);
@@ -314,7 +237,6 @@ void FileExplorer::initializePermissionsTable()
     permissionsModel->setVerticalHeaderItem(2, new QStandardItem(QString("USER")));
     permissionsModel->setVerticalHeaderItem(3, new QStandardItem(QString("OTHER")));
 }
-
 void FileExplorer::initializeInfoBox()
 {
 
@@ -327,20 +249,58 @@ void FileExplorer::initializeInfoBox()
     fileInfo = new FileInfo(dirModel);
 
 }
-
 void FileExplorer::updatePermissionsTable(QModelIndex index)
 {
     permissionsGrid = fileInfo->getPermissions(dirModel->fileInfo(index).filePath());
-
-
     for (int i=0; i<4; i++)
-    {
         for (int j=0; j<3; j++)
-        {
            permissionsModel->setItem(i,j,new QStandardItem(QString::number(permissionsGrid.at(i).at(j))));
-        }
-    }
-
     permissionsTable->setModel(permissionsModel);
     ui->permissionsDockWidget->setWidget(permissionsTable);
+}
+
+void FileExplorer::dirSizeSlot(QModelIndex idx){
+    QWidget* multiWidget = new QWidget();
+    selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(idx).filePath()));
+    selectedFileSizeLabel->setText(QString::number(Stats->_dirSize(idx)));
+    infoLayout->addWidget(selectedFileNameLabel);
+    infoLayout->addWidget(selectedFileSizeLabel);
+    multiWidget->setLayout(infoLayout);
+    ui->informationDockWidget->setWidget(multiWidget);
+}
+void FileExplorer::getExtSlot(QModelIndex idx){
+    extModel->SetDir(idx);
+    ui->dw_ext->setWidget(tv_ext);
+}
+void FileExplorer::getOwnSlot(QModelIndex idx){
+    const StatisticsThread::OwnStat* const owners = Stats->_getOwn(idx);
+    QVector<Piece>* pieces = new QVector<Piece> ();
+    for(QMap<QString, quint64>::const_iterator it = owners->nOwn.begin(); it != owners->nOwn.end(); it++){
+       Piece t;
+       t.color = Qt::green;
+       t.name = it.key();
+       t.percentage = it.value();
+       qDebug()<<t.name;
+       pieces->push_back(t);
+    }
+
+    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
+    userOwnershipBarChart->setData(1,pieces);
+    userOwnershipBarChart->update();
+}
+void FileExplorer::getGroupSlot(QModelIndex idx){
+    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    const StatisticsThread::GroupStat* const groups = Stats->_getGroup(idx);
+    QVector<Piece>* pieces = new QVector<Piece> ();
+    for(QMap<QString, quint64>::const_iterator it = groups->nGroup.begin(); it != groups->nGroup.end(); it++){
+       Piece t;
+       t.color = Qt::green;
+       t.name = it.key();
+       t.percentage = it.value();
+       pieces->push_back(t);
+    }
+
+    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
+    groupOwnershipBarChart->setData(1,pieces);
+    groupOwnershipBarChart->update();
 }
