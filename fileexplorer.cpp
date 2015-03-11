@@ -50,36 +50,58 @@ void FileExplorer::initializeDirectory()
     dirListView = new QListView(this);
     dirTabWidget = new QTabWidget(this);
     chart = new InteractiveChart(this);
-    toolBar = new QToolBar(this);
+
     mainToolBar = new QToolBar (this);
-    QGroupBox* groupBox = new QGroupBox(this);
-    QToolButton *upButton = new QToolButton(this);
-    QToolButton *backButton = new QToolButton(this);
-    QToolButton *forwardButton = new QToolButton(this);
-
+    QWidget* groupBox = new QWidget(this);
+    QPushButton *upButton = new QPushButton(this);
+    QPushButton *backButton = new QPushButton(this);
+    QPushButton *forwardButton = new QPushButton(this);
+/*
+    upButton->setFixedSize(24, 24);
+    backButton->setFixedSize(24, 24);
+    forwardButton->setFixedSize(24, 24);
+*/
     QVBoxLayout *vbox = new QVBoxLayout(this);
-    toolBar->addWidget(upButton);
-    toolBar->addWidget(backButton);
-    toolBar->addWidget(forwardButton);
+    QHBoxLayout *hbox = new QHBoxLayout(this);
+    hbox->addWidget(upButton);
+    hbox->addWidget(backButton);
+    hbox->addWidget(forwardButton);
 
 
+    QPixmap temppixmap(":/folder/icons/up_btn.png");
+    QIcon buttonIcon= QIcon(temppixmap);
+    upButton->setIcon(buttonIcon);
+    upButton->setIconSize(QSize(25, 25));
+    upButton->setFixedSize(QSize(25, 25));
 
-    upButton->setIcon(QIcon(":/folder/icons/up_btn.png"));
-    backButton->setIcon(QIcon(":/folder/icons/back_btn.png"));
-    forwardButton->setIcon(QIcon(":/folder/icons/forward_btn.png"));
+    temppixmap = QPixmap(":/folder/icons/back_btn.png");
+    buttonIcon= QIcon(temppixmap);
+    backButton->setIcon(buttonIcon);
+    backButton->setIconSize(QSize(25, 25));
+    backButton->setFixedSize(QSize(25, 25));
+
+    temppixmap= QPixmap(":/folder/icons/forward_btn.png");
+    buttonIcon= QIcon(temppixmap);
+    forwardButton->setIcon(buttonIcon);
+    forwardButton->setIconSize(QSize(25, 25)); //(temppixmap.rect().size());
+    forwardButton->setFixedSize(QSize(25, 25));
 
     QPixmap pixmap;
+    //pixmap.load(":/folder/icons/up_btn.png");
+    //upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
+    pixmap.load(":/folder/icons/circle_btn_mask.png");
+
+    backButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(25, 25)));
+    forwardButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(25, 25)));
+
     pixmap.load(":/folder/icons/up_btn.png");
-    upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
-    pixmap.load(":/folder/icons/back_btn.png");
-    backButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
-    pixmap.load(":/folder/icons/forward_btn.png");
-    forwardButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
+    upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(upButton->size()));
+
 
     dirListView->setResizeMode(QListView::Adjust);
 
 
-    vbox->addWidget(toolBar);
+    vbox->addLayout(hbox);
     vbox->addWidget(dirListView);
     groupBox->setLayout(vbox);
 
@@ -141,7 +163,7 @@ void FileExplorer::onListItemClicked(QModelIndex index)
     Stats->getGroup(index);
     ui->dw_ext->setWidget(extensionsLoadingBar);
     Stats->getExt(index);
-
+    updatePermissionsTable(index);
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -222,7 +244,6 @@ void FileExplorer::initializeOwnershipCharts()
     ownershipTabBar->setTabPosition(QTabWidget::West);
     ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
 
-
     ui->ownershipChartDockWidget->setMinimumSize(400,120);
 }
 void FileExplorer::initializePermissionsTable()
@@ -239,15 +260,10 @@ void FileExplorer::initializePermissionsTable()
 }
 void FileExplorer::initializeInfoBox()
 {
-
-
     infoLayout = new QVBoxLayout(this);
     selectedFileNameLabel = new QLabel(this);
     selectedFileSizeLabel = new QLabel(this);
-
-
     fileInfo = new FileInfo(dirModel);
-
 }
 void FileExplorer::updatePermissionsTable(QModelIndex index)
 {

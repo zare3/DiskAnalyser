@@ -6,24 +6,6 @@
 #include <QMessageBox>
 
 void StatisticsThread::run(){
-    /*//QModelIndex start = fsModel->index("/home/danmaklen");
-    QModelIndex start = fsModel->index("/");
-    qDebug() << fsModel->filePath(start);
-    //nExec(start);
-    qDebug() << "hasExec is done";
-    fileCount(start);
-    qDebug() << "fileCount is done";
-    dirSize(start);
-    qDebug() << "dirSize is done";
-    //1getExt(start);
-    qDebug() << "getExt is done";
-    getOwn(start);
-    qDebug() << "getOwn is done";
-    getGroup(start);
-    qDebug() << "getGroup is done";
-    done = true;
-    qDebug() << "Thread is done";
-    */
     running = true;
     while(Q.size()){
         qDebug() << "Queue Item started";

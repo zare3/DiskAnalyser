@@ -19,6 +19,7 @@
 #include "ExtTreeModel.h"
 #include "interactivechart.h"
 #include <QJsonDocument>
+#include <QPushButton>
 #include "barchart.h"
 #include "fileinfo.h"
 
@@ -53,7 +54,6 @@ public slots:
 
 private:
     Ui::FileExplorer *ui;
-    QToolBar *toolBar;
     QToolBar *mainToolBar;
     QTabWidget* ownershipTabBar;
     CheckDiskFragmentation* chkFrgmntionWin;
