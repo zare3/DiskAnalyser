@@ -651,33 +651,39 @@ QTabBar::close-button:pressed {
 
 /* TOP - BOTTOM TABS */
 QTabBar::tab:top {
-    color: #b1b1b1;
-    border: 1px solid #eeeeee;
-    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1,
-      stop:1 #ffffff, stop:0 #d2d2d2);
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 3px;
-    padding-bottom: 2px;
-    margin-right: -1px;
-
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+color: #eaeff6;
+border: 1px solid #eeeeee;
+/*background-color: QLinearGradient(x1:1, y1:0, x2:0, y2:0,
+  stop:1 #ffffff, stop:0 #f0f0f0);*/
+  background-color: #eaeff6;
+padding-left: 2px;
+padding-right: 2px;
+padding-top: 2px;
+padding-bottom: 14px;
+margin-bottom: 0px;
+margin-top: 0px;
+min-width: 30px;
+min-height: 30px;
+border-top-right-radius: 3px;
+border-bottom-right-radius: 3px;
 }
 
 QTabBar::tab:bottom {
-    color: #b1b1b1;
-    border: 1px solid #eeeeee;
-    background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1,
-      stop:1 #ffffff, stop:0 #d2d2d2);
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 3px;
-    padding-bottom: 2px;
-    margin-right: -1px;
-
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+color: #eaeff6;
+border: 1px solid #eeeeee;
+/*background-color: QLinearGradient(x1:1, y1:0, x2:0, y2:0,
+  stop:1 #ffffff, stop:0 #f0f0f0);*/
+  background-color: #eaeff6;
+padding-left: 2px;
+padding-right: 2px;
+padding-top: 2px;
+padding-bottom: 14px;
+margin-bottom: 0px;
+margin-top: 0px;
+min-width: 30px;
+min-height: 30px;
+border-top-right-radius: 3px;
+border-bottom-right-radius: 3px;
 }
 
 QTabBar::tab:top:last, QTabBar::tab:bottom:last
