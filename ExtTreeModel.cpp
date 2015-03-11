@@ -7,8 +7,14 @@ ExtTreeModel::ExtTreeModel(QObject* parent, StatisticsThread* ptr) : QAbstractIt
     root = new Item();
     root->push("Document", 0);
     root->push("Audio", 0);
+    root->push("Image", 0);
     root->push("Archive", 0);
     root->push("Others", 0);
+    root->Child[0]->icon = QIcon(QPixmap(":/folder/icons/document.png"));
+    root->Child[1]->icon = QIcon(QPixmap(":/folder/icons/music.png"));
+    root->Child[2]->icon = QIcon(QPixmap(":/folder/icons/image.png"));
+    root->Child[3]->icon = QIcon(QPixmap(":/folder/icons/compressed.png"));
+    root->Child[4]->icon = QIcon(QPixmap(":/folder/icons/sadFace.png"));
 }
 ExtTreeModel::~ExtTreeModel(){
     if(root) delete root;
@@ -41,11 +47,13 @@ int ExtTreeModel::rowCount(const QModelIndex &parent) const{
     return ptr->Child.size();
 }
 int ExtTreeModel::columnCount(const QModelIndex &parent) const{
-    return 3;
+    return 2;
 }
 QVariant ExtTreeModel::data(const QModelIndex & index, int role) const{
     if(!index.isValid())
         return QVariant();
+    if(role == Qt::DecorationRole && index.column()==0)
+        return static_cast<Item*>(index.internalPointer())->icon;
     if(role != Qt::DisplayRole)
         return QVariant();
     return static_cast<Item*>(index.internalPointer())->data(index.column());
@@ -60,10 +68,12 @@ Item *ExtTreeModel::Classify(QString ext){
         return root->Child[0];
     else if(ext == "mp3" || ext == "wav" || ext == "ogg")
         return root->Child[1];
-    else if(ext == "zip" || ext == "tar" || ext == "rar")
+    else if(ext == "png")
         return root->Child[2];
-    else
+    else if(ext == "zip" || ext == "tar" || ext == "rar")
         return root->Child[3];
+    else
+        return root->Child[4];
 }
 void ExtTreeModel::SetDir(const QModelIndex& dir){
     QFileInfo fInfo = static_cast<const QFileSystemModel*>(dir.model())->fileInfo(dir);
@@ -88,6 +98,7 @@ Item::Item(Item* p, QString _str, int _sz){
     sz = _sz;
     Parent = p;
     if(p != 0){
+        icon = p->icon;
         p->sz += _sz;
     }
 }
@@ -100,11 +111,10 @@ void Item::push(QString _str, int _sz){
 QVariant Item::data(int idx){
     switch(idx){
     case 0:
-    case 1:
         return QVariant(str);
-    case 2:
+    case 1:
         return QVariant(sz);
     default:
-    return QVariant();
+        return QVariant();
     }
 }

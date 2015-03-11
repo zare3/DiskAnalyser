@@ -157,6 +157,7 @@ void FileExplorer::extinit(){
     extModel = new ExtTreeModel(this, Stats);
     tv_ext->setModel(extModel);
     tv_ext->setAlternatingRowColors(true);
+    tv_ext->header()->close();
     ui->dw_ext->setWidget(tv_ext);
 }
 
