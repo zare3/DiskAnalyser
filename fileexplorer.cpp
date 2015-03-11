@@ -53,16 +53,13 @@ void FileExplorer::initializeDirectory()
 
     mainToolBar = new QToolBar (this);
     QWidget* groupBox = new QWidget(this);
-    QPushButton *upButton = new QPushButton(this);
-    QPushButton *backButton = new QPushButton(this);
-    QPushButton *forwardButton = new QPushButton(this);
-/*
-    upButton->setFixedSize(24, 24);
-    backButton->setFixedSize(24, 24);
-    forwardButton->setFixedSize(24, 24);
-*/
+    QToolButton *upButton = new QToolButton(this);
+    QToolButton *backButton = new QToolButton(this);
+    QToolButton *forwardButton = new QToolButton(this);
+
     QVBoxLayout *vbox = new QVBoxLayout(this);
-    QHBoxLayout *hbox = new QHBoxLayout(this);
+    //QHBoxLayout *hbox = new QHBoxLayout(this);
+    QToolBar * hbox = new QToolBar(this);
     hbox->addWidget(upButton);
     hbox->addWidget(backButton);
     hbox->addWidget(forwardButton);
@@ -71,46 +68,47 @@ void FileExplorer::initializeDirectory()
     QPixmap temppixmap(":/folder/icons/up_btn.png");
     QIcon buttonIcon= QIcon(temppixmap);
     upButton->setIcon(buttonIcon);
-    upButton->setIconSize(QSize(25, 25));
-    upButton->setFixedSize(QSize(25, 25));
+    upButton->setIconSize(QSize(30, 30));
+    upButton->setFixedSize(QSize(30, 30));
 
     temppixmap = QPixmap(":/folder/icons/back_btn.png");
     buttonIcon= QIcon(temppixmap);
     backButton->setIcon(buttonIcon);
-    backButton->setIconSize(QSize(25, 25));
-    backButton->setFixedSize(QSize(25, 25));
+    backButton->setIconSize(QSize(30, 30));
+    backButton->setFixedSize(QSize(30, 30));
 
     temppixmap= QPixmap(":/folder/icons/forward_btn.png");
     buttonIcon= QIcon(temppixmap);
     forwardButton->setIcon(buttonIcon);
-    forwardButton->setIconSize(QSize(25, 25)); //(temppixmap.rect().size());
-    forwardButton->setFixedSize(QSize(25, 25));
+    forwardButton->setIconSize(QSize(30, 30)); //(temppixmap.rect().size());
+    forwardButton->setFixedSize(QSize(30, 30));
 
+    /*
     QPixmap pixmap;
     //pixmap.load(":/folder/icons/up_btn.png");
     //upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
     pixmap.load(":/folder/icons/circle_btn_mask.png");
 
-    backButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(25, 25)));
-    forwardButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(25, 25)));
+    backButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(30, 30)));
+    forwardButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(30, 30)));
 
     pixmap.load(":/folder/icons/up_btn.png");
     upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(upButton->size()));
-
+    */
 
     dirListView->setResizeMode(QListView::Adjust);
 
 
-    vbox->addLayout(hbox);
+    vbox->addWidget(hbox);
     vbox->addWidget(dirListView);
     groupBox->setLayout(vbox);
 
     //groupBox->setStyleSheet("");
 
     dirTabWidget->addTab(dirTreeView, "");
-    dirTabWidget->setTabIcon(0, QIcon(":/folder/icons/tree.png"));
+    dirTabWidget->setTabIcon(0, QIcon(QPixmap(":/folder/icons/tree.png").scaledToHeight(30)));
     dirTabWidget->addTab(groupBox, "");
-    dirTabWidget->setTabIcon(1, QIcon(":/folder/icons/grid.png"));
+    dirTabWidget->setTabIcon(1, QIcon(QPixmap(":/folder/icons/grid.png").scaledToHeight(30)));
     dirTabWidget->setTabPosition(QTabWidget::West);
     ui->treeDockWidget->setWidget(dirTabWidget);
     ui->chart_widget->setWidget(chart->GetChart());
@@ -237,10 +235,12 @@ void FileExplorer::initializeOwnershipCharts()
     userOwnershipBarChart = new BarChart(this);
     groupOwnershipBarChart = new BarChart (this);
     ownershipTabBar = new QTabWidget (this);
-    ownershipTabBar->addTab(userOwnershipBarChart, "Users");
-    ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/tree.png"));
-    ownershipTabBar->addTab(groupOwnershipBarChart, "Groups");
-    ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/grid.png"));
+    ownershipTabBar->addTab(userOwnershipBarChart, "");
+    ownershipTabBar->setTabIcon(0, QIcon(QPixmap(":/folder/icons/owner.png").scaledToHeight(30)));
+    //ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/owner.png"));
+    ownershipTabBar->addTab(groupOwnershipBarChart, "");
+    ownershipTabBar->setTabIcon(1, QIcon(QPixmap(":/folder/icons/group.png").scaledToHeight(30)));
+    //ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/group.png"));
     ownershipTabBar->setTabPosition(QTabWidget::West);
     ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
 

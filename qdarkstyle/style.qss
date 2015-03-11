@@ -44,7 +44,7 @@ QToolTip
 QWidget
 {
     color: silver;
-    background-color: #ffffff;
+    background-color: #fdfdfd;
     selection-background-color:#c3ddff;
     selection-color: black;
     background-clip: border;
@@ -476,7 +476,7 @@ QPushButton
     background-color: QLinearGradient( x1: 0, y1: 1, x2: 0, y2: 0,
     stop: 0 #ffffff, stop: 1 #ffffff);
     border-width: 1px;
-    border-color: #4A4949;
+
     border-style: solid;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -716,45 +716,53 @@ QTabBar::tab:bottom:selected
 
 /* LEFT - RIGHT TABS */
 QTabBar::tab:left {
-    color: #b1b1b1;
+    color: #eaeff6;
     border: 1px solid #eeeeee;
-    background-color: QLinearGradient(x1:1, y1:0, x2:0, y2:0,
-      stop:1 #ffffff, stop:0 #d2d2d2);
-    padding-left: 3px;
+    /*background-color: QLinearGradient(x1:1, y1:0, x2:0, y2:0,
+      stop:1 #ffffff, stop:0 #f0f0f0);*/
+      background-color: #eaeff6;
+    padding-left: 2px;
     padding-right: 2px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-bottom: -1px;
-
+    padding-top: 2px;
+    padding-bottom: 14px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    min-width: 30px;
+    min-height: 30px;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 
 QTabBar::tab:right {
-    color: #b1b1b1;c3ddff
-    border: 1px solid #eeeeee;
-    background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0,
-      stop:1 #ffffff, stop:0 #f0f0f0);
-    padding-left: 3px;
-    padding-right: 2px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-bottom: -1px;
-
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+color: #eaeff6;
+border: 1px solid #eeeeee;
+/*background-color: QLinearGradient(x1:1, y1:0, x2:0, y2:0,
+  stop:1 #ffffff, stop:0 #f0f0f0);*/
+  background-color: #eaeff6;
+padding-left: 2px;
+padding-right: 2px;
+padding-top: 2px;
+padding-bottom: 14px;
+margin-bottom: 0px;
+margin-top: 0px;
+min-width: 30px;
+min-height: 30px;
+border-top-right-radius: 3px;
+border-bottom-right-radius: 3px;
 }
 
 QTabBar::tab:left:!selected
 {
-    color: #b1b1b1;
-    margin-right: 3px;
+    color: #ffffff;
+    margin-right: 5px;
     background-color: #ffffff;
 }
 
 QTabBar::tab:left:selected
 {
+    color: #c3ddff;
     margin-left: 0px;
+    background-color: #c3ddff;
 }
 
 QTabBar::tab:right:!selected
