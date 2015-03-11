@@ -19,6 +19,7 @@
 #include "ExtTreeModel.h"
 #include "interactivechart.h"
 #include <QJsonDocument>
+#include <QPushButton>
 #include "barchart.h"
 #include "fileinfo.h"
 
@@ -48,7 +49,6 @@ private slots:
 
 private:
     Ui::FileExplorer *ui;
-    QToolBar *toolBar;
     QToolBar *mainToolBar;
     QTabWidget* ownershipTabBar;
     CheckDiskFragmentation* chkFrgmntionWin;
@@ -63,12 +63,21 @@ private:
     QVector<QVector<bool> > permissionsGrid;
     QTableView* permissionsTable;
 
+    QLabel* ownershipLoadingBar;
+    QLabel* infoLoadingBar;
+    QLabel* extensionsLoadingBar;
+    QLabel* permissionsLoadingBar;
+
+    QMovie* spinnerMovie;
+
+
     void updateOwnershipUsersGraph (QModelIndex index);
     void updateOwnsershipGroupsGraph(QModelIndex index);
     void initializeOwnershipCharts();
     void updateInfo(QModelIndex index);
     void initializePermissionsTable();
     void initializeInfoBox();
+    void updatePermissionsTable(QModelIndex index);
 
 
     //Stats

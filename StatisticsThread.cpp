@@ -9,18 +9,17 @@ void StatisticsThread::run(){
     //QModelIndex start = fsModel->index("/home/danmaklen");
     QModelIndex start = fsModel->index("/");
     qDebug() << fsModel->filePath(start);
-
-    nExec(start);
+    //nExec(start);
     qDebug() << "hasExec is done";
-    fileCount(start);
+    //fileCount(start);
     qDebug() << "fileCount is done";
-    dirSize(start);
+    //dirSize(start);
     qDebug() << "dirSize is done";
-    getExt(start);
+    //getExt(start);
     qDebug() << "getExt is done";
-    getOwn(start);
+    //getOwn(start);
     qDebug() << "getOwn is done";
-    getGroup(start);
+    //getGroup(start);
     qDebug() << "getGroup is done";
     done = true;
     qDebug() << "Thread is done";
@@ -124,12 +123,13 @@ quint64 StatisticsThread::nExec(QModelIndex idx){
         fiLExec.append(fInfo);
         return 1;
     }
+    if(fInfo.absoluteFilePath() == "/media") return 0;
     if(fInfo.isFile() && !fInfo.isExecutable()) return 0;
     if(mpNExec.contains(idx)) return mpNExec[idx];
     
     quint64& ret = mpNExec[idx]; ret = 0;
     QDir dInfo(fInfo.absoluteFilePath());
-    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
     for(int i = 0; i < dList.size(); i++)
         ret += nExec(fsModel->index(dList[i].absoluteFilePath()));
     qDebug() << "nExec\t" << fInfo.absoluteFilePath();
@@ -147,6 +147,7 @@ const StatisticsThread::ExtStat* const StatisticsThread::getExt(QModelIndex idx)
     QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile()) return 0;
     if(mpExt.contains(idx)) return &mpExt[idx];
+    if(fInfo.absoluteFilePath() == "/media") return 0;
     
     ExtStat& ret = mpExt[idx];
     
@@ -171,6 +172,7 @@ const StatisticsThread::OwnStat* const StatisticsThread::getOwn(QModelIndex idx)
         OwnRet.nOwn[fInfo.owner()] = 1;
         return &OwnRet;
     }
+    if(fInfo.absoluteFilePath() == "/media") return 0;
     if(mpOwn.contains(idx)) return &mpOwn[idx];
     
     OwnStat& ret = mpOwn[idx];
@@ -195,6 +197,7 @@ const StatisticsThread::GroupStat* const StatisticsThread::getGroup(QModelIndex 
         GroupRet.nGroup[fInfo.owner()] = 1;
         return &GroupRet;
     }
+    if(fInfo.absoluteFilePath() == "/media") return 0;
     if(mpGroup.contains(idx)) return &mpGroup[idx];
     
     GroupStat& ret = mpGroup[idx];
