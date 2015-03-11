@@ -75,12 +75,15 @@ private:
 
     QMovie* spinnerMovie;
 
+    QTabWidget* permissons_ownership_tab;
+
 
     void updateOwnsershipGroupsGraph(QModelIndex index);
     void initializeOwnershipCharts();
     void updateInfo(QModelIndex index);
     void initializePermissionsTable();
     void initializeInfoBox();
+    void initializePermissionsOwnershipTab();
     void updatePermissionsTable(QModelIndex index);
 
 
