@@ -19,6 +19,7 @@
 #include "ExtTreeModel.h"
 #include "interactivechart.h"
 #include <QJsonDocument>
+#include <QPushButton>
 #include "barchart.h"
 #include "fileinfo.h"
 
@@ -45,10 +46,14 @@ private slots:
 
     void on_actionCheck_Security_Threats_triggered();
 
+public slots:
+    void dirSizeSlot(QModelIndex);
+    void getExtSlot(QModelIndex);
+    void getOwnSlot(QModelIndex);
+    void getGroupSlot(QModelIndex);
 
 private:
     Ui::FileExplorer *ui;
-    QToolBar *toolBar;
     QToolBar *mainToolBar;
     QTabWidget* ownershipTabBar;
     CheckDiskFragmentation* chkFrgmntionWin;
@@ -63,17 +68,26 @@ private:
     QVector<QVector<bool> > permissionsGrid;
     QTableView* permissionsTable;
 
-    void updateOwnershipUsersGraph (QModelIndex index);
+    QLabel* ownershipLoadingBar;
+    QLabel* infoLoadingBar;
+    QLabel* extensionsLoadingBar;
+    QLabel* permissionsLoadingBar;
+
+    QMovie* spinnerMovie;
+
+
     void updateOwnsershipGroupsGraph(QModelIndex index);
     void initializeOwnershipCharts();
     void updateInfo(QModelIndex index);
     void initializePermissionsTable();
     void initializeInfoBox();
+    void updatePermissionsTable(QModelIndex index);
 
 
     //Stats
     StatisticsThread* Stats;
     QFileSystemModel *dirModel;
+    void StatsInit();
     //End of Stats
     
     //DirTreeView

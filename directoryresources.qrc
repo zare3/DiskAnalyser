@@ -8,7 +8,17 @@
         <file>tree.png</file>
         <file>sadFace.png</file>
         <file>loading.gif</file>
+        <file>back_btn.png</file>
+        <file>forward_btn.png</file>
+        <file>up_btn.png</file>
         <file>Sunburst.html</file>
         <file>TEMP_FILE.json</file>
+        <file>circle_btn_mask.png</file>
+        <file>document.png</file>
+        <file>group.png</file>
+        <file>image.png</file>
+        <file>music.png</file>
+        <file>owner.png</file>
+        <file>terminal.png</file>
     </qresource>
 </RCC>

@@ -178,13 +178,13 @@ QScrollBar:horizontal
     border: 1px solid #eeeeee;
     border-radius: 6px;
     background-color: QLinearGradient( x1: 0, y1: 1, x2: 0, y2: 0,
-    stop: 0 #ffffff, stop: 1 #bdbdbd);
+    stop: 0 #eeeeee, stop: 1 #eeeeee);
 }
 
 QScrollBar::handle:horizontal
 {
     background-color: QLinearGradient( x1: 0, y1: 1, x2: 0, y2: 0,
-    stop: 0 #d1d1d1, stop: 1 #e2e2e2);
+    stop: 0 #a9a9a9, stop: 1 #c0c0c0);
     min-width: 5px;
     border-radius: 5px;
 }
@@ -240,7 +240,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 QScrollBar:vertical
 {
     background-color: QLinearGradient( x1: 1, y1: 0, x2: 0, y2: 0,
-    stop: 0 #ffffff, stop: 1 #bdbdbd);
+    stop: 0 #eeeeee, stop: 1 #eeeeee);
     width: 15px;
     margin: 11px 0 11px 0;
     border: 1px solid #eeeeee;
@@ -250,7 +250,7 @@ QScrollBar:vertical
 QScrollBar::handle:vertical
 {
     background-color: QLinearGradient( x1: 1, y1: 0, x2: 0, y2: 0,
-    stop: 0 #d1d1d1, stop: 1 #e2e2e2);
+    stop: 0 #a9a9a9, stop: 1 #c0c0c0);
     min-height: 5px;
     border-radius: 5px;
 }
@@ -474,7 +474,7 @@ QPushButton
 {
     color: silver;
     background-color: QLinearGradient( x1: 0, y1: 1, x2: 0, y2: 0,
-    stop: 0 #ffffff, stop: 1 #bdbdbd);
+    stop: 0 #ffffff, stop: 1 #ffffff);
     border-width: 1px;
     border-color: #4A4949;
     border-style: solid;

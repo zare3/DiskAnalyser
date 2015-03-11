@@ -9,11 +9,11 @@ BarChart::BarChart(QWidget* parent) : QWidget(parent)
 
 void BarChart::paintEvent(QPaintEvent *e)
 {
-    qDebug () << "WE ARE OUT";
+    //qDebug () << "WE ARE OUT";
     QWidget::paintEvent(e);
     if (index!=-1)
     {
-        qDebug () << "WE ARE IN";
+        //qDebug () << "WE ARE IN";
         QPainter painter;
         painter.begin(this);
         Nightcharts PieChart;

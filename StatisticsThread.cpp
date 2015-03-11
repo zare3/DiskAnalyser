@@ -6,55 +6,41 @@
 #include <QMessageBox>
 
 void StatisticsThread::run(){
-    //QModelIndex start = fsModel->index("/home/danmaklen");
-    QModelIndex start = fsModel->index("/");
-    qDebug() << fsModel->filePath(start);
-
-    //nExec(start);
-    qDebug() << "hasExec is done";
-    //dirSize(start);
-    qDebug() << "dirSize is done";
-    //getExt(start);
-    qDebug() << "getExt is done";
-    //getOwn(start);
-    qDebug() << "getOwn is done";
-    //getGroup(start);
-    qDebug() << "getGroup is done";
-    done = true;
+    running = true;
+    while(Q.size()){
+        qDebug() << "Queue Item started";
+        QPair<QModelIndex, runID_t> p = Q.front();
+        switch(p.second){
+        case ID_dirSize:
+            _dirSize(p.first);
+            emit dirSizeSignal(p.first);
+            break;
+        case ID_getExt:
+            _getExt(p.first);
+            emit getExtSignal(p.first);
+            break;
+        case ID_getOwn:
+            _getOwn(p.first);
+            emit getOwnSignal(p.first);
+            break;
+        case ID_getGroup:
+            _getGroup(p.first);
+            emit getGroupSignal(p.first);
+            break;
+        default:
+            break;
+        }
+        Q.dequeue();
+        qDebug() << "Queue Item finised";
+    }
+    running = false;
     qDebug() << "Thread is done";
 }
 StatisticsThread::StatisticsThread(QFileSystemModel *ptr){
     fsModel = ptr;
-    done = false;
-    QThread::start();
+    running = false;
+    //QThread::start();
 }
-
-/*quint64 StatisticsThread::dirSize(const QString & str)
-{
-    quint64 sizex = 0;
-    QFileInfo str_info(str);
-    if (str_info.isDir())
-    {
-        QDir dir(str);
-        QFileInfoList list = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::NoDotAndDotDot | QDir::NoSymLinks | QDir::Hidden); // QDir::Hidden | QDir::NoSymLinks |
-        for (int i = 0; i < list.size(); ++i)
-        {
-            QFileInfo fileInfo = list.at(i);
-            if(fileInfo.isDir())
-            {
-                sizex += dirSize(fileInfo.absoluteFilePath());
-            }
-            else
-                sizex += fileInfo.size();
-
-        }
-    }
-    qDebug() << str;
-    return mpSize[fsModel->index(str)] = sizex;
-}*/
-
-
-
 
 QJsonObject StatisticsThread::getJson(QModelIndex idx,qint32 depth)
 {
@@ -70,7 +56,7 @@ QJsonObject StatisticsThread::getJson(QModelIndex idx,qint32 depth)
 
         QJsonObject temp;
         temp.insert("name",QJsonValue(fInfo.fileName()+"zzZzz"));
-        temp.insert("size",QJsonValue((long long) dirSize(idx)));
+        temp.insert("size",QJsonValue((long long) _dirSize(idx)));
         return temp;
     }
     QJsonObject obj;
@@ -88,12 +74,8 @@ QJsonObject StatisticsThread::getJson(QModelIndex idx,qint32 depth)
     return obj;
 }
 
-
-
-
-quint64 StatisticsThread::dirSize(QModelIndex idx){
+quint64 StatisticsThread::_dirSize(QModelIndex idx){
     QFileInfo fInfo = fsModel->fileInfo(idx);
-    
     if(fInfo.isFile()) return fInfo.size();
     if(mpSize.contains(idx)) return mpSize[idx];
     quint64& ret = mpSize[idx];
@@ -101,14 +83,25 @@ quint64 StatisticsThread::dirSize(QModelIndex idx){
     
     QDir dInfo (fInfo.absoluteFilePath());
     QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks) ;//| QDir::Hidden | QDir::System);
-    
     for(int i = 0; i < dList.size(); i++)
-        ret += dirSize(fsModel->index(dList[i].absoluteFilePath())); 
+        ret += _dirSize(fsModel->index(dList[i].absoluteFilePath())); 
     
     qDebug() << "dirSize\t" << fInfo.absoluteFilePath();
     return ret;
 }
-
+quint64 StatisticsThread::fileCount(QModelIndex idx){
+    QFileInfo fInfo = fsModel->fileInfo(idx);
+    if(fInfo.isFile()) return 1;
+    if(mpNExec.contains(idx)) return mpNExec[idx];
+    
+    quint64& ret = mpNExec[idx]; ret = 0;
+    QDir dInfo(fInfo.absoluteFilePath());
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+    for(int i = 0; i < dList.size(); i++)
+        ret += nExec(fsModel->index(dList[i].absoluteFilePath()));
+    qDebug() << "fileCount\t" << fInfo.absoluteFilePath();
+    return ret; 
+}
 quint64 StatisticsThread::nExec(QModelIndex idx){
     //Returns number of Executable files in a given directory.
     QFileInfo fInfo = fsModel->fileInfo(idx);
@@ -121,20 +114,13 @@ quint64 StatisticsThread::nExec(QModelIndex idx){
     
     quint64& ret = mpNExec[idx]; ret = 0;
     QDir dInfo(fInfo.absoluteFilePath());
-    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+    QFileInfoList dList = dInfo.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
     for(int i = 0; i < dList.size(); i++)
         ret += nExec(fsModel->index(dList[i].absoluteFilePath()));
     qDebug() << "nExec\t" << fInfo.absoluteFilePath();
     return ret;
 }
-QFileInfoList *StatisticsThread::lExec(){
-    return &fiLExec;
-}
-void StatisticsThread::lExecClear(){
-    fiLExec.clear();
-}
-
-const StatisticsThread::ExtStat* const StatisticsThread::getExt(QModelIndex idx){
+const StatisticsThread::ExtStat* const StatisticsThread::_getExt(QModelIndex idx){
     //Returns statistics about the files inside a given directory.
     QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile()) return 0;
@@ -147,7 +133,7 @@ const StatisticsThread::ExtStat* const StatisticsThread::getExt(QModelIndex idx)
     for(int i = 0; i < fList.size(); i++) ret.nExt[fList[i].suffix()]++;
     QFileInfoList dList = dInfo.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
     for(int i = 0; i < dList.size(); i++){
-        getExt(fsModel->index(dList[i].absoluteFilePath()));
+        _getExt(fsModel->index(dList[i].absoluteFilePath()));
         ExtStat& r = mpExt[fsModel->index(dList[i].absoluteFilePath())];
         for(QMap<QString, quint64>::iterator it = r.nExt.begin(); it != r.nExt.end(); it++)
             ret.nExt[it.key()] += it.value();
@@ -155,8 +141,7 @@ const StatisticsThread::ExtStat* const StatisticsThread::getExt(QModelIndex idx)
     qDebug() << "getExt\t" << fInfo.absoluteFilePath();
     return &mpExt[idx];
 }
-
-const StatisticsThread::OwnStat* const StatisticsThread::getOwn(QModelIndex idx){
+const StatisticsThread::OwnStat* const StatisticsThread::_getOwn(QModelIndex idx){
     QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile()){
         OwnRet.nOwn.clear();
@@ -172,7 +157,7 @@ const StatisticsThread::OwnStat* const StatisticsThread::getOwn(QModelIndex idx)
     for(int i = 0; i < fList.size(); i++) ret.nOwn[fList[i].owner()]++;
     QFileInfoList dList = dInfo.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
     for(int i = 0; i < dList.size(); i++){
-        getOwn(fsModel->index(dList[i].absoluteFilePath()));
+        _getOwn(fsModel->index(dList[i].absoluteFilePath()));
         OwnStat& r = mpOwn[fsModel->index(dList[i].absoluteFilePath())];
         for(QMap<QString, quint64>::iterator it = r.nOwn.begin(); it != r.nOwn.end(); it++)
             ret.nOwn[it.key()] += it.value();
@@ -180,7 +165,7 @@ const StatisticsThread::OwnStat* const StatisticsThread::getOwn(QModelIndex idx)
     qDebug() << "getOwn\t" << fInfo.absoluteFilePath();
     return &mpOwn[idx];
 }
-const StatisticsThread::GroupStat* const StatisticsThread::getGroup(QModelIndex idx){
+const StatisticsThread::GroupStat* const StatisticsThread::_getGroup(QModelIndex idx){
     QFileInfo fInfo = fsModel->fileInfo(idx);
     if(fInfo.isFile()){
         GroupRet.nGroup.clear();
@@ -196,7 +181,7 @@ const StatisticsThread::GroupStat* const StatisticsThread::getGroup(QModelIndex 
     for(int i = 0; i < fList.size(); i++) ret.nGroup[fList[i].group()]++;
     QFileInfoList dList = dInfo.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoSymLinks | QDir::NoDotAndDotDot);
     for(int i = 0; i < dList.size(); i++){
-        getGroup(fsModel->index(dList[i].absoluteFilePath()));
+        _getGroup(fsModel->index(dList[i].absoluteFilePath()));
         GroupStat& r = mpGroup[fsModel->index(dList[i].absoluteFilePath())];
         for(QMap<QString, quint64>::iterator it = r.nGroup.begin(); it != r.nGroup.end(); it++)
             ret.nGroup[it.key()] += it.value();
@@ -205,6 +190,29 @@ const StatisticsThread::GroupStat* const StatisticsThread::getGroup(QModelIndex 
     return &mpGroup[idx];
 }
 
-bool StatisticsThread::isReady() const{
-    return done;
+void StatisticsThread::dirSize(QModelIndex idx){
+    Q.enqueue(QPair<QModelIndex, runID_t>(idx, ID_dirSize));
+    if(!running) QThread::start();
+}
+void StatisticsThread::getExt(QModelIndex idx){
+    Q.enqueue(QPair<QModelIndex, runID_t>(idx, ID_getExt));
+    if(!running) QThread::start();
+}
+void StatisticsThread::getOwn(QModelIndex idx){
+    Q.enqueue(QPair<QModelIndex, runID_t>(idx , ID_getOwn));
+    if(!running) QThread::start();
+}
+void StatisticsThread::getGroup(QModelIndex idx){
+    Q.enqueue(QPair<QModelIndex, runID_t>(idx , ID_getGroup));
+    if(!running) QThread::start();
+}
+
+QFileInfoList *StatisticsThread::lExec(){
+    return &fiLExec;
+}
+void StatisticsThread::lExecClear(){
+    fiLExec.clear();
+}
+bool StatisticsThread::isRunning() const{
+    return running;
 }
