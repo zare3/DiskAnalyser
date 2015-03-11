@@ -39,8 +39,6 @@ FileExplorer::FileExplorer(QWidget *parent) :
     spinnerMovie->start();
 
 
-
-
     initializeInfoBox();
     initializeDirectory();
     initializePermissionsTable();
@@ -284,8 +282,6 @@ void FileExplorer::initializeOwnershipCharts()
 void FileExplorer::updateInfo(QModelIndex index)
 {
     ui->informationDockWidget->setWidget(infoLoadingBar);
-
-
 
     QWidget* multiWidget = new QWidget();
     selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(index).filePath()));
