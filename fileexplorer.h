@@ -85,6 +85,8 @@ private:
     void initializeInfoBox();
     void initializePermissionsOwnershipTab();
     void updatePermissionsTable(QModelIndex index);
+    void initializeView();
+    void updateWholeView(QModelIndex);
 
 
     //Stats
