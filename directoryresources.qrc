@@ -19,5 +19,7 @@
         <file>terminal.png</file>
         <file>compressed.png</file>
         <file>d3.min.js</file>
+        <file>group.png</file>
+        <file>owner.png</file>
     </qresource>
 </RCC>

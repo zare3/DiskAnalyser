@@ -17,7 +17,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
     
-    ui->chart_widget->setMinimumSize(300,232);
+    ui->chart_widget->setMinimumSize(300,470);
 
     colors.push_back(Qt::green);
     colors.push_back(Qt::black);
@@ -253,11 +253,11 @@ void FileExplorer::initializeOwnershipCharts()
     groupOwnershipBarChart = new BarChart (this);
     ownershipTabBar = new QTabWidget (this);
     ownershipTabBar->addTab(userOwnershipBarChart, "");
-    //ownershipTabBar->setTabIcon(0, QIcon(QPixmap(":/folder/icons/owner.png").scaledToHeight(30)));
+    ownershipTabBar->setTabIcon(0, QIcon(QPixmap(":/folder/icons/owner.png").scaledToHeight(30)));
     ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/owner.png"));
     ownershipTabBar->addTab(groupOwnershipBarChart, "");
     ownershipTabBar->setTabIcon(1, QIcon(QPixmap(":/folder/icons/group.png").scaledToHeight(30)));
-    //ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/group.png"));
+    ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/group.png"));
     ownershipTabBar->setTabPosition(QTabWidget::West);
 }
 void FileExplorer::initializePermissionsTable()
@@ -293,9 +293,9 @@ void FileExplorer::initializeInfoBox()
 void FileExplorer::initializePermissionsOwnershipTab()
 {
     permissons_ownership_tab = new QTabWidget(this);
-    permissons_ownership_tab->addTab(ownershipTabBar,"Tab 1");
-    permissons_ownership_tab->addTab(permissionsTable,"Tab 2");
-    ownershipTabBar->setTabPosition(QTabWidget::South);
+    permissons_ownership_tab->addTab(ownershipTabBar,"Ownership");
+    permissons_ownership_tab->addTab(permissionsTable,"Permissions");
+    ownershipTabBar->setTabPosition(QTabWidget::East);
     ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
 }
 void FileExplorer::updatePermissionsTable(QModelIndex index)
@@ -312,6 +312,7 @@ void FileExplorer::initializeView()
 {
     ui->dw_ext->setMinimumHeight(320);
     ui->dw_ext->setMaximumHeight(320);
+
 
     ui->chart_widget->setVisible(true);
     ui->treeDockWidget->setVisible(true);
@@ -354,6 +355,7 @@ void FileExplorer::initializeView()
 void FileExplorer::updateWholeView(QModelIndex index)
 {
     updatePermissionsTable(index);
+    //ui->chart_widget->setWidget(sizeChartLoadingBar);
     ui->informationDockWidget->setWidget(infoLoadingBar);
     Stats->dirSize(index);
     ui->ownershipPermissionsChartDockWidget->setWidget(ownershipLoadingBar);
@@ -367,7 +369,8 @@ void FileExplorer::updateWholeView(QModelIndex index)
 void FileExplorer::initializeLoadingBars()
 {
     spinnerMovie = new QMovie(":/folder/icons/loading.gif");
-
+    sizeChartLoadingBar = new QLabel();
+    sizeChartLoadingBar->setMovie(spinnerMovie);
     ownershipLoadingBar = new QLabel();
     ownershipLoadingBar->setMovie(spinnerMovie);
     permissionsLoadingBar = new QLabel();
@@ -376,6 +379,7 @@ void FileExplorer::initializeLoadingBars()
     infoLoadingBar->setMovie(spinnerMovie);
     extensionsLoadingBar = new QLabel();
     extensionsLoadingBar->setMovie(spinnerMovie);
+
 
     spinnerMovie->start();
 }
@@ -395,7 +399,10 @@ void FileExplorer::dirInfoSlot(QModelIndex idx){
     infoLayout->addWidget(selectedFileSizeGigaBytesLabel);
     multiWidget->setLayout(infoLayout);
     ui->informationDockWidget->setWidget(multiWidget);
-    Update_JSGraph(idx);
+   // ui->chart_widget->setWidget(sizeChartLoadingBar);
+     Update_JSGraph(idx);
+   //  ui->chart_widget->setWidget(chart->GetChart());
+
 }
 void FileExplorer::getExtSlot(QModelIndex idx){
     extModel->SetDir(idx);
@@ -450,6 +457,7 @@ void FileExplorer::Update_JSGraph(QModelIndex idx)
     //chart->GetChart()->reload();
     //chart->GetChart()->reload();
     chart->GetChart()->page()->mainFrame()->evaluateJavaScript(new_root);
+   //  ui->chart_widget->setWidget(chart->GetChart());
     //chart->GetChart()->reload();
     // chart->GetChart()->reload();
     //chart->GetChart()->page()->mainFrame()->setUrl(QUrl("qrc:/folder/icons/Sunburst.html"));

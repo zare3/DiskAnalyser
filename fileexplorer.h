@@ -80,6 +80,7 @@ private:
     QLabel* infoLoadingBar;
     QLabel* extensionsLoadingBar;
     QLabel* permissionsLoadingBar;
+   QLabel* sizeChartLoadingBar;
 
     QMovie* spinnerMovie;
 
