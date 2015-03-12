@@ -440,10 +440,6 @@ void FileExplorer::getGroupSlot(QModelIndex idx){
 void FileExplorer::Update_JSGraph(QModelIndex idx)
 {
     //chart->GetChart()->load(QUrl("qrc:/folder/icons/Sunburst.html"));
-    //QFile jsonfile("TEMP_FILE.json");
-   // jsonfile.open(QIODevice::WriteOnly);
-    //jsonfile.write(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Indented));//.toJson(QJsonDocument::Compact);
-    //jsonfile.close();
     QString entriesJson = QString(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Compact));
     QString new_root = QString("visualize(") + entriesJson + QString("); null");
     //chart->GetChart()->reload();

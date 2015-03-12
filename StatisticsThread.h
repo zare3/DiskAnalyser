@@ -9,7 +9,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QQueue>
-#define MAX_DEPTH 3
+#define MAX_DEPTH 4
 
 class StatisticsThread : public QThread
 {
