@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 50%;
+}
+
+form {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+path {
+  stroke: #fff;
+  fill-rule: evenodd;
+}
+
+</style>
+<html>
+   <head>
+     <script type="text/javascript" src="d3.min.js"></script>
+<style>
+#tooltip {
+        position: absolute;
+        width: 500px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+}
+
+#tooltip.hidden {
+        display: none;
+}
+
+#tooltip p {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 20px;
+}
+</style>
+</head>
+<form>
+  <label><input type="radio" name="mode" value="size" checked> Size</label>
+  <label><input type="radio" name="mode" value="count"> Count</label>
+</form>
+<div id="tooltip" class="hidden">
+        <p><strong>Dir/File Name:</strong></p>
+        <p><span id="value">100</span>%</p>
+</div>
+
+<script>
+
+
+var width = 400,
+    height = 450,
+    radius = Math.min(width, height) / 2;
+
+var x = d3.scale.linear()
+    .range([0, 2 * Math.PI]);
+
+var y = d3.scale.sqrt()
+    .range([0, radius]);
+
+var color = d3.scale.category20c();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+
+var partition = d3.layout.partition()
+    .sort(null)
+    .value(function(d) { return 1; });
+
+var arc = d3.svg.arc()
+    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
+// Keep track of the node that is currently being displayed as the root.
+var node;
+
+//d3.json("TEMP_FILE.json", function(error, root) {
+//  visualize(root);
+//});
+
+d3.select(self.frameElement).style("height", height + "px");
+
+function visualize(root)
+{
+clearScreen();
+	node = root;
+  var path = svg.datum(root).selectAll("path")
+      		.data(partition.nodes)
+    .enter().append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+      .on("click", click)
+      .each(stash)
+.on("mouseover", function(d) {
+
+//Get this bar's x/y values, then augment for the tooltip
+var xPosition = parseFloat(d3.select(this).attr("x")) ;
+var yPosition = parseFloat(d3.select(this).attr("y")) ;
+
+//Update the tooltip position and value
+d3.select("#tooltip")
+  .style("left", xPosition + "px")
+  .style("top", yPosition + "px")
+  .select("#value")
+  .text(d.name);
+
+//Show the tooltip
+d3.select("#tooltip").classed("hidden", false);
+
+})
+.on("mouseout", function() {
+
+//Hide the tooltip
+d3.select("#tooltip").classed("hidden", true);
+
+});
+ 
+	
+var value = function(d) { return d.size; };
+path
+        .data(partition.value(value).nodes)
+      .transition()
+        .duration(1000)
+        .attrTween("d", arcTweenData);
+
+  d3.selectAll("input").on("change", function change() {
+    var value = this.value === "size"? function(d) { return d.size; }:function() { return 1; };
+
+    path
+        .data(partition.value(value).nodes)
+      .transition()
+        .duration(1000)
+        .attrTween("d", arcTweenData);
+  });
+
+  function click(d) {
+    node = d;
+    path.transition()
+      .duration(1000)
+      .attrTween("d", arcTweenZoom(d));
+  }
+}
+
+function clearScreen()
+{
+	//d3.selectAll("svg > *").remove();
+//$('#container').empty();
+d3.select("svg")
+       .remove();
+svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+x = d3.scale.linear()
+.range([0, 2 * Math.PI]);
+y = d3.scale.sqrt()
+.range([0, radius]);
+d3.select(self.frameElement).style("height", height + "px");
+
+}
+// Setup for switching data: stash the old values for transition.
+function stash(d) {
+  d.x0 = d.x;
+  d.dx0 = d.dx;
+}
+
+// When switching data: interpolate the arcs in data space.
+function arcTweenData(a, i) {
+  var oi = d3.interpolate({x: a.x0, dx: a.dx0}, a);
+  function tween(t) {
+    var b = oi(t);
+    a.x0 = b.x;
+    a.dx0 = b.dx;
+    return arc(b);
+  }
+  if (i == 0) {
+   // If we are on the first arc, adjust the x domain to match the root node
+   // at the current zoom level. (We only need to do this once.)
+    var xd = d3.interpolate(x.domain(), [node.x, node.x + node.dx]);
+    return function(t) {
+      x.domain(xd(t));
+      return tween(t);
+    };
+  } else {
+    return tween;
+  }
+}
+
+// When zooming: interpolate the scales.
+function arcTweenZoom(d) {
+  var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+      yd = d3.interpolate(y.domain(), [d.y, 1]),
+      yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+  return function(d, i) {
+    return i
+        ? function(t) { return arc(d); }
+        : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
+  };
+}
+
+</script>
+
+

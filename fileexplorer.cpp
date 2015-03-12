@@ -277,9 +277,14 @@ void FileExplorer::initializeInfoBox()
     infoLayout = new QVBoxLayout(this);
     selectedFileNameLabel = new QLabel(this);
     selectedFileSizeBytesLabel = new QLabel(this);
+    selectedFileNameLabel->setStyleSheet("QLabel{color:black}");
+    selectedFileSizeBytesLabel->setStyleSheet("QLabel{color:black}");
     selectedFileSizeKiloBytesLabel= new QLabel(this);;
     selectedFileSizeMegaBytesLabel= new QLabel(this);;
     selectedFileSizeGigaBytesLabel= new QLabel(this);;
+    selectedFileSizeKiloBytesLabel->setStyleSheet("QLabel{color:black}");
+    selectedFileSizeMegaBytesLabel->setStyleSheet("QLabel{color:black}");
+    selectedFileSizeGigaBytesLabel->setStyleSheet("QLabel{color:black}");
     fileInfo = new FileInfo(dirModel);
     ui->informationDockWidget->setMinimumHeight(300);
     ui->informationDockWidget->setMaximumHeight(300);
@@ -440,10 +445,6 @@ void FileExplorer::getGroupSlot(QModelIndex idx){
 void FileExplorer::Update_JSGraph(QModelIndex idx)
 {
     //chart->GetChart()->load(QUrl("qrc:/folder/icons/Sunburst.html"));
-    //QFile jsonfile("TEMP_FILE.json");
-   // jsonfile.open(QIODevice::WriteOnly);
-    //jsonfile.write(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Indented));//.toJson(QJsonDocument::Compact);
-    //jsonfile.close();
     QString entriesJson = QString(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Compact));
     QString new_root = QString("visualize(") + entriesJson + QString("); null");
     //chart->GetChart()->reload();

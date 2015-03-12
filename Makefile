@@ -521,7 +521,8 @@ qrc_directoryresources.cpp: directoryresources.qrc \
 		circle_btn_mask.png \
 		right.png \
 		left.png \
-		terminal.png
+		terminal.png \
+		d3.min.js
 	/home/don/Qt5.3.2/5.3/gcc_64/bin/rcc -name directoryresources directoryresources.qrc -o qrc_directoryresources.cpp
 
 qrc_style.cpp: qdarkstyle/style.qrc \

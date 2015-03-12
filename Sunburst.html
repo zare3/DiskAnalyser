@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+
 <style>
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: auto;
   position: relative;
-  width: 500px;
+  width: 50%;
 }
 
 form {
@@ -21,12 +22,46 @@ path {
 }
 
 </style>
-<body>
+<html>
+   <head>
+     <script type="text/javascript" src="d3.min.js"></script>
+<style>
+#tooltip {
+        position: absolute;
+        width: 500px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+}
+
+#tooltip.hidden {
+        display: none;
+}
+
+#tooltip p {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 20px;
+}
+</style>
+</head>
 <form>
   <label><input type="radio" name="mode" value="size" checked> Size</label>
   <label><input type="radio" name="mode" value="count"> Count</label>
 </form>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<div id="tooltip" class="hidden">
+        <p><strong>Dir/File Name:</strong></p>
+        <p><span id="value">100</span>%</p>
+</div>
+
 <script>
 
 
@@ -46,8 +81,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")")
-.attr("id","container");
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
 
 var partition = d3.layout.partition()
     .sort(null)
@@ -78,17 +112,41 @@ clearScreen();
       .attr("d", arc)
       .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
       .on("click", click)
-      .each(stash);
- var value = function(d) { return d.size; };
+      .each(stash)
+.on("mouseover", function(d) {
 
-    path
+//Get this bar's x/y values, then augment for the tooltip
+var xPosition = parseFloat(d3.select(this).attr("x")) ;
+var yPosition = parseFloat(d3.select(this).attr("y")) ;
+
+//Update the tooltip position and value
+d3.select("#tooltip")
+  .style("left", xPosition + "px")
+  .style("top", yPosition + "px")
+  .select("#value")
+  .text(d.name);
+
+//Show the tooltip
+d3.select("#tooltip").classed("hidden", false);
+
+})
+.on("mouseout", function() {
+
+//Hide the tooltip
+d3.select("#tooltip").classed("hidden", true);
+
+});
+ 
+	
+var value = function(d) { return d.size; };
+path
         .data(partition.value(value).nodes)
       .transition()
         .duration(1000)
         .attrTween("d", arcTweenData);
 
   d3.selectAll("input").on("change", function change() {
-    var value = this.value === "count"? function() { return 1; }: function(d) { return d.size; };
+    var value = this.value === "size"? function(d) { return d.size; }:function() { return 1; };
 
     path
         .data(partition.value(value).nodes)
@@ -115,12 +173,12 @@ svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")")
-.attr("id","container");
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
 x = d3.scale.linear()
 .range([0, 2 * Math.PI]);
 y = d3.scale.sqrt()
 .range([0, radius]);
+d3.select(self.frameElement).style("height", height + "px");
 
 }
 // Setup for switching data: stash the old values for transition.
@@ -164,4 +222,5 @@ function arcTweenZoom(d) {
 }
 
 </script>
+
 
