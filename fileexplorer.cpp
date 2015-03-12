@@ -254,9 +254,9 @@ void FileExplorer::initializeOwnershipCharts()
     ownershipTabBar = new QTabWidget (this);
     ownershipTabBar->addTab(userOwnershipBarChart, "");
     //ownershipTabBar->setTabIcon(0, QIcon(QPixmap(":/folder/icons/owner.png").scaledToHeight(30)));
-    //ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/owner.png"));
+    ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/owner.png"));
     ownershipTabBar->addTab(groupOwnershipBarChart, "");
-   // ownershipTabBar->setTabIcon(1, QIcon(QPixmap(":/folder/icons/group.png").scaledToHeight(30)));
+    ownershipTabBar->setTabIcon(1, QIcon(QPixmap(":/folder/icons/group.png").scaledToHeight(30)));
     //ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/group.png"));
     ownershipTabBar->setTabPosition(QTabWidget::West);
 }
@@ -305,8 +305,8 @@ void FileExplorer::updatePermissionsTable(QModelIndex index)
 
 void FileExplorer::initializeView()
 {
-    ui->dw_ext->setMinimumHeight(350);
-    ui->dw_ext->setMaximumHeight(350);
+    ui->dw_ext->setMinimumHeight(320);
+    ui->dw_ext->setMaximumHeight(320);
 
     ui->chart_widget->setVisible(true);
     ui->treeDockWidget->setVisible(true);
