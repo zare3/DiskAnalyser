@@ -1,0 +1,756 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "name": "Assignment2.docx",
+                    "size": 5544
+                },
+                {
+                    "name": "Assignment2.odt",
+                    "size": 16977
+                },
+                {
+                    "children": [
+                    ],
+                    "name": "DesktopzzZzzDir"
+                },
+                {
+                    "children": [
+                    ],
+                    "name": "DocumentszzZzzDir"
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "name": "dialog.cpp",
+                                    "size": 4447
+                                },
+                                {
+                                    "name": "dialog.h",
+                                    "size": 515
+                                },
+                                {
+                                    "name": "dialog.ui",
+                                    "size": 1553
+                                },
+                                {
+                                    "name": "digital2.pro",
+                                    "size": 517
+                                },
+                                {
+                                    "name": "digital2.pro.user",
+                                    "size": 18398
+                                },
+                                {
+                                    "name": "digital2.pro.user.3.2-pre1",
+                                    "size": 18331
+                                },
+                                {
+                                    "name": "enter.cpp",
+                                    "size": 2156
+                                },
+                                {
+                                    "name": "enter.h",
+                                    "size": 404
+                                },
+                                {
+                                    "name": "enter.ui",
+                                    "size": 1403
+                                },
+                                {
+                                    "name": "essen.cpp",
+                                    "size": 224
+                                },
+                                {
+                                    "name": "essen.h",
+                                    "size": 272
+                                },
+                                {
+                                    "name": "essen.ui",
+                                    "size": 586
+                                },
+                                {
+                                    "name": "essentials.cpp",
+                                    "size": 260
+                                },
+                                {
+                                    "name": "Essentials.h",
+                                    "size": 315
+                                },
+                                {
+                                    "name": "essentials.ui",
+                                    "size": 926
+                                },
+                                {
+                                    "name": "implicant.h",
+                                    "size": 226
+                                },
+                                {
+                                    "name": "main.cpp",
+                                    "size": 172
+                                },
+                                {
+                                    "name": "mainwindow.cpp",
+                                    "size": 596
+                                },
+                                {
+                                    "name": "mainwindow.h",
+                                    "size": 378
+                                },
+                                {
+                                    "name": "mainwindow.ui",
+                                    "size": 1767
+                                },
+                                {
+                                    "name": "primeimp.cpp",
+                                    "size": 246
+                                },
+                                {
+                                    "name": "primeimp.h",
+                                    "size": 285
+                                },
+                                {
+                                    "name": "primeimp.ui",
+                                    "size": 921
+                                }
+                            ],
+                            "name": "attachmentszzZzzDir"
+                        },
+                        {
+                            "name": "attachments.zip",
+                            "size": 11533
+                        },
+                        {
+                            "children": [
+                                {
+                                    "name": "dialog.o",
+                                    "size": 733456
+                                },
+                                {
+                                    "name": "enter.o",
+                                    "size": 777040
+                                },
+                                {
+                                    "name": "essen.o",
+                                    "size": 487984
+                                },
+                                {
+                                    "name": "main.o",
+                                    "size": 221744
+                                },
+                                {
+                                    "name": "mainwindow.o",
+                                    "size": 491888
+                                },
+                                {
+                                    "name": "Makefile",
+                                    "size": 94944
+                                },
+                                {
+                                    "name": "moc_dialog.cpp",
+                                    "size": 3186
+                                },
+                                {
+                                    "name": "moc_dialog.o",
+                                    "size": 270288
+                                },
+                                {
+                                    "name": "moc_enter.cpp",
+                                    "size": 3166
+                                },
+                                {
+                                    "name": "moc_enter.o",
+                                    "size": 270264
+                                },
+                                {
+                                    "name": "moc_essen.cpp",
+                                    "size": 2490
+                                },
+                                {
+                                    "name": "moc_essen.o",
+                                    "size": 266216
+                                },
+                                {
+                                    "name": "moc_mainwindow.cpp",
+                                    "size": 3268
+                                },
+                                {
+                                    "name": "moc_mainwindow.o",
+                                    "size": 270320
+                                },
+                                {
+                                    "name": "ui_dialog.h",
+                                    "size": 2697
+                                },
+                                {
+                                    "name": "ui_enter.h",
+                                    "size": 2515
+                                },
+                                {
+                                    "name": "ui_essen.h",
+                                    "size": 1399
+                                },
+                                {
+                                    "name": "ui_mainwindow.h",
+                                    "size": 3684
+                                }
+                            ],
+                            "name": "build-digital2-Desktop_Qt_5_3_GCC_64bit-DebugzzZzzDir"
+                        },
+                        {
+                            "name": "IMG_20150311_102913.jpg",
+                            "size": 771518
+                        },
+                        {
+                            "name": "IMG_20150311_102929.jpg",
+                            "size": 636948
+                        },
+                        {
+                            "name": "IMG_20150311_102953.jpg",
+                            "size": 663552
+                        },
+                        {
+                            "name": "prof_pic.jpg",
+                            "size": 22187
+                        },
+                        {
+                            "name": "Syntax.pdf",
+                            "size": 404789
+                        }
+                    ],
+                    "name": "DownloadszzZzzDir"
+                },
+                {
+                    "name": "examples.desktop",
+                    "size": 8980
+                },
+                {
+                    "name": "Lexical_Analyzers.cpp",
+                    "size": 1842
+                },
+                {
+                    "name": "Makefile",
+                    "size": 144584
+                },
+                {
+                    "children": [
+                    ],
+                    "name": "MusiczzZzzDir"
+                },
+                {
+                    "children": [
+                    ],
+                    "name": "PictureszzZzzDir"
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "name": "back_btn.png",
+                                    "size": 4666
+                                },
+                                {
+                                    "name": "barchart.cpp",
+                                    "size": 985
+                                },
+                                {
+                                    "name": "barchart.h",
+                                    "size": 493
+                                },
+                                {
+                                    "name": "barchart.o",
+                                    "size": 685456
+                                },
+                                {
+                                    "name": "checkdiskfragmentation.cpp",
+                                    "size": 3969
+                                },
+                                {
+                                    "name": "checkdiskfragmentation.cpp.Uq2485",
+                                    "size": 342
+                                },
+                                {
+                                    "name": "checkdiskfragmentation.h",
+                                    "size": 1069
+                                },
+                                {
+                                    "name": "checkdiskfragmentation.o",
+                                    "size": 610472
+                                },
+                                {
+                                    "name": "checkdiskfragmentation.ui",
+                                    "size": 4239
+                                },
+                                {
+                                    "name": "checksecuritythreats.cpp",
+                                    "size": 1384
+                                },
+                                {
+                                    "name": "checksecuritythreats.h",
+                                    "size": 686
+                                },
+                                {
+                                    "name": "checksecuritythreats.o",
+                                    "size": 590184
+                                },
+                                {
+                                    "name": "checksecuritythreats.ui",
+                                    "size": 1784
+                                },
+                                {
+                                    "name": "circle_btn_mask.png",
+                                    "size": 16482
+                                },
+                                {
+                                    "name": "compressed.png",
+                                    "size": 7300
+                                },
+                                {
+                                    "name": "directory.png",
+                                    "size": 15602
+                                },
+                                {
+                                    "name": "directoryresources.qrc",
+                                    "size": 726
+                                },
+                                {
+                                    "name": "document.png",
+                                    "size": 10171
+                                },
+                                {
+                                    "name": "executeTerminalCmndThread.cpp",
+                                    "size": 848
+                                },
+                                {
+                                    "name": "executeTerminalCmndThread.h",
+                                    "size": 452
+                                },
+                                {
+                                    "name": "executeTerminalCmndThread.o",
+                                    "size": 287304
+                                },
+                                {
+                                    "name": "ExtTreeModel.cpp",
+                                    "size": 3463
+                                },
+                                {
+                                    "name": "ExtTreeModel.h",
+                                    "size": 998
+                                },
+                                {
+                                    "name": "ExtTreeModel.o",
+                                    "size": 591688
+                                },
+                                {
+                                    "name": "FileExplorer",
+                                    "size": 4103352
+                                },
+                                {
+                                    "name": "fileexplorer.cpp",
+                                    "size": 12027
+                                },
+                                {
+                                    "name": "fileexplorer.h",
+                                    "size": 2740
+                                },
+                                {
+                                    "name": "fileexplorer.o",
+                                    "size": 1165656
+                                },
+                                {
+                                    "name": "FileExplorer.pro",
+                                    "size": 1032
+                                },
+                                {
+                                    "name": "FileExplorer.pro.user",
+                                    "size": 18348
+                                },
+                                {
+                                    "name": "fileexplorer.ui",
+                                    "size": 2863
+                                },
+                                {
+                                    "name": "fileinfo.cpp",
+                                    "size": 9116
+                                },
+                                {
+                                    "name": "fileinfo.h",
+                                    "size": 2574
+                                },
+                                {
+                                    "name": "fileinfo.o",
+                                    "size": 709456
+                                },
+                                {
+                                    "name": "forward_btn.png",
+                                    "size": 4797
+                                },
+                                {
+                                    "name": "grid.png",
+                                    "size": 15871
+                                },
+                                {
+                                    "name": "group.png",
+                                    "size": 8380
+                                },
+                                {
+                                    "name": "image.png",
+                                    "size": 3208
+                                },
+                                {
+                                    "name": "interactivechart.cpp",
+                                    "size": 258
+                                },
+                                {
+                                    "name": "interactivechart.h",
+                                    "size": 330
+                                },
+                                {
+                                    "name": "interactivechart.o",
+                                    "size": 236976
+                                },
+                                {
+                                    "name": "left.png",
+                                    "size": 2629
+                                },
+                                {
+                                    "name": "loading.gif",
+                                    "size": 2883
+                                },
+                                {
+                                    "name": "main.cpp",
+                                    "size": 448
+                                },
+                                {
+                                    "name": "main.o",
+                                    "size": 589152
+                                },
+                                {
+                                    "name": "Makefile",
+                                    "size": 223184
+                                },
+                                {
+                                    "name": "metro-loading.gif",
+                                    "size": 12412
+                                },
+                                {
+                                    "name": "moc_barchart.cpp",
+                                    "size": 2529
+                                },
+                                {
+                                    "name": "moc_barchart.o",
+                                    "size": 644192
+                                },
+                                {
+                                    "name": "moc_checkdiskfragmentation.cpp",
+                                    "size": 4556
+                                },
+                                {
+                                    "name": "moc_checkdiskfragmentation.o",
+                                    "size": 284648
+                                },
+                                {
+                                    "name": "moc_checksecuritythreats.cpp",
+                                    "size": 2747
+                                },
+                                {
+                                    "name": "moc_checksecuritythreats.o",
+                                    "size": 539736
+                                },
+                                {
+                                    "name": "moc_executeTerminalCmndThread.cpp",
+                                    "size": 4197
+                                },
+                                {
+                                    "name": "moc_executeTerminalCmndThread.o",
+                                    "size": 283648
+                                },
+                                {
+                                    "name": "moc_fileexplorer.cpp",
+                                    "size": 5965
+                                },
+                                {
+                                    "name": "moc_fileexplorer.o",
+                                    "size": 667624
+                                },
+                                {
+                                    "name": "moc_interactivechart.cpp",
+                                    "size": 2675
+                                },
+                                {
+                                    "name": "moc_interactivechart.o",
+                                    "size": 240256
+                                },
+                                {
+                                    "name": "moc_piechart.cpp",
+                                    "size": 2529
+                                },
+                                {
+                                    "name": "moc_piechart.o",
+                                    "size": 650360
+                                },
+                                {
+                                    "name": "moc_StatisticsThread.cpp",
+                                    "size": 6004
+                                },
+                                {
+                                    "name": "moc_StatisticsThread.o",
+                                    "size": 560352
+                                },
+                                {
+                                    "name": "music.png",
+                                    "size": 3709
+                                },
+                                {
+                                    "name": "nightchart.cpp",
+                                    "size": 13736
+                                },
+                                {
+                                    "name": "nightchart.h",
+                                    "size": 2362
+                                },
+                                {
+                                    "name": "nightchart.o",
+                                    "size": 765920
+                                },
+                                {
+                                    "name": "owner.png",
+                                    "size": 13713
+                                },
+                                {
+                                    "name": "piechart.cpp",
+                                    "size": 1147
+                                },
+                                {
+                                    "name": "piechart.h",
+                                    "size": 514
+                                },
+                                {
+                                    "name": "piechart.o",
+                                    "size": 667752
+                                },
+                                {
+                                    "name": "qdarkstylezzZzz",
+                                    "size": 550807
+                                },
+                                {
+                                    "name": "qrc_directoryresources.cpp",
+                                    "size": 425048
+                                },
+                                {
+                                    "name": "qrc_directoryresources.o",
+                                    "size": 98336
+                                },
+                                {
+                                    "name": "qrc_style.cpp",
+                                    "size": 336349
+                                },
+                                {
+                                    "name": "qrc_style.o",
+                                    "size": 78872
+                                },
+                                {
+                                    "name": "README.md",
+                                    "size": 131
+                                },
+                                {
+                                    "name": "right.png",
+                                    "size": 1190
+                                },
+                                {
+                                    "name": "sadFace.png",
+                                    "size": 5582
+                                },
+                                {
+                                    "name": "StatisticsThread.cpp",
+                                    "size": 8117
+                                },
+                                {
+                                    "name": "StatisticsThread.h",
+                                    "size": 2096
+                                },
+                                {
+                                    "name": "StatisticsThread.o",
+                                    "size": 866616
+                                },
+                                {
+                                    "name": "Sunburst.html",
+                                    "size": 3707
+                                },
+                                {
+                                    "name": "TEMP_FILE.json",
+                                    "size": 0
+                                },
+                                {
+                                    "name": "terminal.png",
+                                    "size": 5758
+                                },
+                                {
+                                    "name": "tree.png",
+                                    "size": 16138
+                                },
+                                {
+                                    "name": "ui_checkdiskfragmentation.h",
+                                    "size": 5268
+                                },
+                                {
+                                    "name": "ui_checksecuritythreats.h",
+                                    "size": 3077
+                                },
+                                {
+                                    "name": "ui_fileexplorer.h",
+                                    "size": 6651
+                                },
+                                {
+                                    "name": "up.png",
+                                    "size": 2546
+                                },
+                                {
+                                    "name": "up7.png",
+                                    "size": 1607
+                                },
+                                {
+                                    "name": "up_btn.png",
+                                    "size": 1831
+                                }
+                            ],
+                            "name": "DiskAnalyserzzZzzDir"
+                        }
+                    ],
+                    "name": "ProjectszzZzzDir"
+                },
+                {
+                    "children": [
+                    ],
+                    "name": "PubliczzZzzDir"
+                },
+                {
+                    "name": "qt-opensource-linux-x64-5.3.2.run",
+                    "size": 468521191
+                },
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "name": "gcc_64zzZzz",
+                                    "size": 194130800
+                                }
+                            ],
+                            "name": "5.3zzZzzDir"
+                        },
+                        {
+                            "name": "components.xml",
+                            "size": 3370
+                        },
+                        {
+                            "children": [
+                                {
+                                    "name": "Qt-5.3zzZzz",
+                                    "size": 346190983
+                                }
+                            ],
+                            "name": "DocszzZzzDir"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "name": "Qt-5.3zzZzz",
+                                    "size": 35152030
+                                }
+                            ],
+                            "name": "ExampleszzZzzDir"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "name": "LGPL_EXCEPTION.txt",
+                                    "size": 1186
+                                },
+                                {
+                                    "name": "LICENSE.FDL",
+                                    "size": 23016
+                                },
+                                {
+                                    "name": "LICENSE.GPL",
+                                    "size": 35147
+                                },
+                                {
+                                    "name": "LICENSE.LGPL",
+                                    "size": 26863
+                                },
+                                {
+                                    "name": "ThirdPartySoftware_Listing.txt",
+                                    "size": 81814
+                                }
+                            ],
+                            "name": "LicenseszzZzzDir"
+                        },
+                        {
+                            "name": "MaintenanceTool",
+                            "size": 23178948
+                        },
+                        {
+                            "name": "MaintenanceTool.dat",
+                            "size": 6183167
+                        },
+                        {
+                            "name": "MaintenanceTool.ini",
+                            "size": 10595
+                        },
+                        {
+                            "name": "network.xml",
+                            "size": 362
+                        },
+                        {
+                            "name": "qt-project.org.html",
+                            "size": 115
+                        },
+                        {
+                            "name": "README.txt",
+                            "size": 5442
+                        },
+                        {
+                            "children": [
+                                {
+                                    "name": "QtCreatorzzZzz",
+                                    "size": 248289684
+                                }
+                            ],
+                            "name": "ToolszzZzzDir"
+                        }
+                    ],
+                    "name": "Qt5.3.2zzZzzDir"
+                },
+                {
+                    "name": "Source",
+                    "size": 13957
+                },
+                {
+                    "name": "Source2",
+                    "size": 27700
+                },
+                {
+                    "children": [
+                    ],
+                    "name": "TemplateszzZzzDir"
+                },
+                {
+                    "name": "Top_Down_Parser.cpp",
+                    "size": 1443
+                },
+                {
+                    "children": [
+                    ],
+                    "name": "VideoszzZzzDir"
+                }
+            ],
+            "name": "donzzZzzDir"
+        }
+    ],
+    "name": "homezzZzzDir"
+}

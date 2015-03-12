@@ -44,6 +44,11 @@ FileExplorer::FileExplorer(QWidget *parent) :
     connect(Stats, SIGNAL(getGroupSignal(QModelIndex)), this, SLOT(getGroupSlot(QModelIndex)));
 }
 
+void FileExplorer::Expose_To_Js()
+{
+    chart->GetChart()->page()->mainFrame()->addToJavaScriptWindowObject(QString("fileExplorer"),this,QWebFrame::ScriptOwnership);
+}
+
 void FileExplorer::initializeDirectory()
 {
     dirTreeView = new QTreeView(this);
@@ -114,6 +119,7 @@ void FileExplorer::initializeDirectory()
     dirTabWidget->setTabPosition(QTabWidget::West);
     ui->treeDockWidget->setWidget(dirTabWidget);
     ui->chart_widget->setWidget(chart->GetChart());
+   //  visFrame->addToJavaScriptWindowObject(QString("mainWindow"), this, QWebFrame::ScriptOwnership);
 
     vbox->setMargin(0);
     vbox->setSpacing(0);
@@ -126,13 +132,11 @@ void FileExplorer::initializeDirectory()
     dirListView->setSpacing(10);
     dirListView->setUniformItemSizes(true);
     dirListView->setRootIndex(dirModel->index("/"));
-    QFile jsonfile("TEMP_FILE.json");
-    jsonfile.open(QFile::WriteOnly);
-    jsonfile.write(QJsonDocument(Stats->getJson(dirModel->index("/home/Projects"),qint32(0))).toJson(QJsonDocument::Indented));//.toJson(QJsonDocument::Compact);
 
 
 
     connect(dirListView, SIGNAL(clicked(QModelIndex)), this, SLOT(onListItemClicked(QModelIndex)));
+    connect(chart->GetChart()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(Expose_To_Js()));
     connect(dirListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListItemDoubleClicked(QModelIndex)));
     connect(dirTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onTreeItemClicked(QModelIndex)));
     connect(upButton, SIGNAL(clicked ()), this, SLOT(upButtonPressed()));
@@ -164,6 +168,8 @@ void FileExplorer::onListItemClicked(QModelIndex index)
     ui->dw_ext->setWidget(extensionsLoadingBar);
     Stats->getExt(index);
     updatePermissionsTable(index);
+
+    //chart->GetChart()->reload();
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -283,6 +289,7 @@ void FileExplorer::dirSizeSlot(QModelIndex idx){
     infoLayout->addWidget(selectedFileSizeLabel);
     multiWidget->setLayout(infoLayout);
     ui->informationDockWidget->setWidget(multiWidget);
+    Update_JSGraph(idx);
 }
 void FileExplorer::getExtSlot(QModelIndex idx){
     extModel->SetDir(idx);
@@ -319,4 +326,22 @@ void FileExplorer::getGroupSlot(QModelIndex idx){
     ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
     groupOwnershipBarChart->setData(1,pieces);
     groupOwnershipBarChart->update();
+}
+
+void FileExplorer::Update_JSGraph(QModelIndex idx)
+{
+    //chart->GetChart()->load(QUrl("qrc:/folder/icons/Sunburst.html"));
+    //QFile jsonfile("TEMP_FILE.json");
+   // jsonfile.open(QIODevice::WriteOnly);
+    //jsonfile.write(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Indented));//.toJson(QJsonDocument::Compact);
+    //jsonfile.close();
+    QString entriesJson = QString(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Compact));
+    QString new_root = QString("visualize(") + entriesJson + QString("); null");
+    //chart->GetChart()->reload();
+    //chart->GetChart()->reload();
+    chart->GetChart()->page()->mainFrame()->evaluateJavaScript(new_root);
+    //chart->GetChart()->reload();
+    // chart->GetChart()->reload();
+    //chart->GetChart()->page()->mainFrame()->setUrl(QUrl("qrc:/folder/icons/Sunburst.html"));
+    //chart->GetChart()->triggerPageAction(QWebPage::Reload);
 }
