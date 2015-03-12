@@ -253,10 +253,10 @@ void FileExplorer::initializeOwnershipCharts()
     groupOwnershipBarChart = new BarChart (this);
     ownershipTabBar = new QTabWidget (this);
     ownershipTabBar->addTab(userOwnershipBarChart, "");
-    ownershipTabBar->setTabIcon(0, QIcon(QPixmap(":/folder/icons/owner.png").scaledToHeight(30)));
+    //ownershipTabBar->setTabIcon(0, QIcon(QPixmap(":/folder/icons/owner.png").scaledToHeight(30)));
     //ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/owner.png"));
     ownershipTabBar->addTab(groupOwnershipBarChart, "");
-    ownershipTabBar->setTabIcon(1, QIcon(QPixmap(":/folder/icons/group.png").scaledToHeight(30)));
+   // ownershipTabBar->setTabIcon(1, QIcon(QPixmap(":/folder/icons/group.png").scaledToHeight(30)));
     //ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/group.png"));
     ownershipTabBar->setTabPosition(QTabWidget::West);
 }
