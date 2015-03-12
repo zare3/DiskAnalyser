@@ -3,6 +3,7 @@
 #include<QAbstractItemModel>
 #include<QList>
 #include<QString>
+#include<QIcon>
 #include"StatisticsThread.h"
 
 class Item;
@@ -32,6 +33,7 @@ public:
     Item* Parent;
     QList<Item*> Child;
     QString str;
+    QIcon icon;
     quint64 sz;
     
     Item(Item* = 0, QString="", int = 0);

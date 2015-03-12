@@ -20,5 +20,6 @@
         <file>music.png</file>
         <file>owner.png</file>
         <file>terminal.png</file>
+        <file>compressed.png</file>
     </qresource>
 </RCC>

@@ -36,13 +36,13 @@ FileExplorer::FileExplorer(QWidget *parent) :
     initializeDirectory();
     initializePermissionsTable();
     initializeOwnershipCharts();
+    initializePermissionsOwnershipTab();
     extinit();
+    initializeView();
+   // updateWholeView(dirModel->index("/"));
 
-    permissons_ownership_tab = new QTabWidget(this);
-    permissons_ownership_tab->addTab(ownershipTabBar,"Tab 1");
-    permissons_ownership_tab->addTab(permissionsTable,"Tab 2");
-    ownershipTabBar->setTabPosition(QTabWidget::South);
-    ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+
+
 
     connect(Stats, SIGNAL(dirSizeSignal(QModelIndex)), this, SLOT(dirSizeSlot(QModelIndex)));
     connect(Stats, SIGNAL(getExtSignal(QModelIndex)), this, SLOT(getExtSlot(QModelIndex)));
@@ -50,45 +50,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
     connect(Stats, SIGNAL(getGroupSignal(QModelIndex)), this, SLOT(getGroupSlot(QModelIndex)));
 
 
-    ui->ownershipChartDockWidget->setMinimumHeight(320);
-    ui->informationDockWidget->setMinimumWidth(200);
 
-    ui->chart_widget->setVisible(true);
-    ui->treeDockWidget->setVisible(true);
-    ui->informationDockWidget->setVisible(true);
-    ui->ownershipChartDockWidget->setVisible(true);
-    ui->dw_ext->setVisible(true);
-    ui->permissionsDockWidget->setVisible(true);
-
-    removeDockWidget(ui->chart_widget);
-    removeDockWidget(ui->treeDockWidget);
-    removeDockWidget(ui->informationDockWidget);
-    removeDockWidget(ui->ownershipChartDockWidget);
-    removeDockWidget(ui->dw_ext);
-    removeDockWidget(ui->permissionsDockWidget);
-
-    addDockWidget(Qt::LeftDockWidgetArea,ui->chart_widget);
-    setCentralWidget(ui->chart_widget);
-    addDockWidget(Qt::LeftDockWidgetArea,ui->treeDockWidget);
-
-    addDockWidget(Qt::RightDockWidgetArea,ui->informationDockWidget);
-
-    addDockWidget(Qt::BottomDockWidgetArea,ui->ownershipChartDockWidget);
-    addDockWidget(Qt::BottomDockWidgetArea,ui->dw_ext);
-
-    ui->chart_widget->setFloating(false);
-    ui->treeDockWidget->setFloating(false);
-    ui->informationDockWidget->setFloating(false);
-    ui->ownershipChartDockWidget->setFloating(false);
-    ui->dw_ext->setFloating(false);
-    ui->permissionsDockWidget->setFloating(false);
-
-    ui->chart_widget->setVisible(true);
-    ui->treeDockWidget->setVisible(true);
-    ui->informationDockWidget->setVisible(true);
-    ui->ownershipChartDockWidget->setVisible(true);
-    ui->dw_ext->setVisible(true);
-    ui->permissionsDockWidget->setVisible(true);
 
 
 }
@@ -195,20 +157,13 @@ void FileExplorer::extinit(){
     extModel = new ExtTreeModel(this, Stats);
     tv_ext->setModel(extModel);
     tv_ext->setAlternatingRowColors(true);
+    tv_ext->header()->close();
     ui->dw_ext->setWidget(tv_ext);
 }
 
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
-    updatePermissionsTable(index);
-    ui->informationDockWidget->setWidget(infoLoadingBar);
-    Stats->dirSize(index);
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
-    Stats->getOwn(index);
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
-    Stats->getGroup(index);
-    ui->dw_ext->setWidget(extensionsLoadingBar);
-    Stats->getExt(index);
+    updateWholeView(index);
 
 }
 
@@ -239,6 +194,9 @@ void FileExplorer::onTreeItemClicked(QModelIndex index)
         backStack.push(dirModel->filePath(dirListView->rootIndex()));
         dirListView->setRootIndex(index);
     }
+
+    updateWholeView(index);
+
 }
 void FileExplorer::upButtonPressed()
 {
@@ -310,6 +268,15 @@ void FileExplorer::initializeInfoBox()
     selectedFileSizeLabel = new QLabel(this);
     fileInfo = new FileInfo(dirModel);
 }
+
+void FileExplorer::initializePermissionsOwnershipTab()
+{
+    permissons_ownership_tab = new QTabWidget(this);
+    permissons_ownership_tab->addTab(ownershipTabBar,"Tab 1");
+    permissons_ownership_tab->addTab(permissionsTable,"Tab 2");
+    ownershipTabBar->setTabPosition(QTabWidget::South);
+    ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+}
 void FileExplorer::updatePermissionsTable(QModelIndex index)
 {
     permissionsGrid = fileInfo->getPermissions(dirModel->fileInfo(index).filePath());
@@ -317,7 +284,63 @@ void FileExplorer::updatePermissionsTable(QModelIndex index)
         for (int j=0; j<3; j++)
            permissionsModel->setItem(i,j,new QStandardItem(QString::number(permissionsGrid.at(i).at(j))));
     permissionsTable->setModel(permissionsModel);
-     ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+    ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+}
+
+void FileExplorer::initializeView()
+{
+    ui->ownershipChartDockWidget->setMaximumHeight(380);
+    ui->informationDockWidget->setMinimumWidth(200);
+
+    ui->chart_widget->setVisible(true);
+    ui->treeDockWidget->setVisible(true);
+    ui->informationDockWidget->setVisible(true);
+    ui->ownershipChartDockWidget->setVisible(true);
+    ui->dw_ext->setVisible(true);
+    ui->permissionsDockWidget->setVisible(true);
+
+    removeDockWidget(ui->chart_widget);
+    removeDockWidget(ui->treeDockWidget);
+    removeDockWidget(ui->informationDockWidget);
+    removeDockWidget(ui->ownershipChartDockWidget);
+    removeDockWidget(ui->dw_ext);
+    removeDockWidget(ui->permissionsDockWidget);
+
+    addDockWidget(Qt::LeftDockWidgetArea,ui->chart_widget);
+    setCentralWidget(ui->chart_widget);
+    addDockWidget(Qt::LeftDockWidgetArea,ui->treeDockWidget);
+
+    addDockWidget(Qt::RightDockWidgetArea,ui->informationDockWidget);
+
+    addDockWidget(Qt::BottomDockWidgetArea,ui->ownershipChartDockWidget);
+    addDockWidget(Qt::BottomDockWidgetArea,ui->dw_ext);
+
+    ui->chart_widget->setFloating(false);
+    ui->treeDockWidget->setFloating(false);
+    ui->informationDockWidget->setFloating(false);
+    ui->ownershipChartDockWidget->setFloating(false);
+    ui->dw_ext->setFloating(false);
+    ui->permissionsDockWidget->setFloating(false);
+
+    ui->chart_widget->setVisible(true);
+    ui->treeDockWidget->setVisible(true);
+    ui->informationDockWidget->setVisible(true);
+    ui->ownershipChartDockWidget->setVisible(true);
+    ui->dw_ext->setVisible(true);
+    ui->permissionsDockWidget->setVisible(true);
+}
+
+void FileExplorer::updateWholeView(QModelIndex index)
+{
+    updatePermissionsTable(index);
+    ui->informationDockWidget->setWidget(infoLoadingBar);
+    Stats->dirSize(index);
+    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    Stats->getOwn(index);
+    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    Stats->getGroup(index);
+    ui->dw_ext->setWidget(extensionsLoadingBar);
+    Stats->getExt(index);
 }
 
 void FileExplorer::dirSizeSlot(QModelIndex idx){
