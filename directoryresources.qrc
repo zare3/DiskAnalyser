@@ -15,10 +15,8 @@
         <file>TEMP_FILE.json</file>
         <file>circle_btn_mask.png</file>
         <file>document.png</file>
-        <file>group.png</file>
         <file>image.png</file>
         <file>music.png</file>
-        <file>owner.png</file>
         <file>terminal.png</file>
         <file>compressed.png</file>
     </qresource>
