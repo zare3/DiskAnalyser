@@ -17,21 +17,29 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
     
-    ui->chart_widget->setMinimumSize(400,300);
-    
-    spinnerMovie = new QMovie(":/folder/icons/loading.gif");
-    
-    ownershipLoadingBar = new QLabel();
-    ownershipLoadingBar->setMovie(spinnerMovie);
-    permissionsLoadingBar = new QLabel();
-    permissionsLoadingBar->setMovie(spinnerMovie);
-    infoLoadingBar = new QLabel();
-    infoLoadingBar->setMovie(spinnerMovie);
-    extensionsLoadingBar = new QLabel();
-    extensionsLoadingBar->setMovie(spinnerMovie);
+    ui->chart_widget->setMinimumSize(300,232);
 
-    spinnerMovie->start();
+    colors.push_back(Qt::green);
+    colors.push_back(Qt::black);
+    colors.push_back(Qt::red);
+    colors.push_back(Qt::blue);
+    colors.push_back(Qt::yellow);
+    colors.push_back(Qt::magenta);
+    colors.push_back(Qt::cyan);
+    for (int i=0; i<100; i++)
+    {
+        int r = qrand() % ((255 + 1) - 0) + 0;
+        int g = qrand() % ((255 + 1) - 0) + 0;
+        int b = qrand() % ((255 + 1) - 0) + 0;
+        colors.push_back(QColor(r,(g*2)%256,b));
+    };
 
+
+
+
+    
+
+    initializeLoadingBars();
     initializeInfoBox();
     initializeDirectory();
     initializePermissionsTable();
@@ -44,7 +52,7 @@ FileExplorer::FileExplorer(QWidget *parent) :
 
 
 
-    connect(Stats, SIGNAL(dirSizeSignal(QModelIndex)), this, SLOT(dirSizeSlot(QModelIndex)));
+    connect(Stats, SIGNAL(dirSizeSignal(QModelIndex)), this, SLOT(dirInfoSlot(QModelIndex)));
     connect(Stats, SIGNAL(getExtSignal(QModelIndex)), this, SLOT(getExtSlot(QModelIndex)));
     connect(Stats, SIGNAL(getOwnSignal(QModelIndex)), this, SLOT(getOwnSlot(QModelIndex)));
     connect(Stats, SIGNAL(getGroupSignal(QModelIndex)), this, SLOT(getGroupSlot(QModelIndex)));
@@ -265,8 +273,13 @@ void FileExplorer::initializeInfoBox()
 {
     infoLayout = new QVBoxLayout(this);
     selectedFileNameLabel = new QLabel(this);
-    selectedFileSizeLabel = new QLabel(this);
+    selectedFileSizeBytesLabel = new QLabel(this);
+    selectedFileSizeKiloBytesLabel= new QLabel(this);;
+    selectedFileSizeMegaBytesLabel= new QLabel(this);;
+    selectedFileSizeGigaBytesLabel= new QLabel(this);;
     fileInfo = new FileInfo(dirModel);
+    ui->informationDockWidget->setMinimumHeight(300);
+    ui->informationDockWidget->setMaximumHeight(300);
 }
 
 void FileExplorer::initializePermissionsOwnershipTab()
@@ -289,15 +302,15 @@ void FileExplorer::updatePermissionsTable(QModelIndex index)
 
 void FileExplorer::initializeView()
 {
-    ui->ownershipChartDockWidget->setMaximumHeight(380);
-    ui->informationDockWidget->setMinimumWidth(200);
+    ui->dw_ext->setMinimumHeight(350);
+    ui->dw_ext->setMaximumHeight(350);
 
     ui->chart_widget->setVisible(true);
     ui->treeDockWidget->setVisible(true);
     ui->informationDockWidget->setVisible(true);
     ui->ownershipChartDockWidget->setVisible(true);
     ui->dw_ext->setVisible(true);
-    ui->permissionsDockWidget->setVisible(true);
+    ui->permissionsDockWidget->setVisible(false);
 
     removeDockWidget(ui->chart_widget);
     removeDockWidget(ui->treeDockWidget);
@@ -327,7 +340,7 @@ void FileExplorer::initializeView()
     ui->informationDockWidget->setVisible(true);
     ui->ownershipChartDockWidget->setVisible(true);
     ui->dw_ext->setVisible(true);
-    ui->permissionsDockWidget->setVisible(true);
+    ui->permissionsDockWidget->setVisible(false);
 }
 
 void FileExplorer::updateWholeView(QModelIndex index)
@@ -343,12 +356,35 @@ void FileExplorer::updateWholeView(QModelIndex index)
     Stats->getExt(index);
 }
 
-void FileExplorer::dirSizeSlot(QModelIndex idx){
+void FileExplorer::initializeLoadingBars()
+{
+    spinnerMovie = new QMovie(":/folder/icons/loading.gif");
+
+    ownershipLoadingBar = new QLabel();
+    ownershipLoadingBar->setMovie(spinnerMovie);
+    permissionsLoadingBar = new QLabel();
+    permissionsLoadingBar->setMovie(spinnerMovie);
+    infoLoadingBar = new QLabel();
+    infoLoadingBar->setMovie(spinnerMovie);
+    extensionsLoadingBar = new QLabel();
+    extensionsLoadingBar->setMovie(spinnerMovie);
+
+    spinnerMovie->start();
+}
+
+void FileExplorer::dirInfoSlot(QModelIndex idx){
     QWidget* multiWidget = new QWidget();
     selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(idx).filePath()));
-    selectedFileSizeLabel->setText(QString::number(Stats->_dirSize(idx)));
+    quint64 sizeInBytes = Stats->_dirSize(idx);
+    selectedFileSizeBytesLabel->setText(QString::number(sizeInBytes) + " Bytes");
+    selectedFileSizeKiloBytesLabel->setText(QString::number(sizeInBytes/1024) + " KBytes");
+    selectedFileSizeMegaBytesLabel->setText(QString::number(sizeInBytes/1024/1024) + " MBytes");
+    selectedFileSizeGigaBytesLabel->setText(QString::number(sizeInBytes/1024/1024/1024)+" GBytes");
     infoLayout->addWidget(selectedFileNameLabel);
-    infoLayout->addWidget(selectedFileSizeLabel);
+    infoLayout->addWidget(selectedFileSizeBytesLabel);
+    infoLayout->addWidget(selectedFileSizeKiloBytesLabel);
+    infoLayout->addWidget(selectedFileSizeMegaBytesLabel);
+    infoLayout->addWidget(selectedFileSizeGigaBytesLabel);
     multiWidget->setLayout(infoLayout);
     ui->informationDockWidget->setWidget(multiWidget);
 }
@@ -359,13 +395,15 @@ void FileExplorer::getExtSlot(QModelIndex idx){
 void FileExplorer::getOwnSlot(QModelIndex idx){
     const StatisticsThread::OwnStat* const owners = Stats->_getOwn(idx);
     QVector<Piece>* pieces = new QVector<Piece> ();
+    int count = 0;
     for(QMap<QString, quint64>::const_iterator it = owners->nOwn.begin(); it != owners->nOwn.end(); it++){
        Piece t;
-       t.color = Qt::green;
+       t.color = colors.at(count%colors.size());
        t.name = it.key();
        t.percentage = it.value();
        qDebug()<<t.name;
        pieces->push_back(t);
+       count ++;
     }
 
    ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
@@ -378,12 +416,14 @@ void FileExplorer::getGroupSlot(QModelIndex idx){
     ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
     const StatisticsThread::GroupStat* const groups = Stats->_getGroup(idx);
     QVector<Piece>* pieces = new QVector<Piece> ();
+    int count = 0;
     for(QMap<QString, quint64>::const_iterator it = groups->nGroup.begin(); it != groups->nGroup.end(); it++){
        Piece t;
-       t.color = Qt::green;
+       t.color = colors[count%colors.size()];
        t.name = it.key();
        t.percentage = it.value();
        pieces->push_back(t);
+       count ++;
     }
 
    ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
