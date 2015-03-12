@@ -103,7 +103,7 @@ public:
         dockWidgetContents_4 = new QWidget();
         dockWidgetContents_4->setObjectName(QStringLiteral("dockWidgetContents_4"));
         informationDockWidget->setWidget(dockWidgetContents_4);
-        FileExplorer->addDockWidget(static_cast<Qt::DockWidgetArea>(1), informationDockWidget);
+        FileExplorer->addDockWidget(static_cast<Qt::DockWidgetArea>(2), informationDockWidget);
         chart_widget = new QDockWidget(FileExplorer);
         chart_widget->setObjectName(QStringLiteral("chart_widget"));
         chart_widget->setFeatures(QDockWidget::AllDockWidgetFeatures);

@@ -513,7 +513,6 @@ qrc_directoryresources.cpp: directoryresources.qrc \
 		music.png \
 		sadFace.png \
 		up.png \
-		TEMP_FILE.json \
 		back_btn.png \
 		document.png \
 		up_btn.png \

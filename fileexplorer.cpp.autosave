@@ -336,7 +336,7 @@ void FileExplorer::initializeView()
     ui->informationDockWidget->setFloating(false);
     ui->ownershipPermissionsChartDockWidget->setFloating(false);
     ui->dw_ext->setFloating(false);
-    //ui->permissionsDockWidget->setFloating(false);
+    //  ui->permissionsDockWidget->setFloating(false);
 
     ui->chart_widget->setVisible(true);
     ui->treeDockWidget->setVisible(true);
