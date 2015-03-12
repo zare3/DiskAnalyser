@@ -63,6 +63,11 @@ FileExplorer::FileExplorer(QWidget *parent) :
 
 }
 
+void FileExplorer::Expose_To_Js()
+{
+    chart->GetChart()->page()->mainFrame()->addToJavaScriptWindowObject(QString("fileExplorer"),this,QWebFrame::ScriptOwnership);
+}
+
 void FileExplorer::initializeDirectory()
 {
     dirTreeView = new QTreeView(this);
@@ -131,6 +136,7 @@ void FileExplorer::initializeDirectory()
     dirTabWidget->setTabPosition(QTabWidget::West);
     ui->treeDockWidget->setWidget(dirTabWidget);
     ui->chart_widget->setWidget(chart->GetChart());
+   //  visFrame->addToJavaScriptWindowObject(QString("mainWindow"), this, QWebFrame::ScriptOwnership);
 
     vbox->setMargin(0);
     vbox->setSpacing(0);
@@ -143,11 +149,9 @@ void FileExplorer::initializeDirectory()
     dirListView->setSpacing(10);
     dirListView->setUniformItemSizes(true);
     dirListView->setRootIndex(dirModel->index("/"));
-    QFile jsonfile("TEMP_FILE.json");
-    jsonfile.open(QFile::WriteOnly);
-    jsonfile.write(QJsonDocument(Stats->getJson(dirModel->index("/home"),qint32(0))).toJson(QJsonDocument::Indented));//.toJson(QJsonDocument::Compact);
 
     connect(dirListView, SIGNAL(clicked(QModelIndex)), this, SLOT(onListItemClicked(QModelIndex)));
+    connect(chart->GetChart()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(Expose_To_Js()));
     connect(dirListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(onListItemDoubleClicked(QModelIndex)));
     connect(dirTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(onTreeItemClicked(QModelIndex)));
     connect(upButton, SIGNAL(clicked ()), this, SLOT(upButtonPressed()));
@@ -172,7 +176,6 @@ void FileExplorer::extinit(){
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
     updateWholeView(index);
-
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -288,7 +291,7 @@ void FileExplorer::initializePermissionsOwnershipTab()
     permissons_ownership_tab->addTab(ownershipTabBar,"Tab 1");
     permissons_ownership_tab->addTab(permissionsTable,"Tab 2");
     ownershipTabBar->setTabPosition(QTabWidget::South);
-    ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+    ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
 }
 void FileExplorer::updatePermissionsTable(QModelIndex index)
 {
@@ -297,7 +300,7 @@ void FileExplorer::updatePermissionsTable(QModelIndex index)
         for (int j=0; j<3; j++)
            permissionsModel->setItem(i,j,new QStandardItem(QString::number(permissionsGrid.at(i).at(j))));
     permissionsTable->setModel(permissionsModel);
-    ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+    ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
 }
 
 void FileExplorer::initializeView()
@@ -308,16 +311,16 @@ void FileExplorer::initializeView()
     ui->chart_widget->setVisible(true);
     ui->treeDockWidget->setVisible(true);
     ui->informationDockWidget->setVisible(true);
-    ui->ownershipChartDockWidget->setVisible(true);
+    ui->ownershipPermissionsChartDockWidget->setVisible(true);
     ui->dw_ext->setVisible(true);
-    ui->permissionsDockWidget->setVisible(false);
+    ui->ownershipPermissionsChartDockWidget->setVisible(false);
 
     removeDockWidget(ui->chart_widget);
     removeDockWidget(ui->treeDockWidget);
     removeDockWidget(ui->informationDockWidget);
-    removeDockWidget(ui->ownershipChartDockWidget);
+    removeDockWidget(ui->ownershipPermissionsChartDockWidget);
     removeDockWidget(ui->dw_ext);
-    removeDockWidget(ui->permissionsDockWidget);
+    removeDockWidget(ui->ownershipPermissionsChartDockWidget);
 
     addDockWidget(Qt::LeftDockWidgetArea,ui->chart_widget);
     setCentralWidget(ui->chart_widget);
@@ -325,22 +328,22 @@ void FileExplorer::initializeView()
 
     addDockWidget(Qt::RightDockWidgetArea,ui->informationDockWidget);
 
-    addDockWidget(Qt::BottomDockWidgetArea,ui->ownershipChartDockWidget);
+    addDockWidget(Qt::BottomDockWidgetArea,ui->ownershipPermissionsChartDockWidget);
     addDockWidget(Qt::BottomDockWidgetArea,ui->dw_ext);
 
     ui->chart_widget->setFloating(false);
     ui->treeDockWidget->setFloating(false);
     ui->informationDockWidget->setFloating(false);
-    ui->ownershipChartDockWidget->setFloating(false);
+    ui->ownershipPermissionsChartDockWidget->setFloating(false);
     ui->dw_ext->setFloating(false);
-    ui->permissionsDockWidget->setFloating(false);
+    ui->ownershipPermissionsChartDockWidget->setFloating(false);
 
     ui->chart_widget->setVisible(true);
     ui->treeDockWidget->setVisible(true);
     ui->informationDockWidget->setVisible(true);
-    ui->ownershipChartDockWidget->setVisible(true);
+    ui->ownershipPermissionsChartDockWidget->setVisible(true);
     ui->dw_ext->setVisible(true);
-    ui->permissionsDockWidget->setVisible(false);
+    ui->ownershipPermissionsChartDockWidget->setVisible(false);
 }
 
 void FileExplorer::updateWholeView(QModelIndex index)
@@ -348,9 +351,9 @@ void FileExplorer::updateWholeView(QModelIndex index)
     updatePermissionsTable(index);
     ui->informationDockWidget->setWidget(infoLoadingBar);
     Stats->dirSize(index);
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    ui->ownershipPermissionsChartDockWidget->setWidget(ownershipLoadingBar);
     Stats->getOwn(index);
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    ui->ownershipPermissionsChartDockWidget->setWidget(ownershipLoadingBar);
     Stats->getGroup(index);
     ui->dw_ext->setWidget(extensionsLoadingBar);
     Stats->getExt(index);
@@ -387,6 +390,7 @@ void FileExplorer::dirInfoSlot(QModelIndex idx){
     infoLayout->addWidget(selectedFileSizeGigaBytesLabel);
     multiWidget->setLayout(infoLayout);
     ui->informationDockWidget->setWidget(multiWidget);
+    Update_JSGraph(idx);
 }
 void FileExplorer::getExtSlot(QModelIndex idx){
     extModel->SetDir(idx);
@@ -406,14 +410,14 @@ void FileExplorer::getOwnSlot(QModelIndex idx){
        count ++;
     }
 
-   ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+   ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
 
     userOwnershipBarChart->setData(1,pieces);
     userOwnershipBarChart->update();
    permissons_ownership_tab->update();
 }
 void FileExplorer::getGroupSlot(QModelIndex idx){
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    ui->ownershipPermissionsChartDockWidget->setWidget(ownershipLoadingBar);
     const StatisticsThread::GroupStat* const groups = Stats->_getGroup(idx);
     QVector<Piece>* pieces = new QVector<Piece> ();
     int count = 0;
@@ -426,9 +430,27 @@ void FileExplorer::getGroupSlot(QModelIndex idx){
        count ++;
     }
 
-   ui->ownershipChartDockWidget->setWidget(permissons_ownership_tab);
+   ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
 
     groupOwnershipBarChart->setData(1,pieces);
     groupOwnershipBarChart->update();
     permissons_ownership_tab->update();
+}
+
+void FileExplorer::Update_JSGraph(QModelIndex idx)
+{
+    //chart->GetChart()->load(QUrl("qrc:/folder/icons/Sunburst.html"));
+    //QFile jsonfile("TEMP_FILE.json");
+   // jsonfile.open(QIODevice::WriteOnly);
+    //jsonfile.write(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Indented));//.toJson(QJsonDocument::Compact);
+    //jsonfile.close();
+    QString entriesJson = QString(QJsonDocument(Stats->getJson(idx,qint32(0))).toJson(QJsonDocument::Compact));
+    QString new_root = QString("visualize(") + entriesJson + QString("); null");
+    //chart->GetChart()->reload();
+    //chart->GetChart()->reload();
+    chart->GetChart()->page()->mainFrame()->evaluateJavaScript(new_root);
+    //chart->GetChart()->reload();
+    // chart->GetChart()->reload();
+    //chart->GetChart()->page()->mainFrame()->setUrl(QUrl("qrc:/folder/icons/Sunburst.html"));
+    //chart->GetChart()->triggerPageAction(QWebPage::Reload);
 }

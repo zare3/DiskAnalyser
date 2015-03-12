@@ -21,6 +21,7 @@
 #include "interactivechart.h"
 #include <QJsonDocument>
 #include <QPushButton>
+#include <QWebFrame>
 #include "barchart.h"
 #include "fileinfo.h"
 
@@ -53,6 +54,8 @@ public slots:
     void getExtSlot(QModelIndex);
     void getOwnSlot(QModelIndex);
     void getGroupSlot(QModelIndex);
+    void Update_JSGraph(QModelIndex);
+    void Expose_To_Js();
 
 private:
     Ui::FileExplorer *ui;
