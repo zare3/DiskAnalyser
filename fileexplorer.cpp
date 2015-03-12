@@ -277,9 +277,14 @@ void FileExplorer::initializeInfoBox()
     infoLayout = new QVBoxLayout(this);
     selectedFileNameLabel = new QLabel(this);
     selectedFileSizeBytesLabel = new QLabel(this);
+    selectedFileNameLabel->setStyleSheet("QLabel{color:black}");
+    selectedFileSizeBytesLabel->setStyleSheet("QLabel{color:black}");
     selectedFileSizeKiloBytesLabel= new QLabel(this);;
     selectedFileSizeMegaBytesLabel= new QLabel(this);;
     selectedFileSizeGigaBytesLabel= new QLabel(this);;
+    selectedFileSizeKiloBytesLabel->setStyleSheet("QLabel{color:black}");
+    selectedFileSizeMegaBytesLabel->setStyleSheet("QLabel{color:black}");
+    selectedFileSizeGigaBytesLabel->setStyleSheet("QLabel{color:black}");
     fileInfo = new FileInfo(dirModel);
     ui->informationDockWidget->setMinimumHeight(300);
     ui->informationDockWidget->setMaximumHeight(300);

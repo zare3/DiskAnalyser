@@ -28,7 +28,7 @@ path {
 <style>
 #tooltip {
         position: absolute;
-        width: 200px;
+        width: 500px;
         height: auto;
         padding: 10px;
         background-color: white;
