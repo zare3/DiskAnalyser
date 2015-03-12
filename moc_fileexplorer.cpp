@@ -53,7 +53,7 @@ QT_MOC_LITERAL(16, 283, 12)
     "on_actionCheck_Disk_Fragmentation_triggered\0"
     "forwardButtonPressed\0backButtonPressed\0"
     "on_actionCheck_Security_Threats_triggered\0"
-    "dirSizeSlot\0getExtSlot\0getOwnSlot\0"
+    "dirInfoSlot\0getExtSlot\0getOwnSlot\0"
     "getGroupSlot\0Update_JSGraph\0Expose_To_Js"
 };
 #undef QT_MOC_LITERAL
@@ -119,7 +119,7 @@ void FileExplorer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 5: _t->forwardButtonPressed(); break;
         case 6: _t->backButtonPressed(); break;
         case 7: _t->on_actionCheck_Security_Threats_triggered(); break;
-        case 8: _t->dirSizeSlot((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
+        case 8: _t->dirInfoSlot((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
         case 9: _t->getExtSlot((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
         case 10: _t->getOwnSlot((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
         case 11: _t->getGroupSlot((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;

@@ -9,6 +9,7 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QToolBar>
+#include <QTime>
 #include "checkdiskfragmentation.h"
 #include <QStack>
 #include <QLabel>
@@ -23,6 +24,7 @@
 #include <QWebFrame>
 #include "barchart.h"
 #include "fileinfo.h"
+
 
 namespace Ui {
 class FileExplorer;
@@ -48,7 +50,7 @@ private slots:
     void on_actionCheck_Security_Threats_triggered();
 
 public slots:
-    void dirSizeSlot(QModelIndex);
+    void dirInfoSlot(QModelIndex);
     void getExtSlot(QModelIndex);
     void getOwnSlot(QModelIndex);
     void getGroupSlot(QModelIndex);
@@ -64,7 +66,10 @@ private:
     BarChart* userOwnershipBarChart;
     BarChart* groupOwnershipBarChart;
     QLabel* selectedFileNameLabel;
-    QLabel* selectedFileSizeLabel;
+    QLabel* selectedFileSizeBytesLabel;
+    QLabel* selectedFileSizeKiloBytesLabel;
+    QLabel* selectedFileSizeMegaBytesLabel;
+    QLabel* selectedFileSizeGigaBytesLabel;
     QVBoxLayout* infoLayout;
     FileInfo* fileInfo;
     QStandardItemModel* permissionsModel;
@@ -78,13 +83,21 @@ private:
 
     QMovie* spinnerMovie;
 
+    QTabWidget* permissons_ownership_tab;
+
+    QVector<QColor> colors;
+
 
     void updateOwnsershipGroupsGraph(QModelIndex index);
     void initializeOwnershipCharts();
     void updateInfo(QModelIndex index);
     void initializePermissionsTable();
     void initializeInfoBox();
+    void initializePermissionsOwnershipTab();
     void updatePermissionsTable(QModelIndex index);
+    void initializeView();
+    void updateWholeView(QModelIndex);
+    void initializeLoadingBars();
 
 
     //Stats

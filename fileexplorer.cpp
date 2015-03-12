@@ -17,31 +17,50 @@ FileExplorer::FileExplorer(QWidget *parent) :
     dirModel->setRootPath(filePath);
     Stats = new StatisticsThread(dirModel);
     
-    ui->chart_widget->setMinimumSize(400,300);
-    
-    spinnerMovie = new QMovie(":/folder/icons/loading.gif");
-    
-    ownershipLoadingBar = new QLabel();
-    ownershipLoadingBar->setMovie(spinnerMovie);
-    permissionsLoadingBar = new QLabel();
-    permissionsLoadingBar->setMovie(spinnerMovie);
-    infoLoadingBar = new QLabel();
-    infoLoadingBar->setMovie(spinnerMovie);
-    extensionsLoadingBar = new QLabel();
-    extensionsLoadingBar->setMovie(spinnerMovie);
+    ui->chart_widget->setMinimumSize(300,232);
 
-    spinnerMovie->start();
+    colors.push_back(Qt::green);
+    colors.push_back(Qt::black);
+    colors.push_back(Qt::red);
+    colors.push_back(Qt::blue);
+    colors.push_back(Qt::yellow);
+    colors.push_back(Qt::magenta);
+    colors.push_back(Qt::cyan);
+    for (int i=0; i<100; i++)
+    {
+        int r = qrand() % ((255 + 1) - 0) + 0;
+        int g = qrand() % ((255 + 1) - 0) + 0;
+        int b = qrand() % ((255 + 1) - 0) + 0;
+        colors.push_back(QColor(r,(g*2)%256,b));
+    };
 
+
+
+
+    
+
+    initializeLoadingBars();
     initializeInfoBox();
     initializeDirectory();
     initializePermissionsTable();
     initializeOwnershipCharts();
+    initializePermissionsOwnershipTab();
     extinit();
-    
-    connect(Stats, SIGNAL(dirSizeSignal(QModelIndex)), this, SLOT(dirSizeSlot(QModelIndex)));
+    initializeView();
+   // updateWholeView(dirModel->index("/"));
+
+
+
+
+    connect(Stats, SIGNAL(dirSizeSignal(QModelIndex)), this, SLOT(dirInfoSlot(QModelIndex)));
     connect(Stats, SIGNAL(getExtSignal(QModelIndex)), this, SLOT(getExtSlot(QModelIndex)));
     connect(Stats, SIGNAL(getOwnSignal(QModelIndex)), this, SLOT(getOwnSlot(QModelIndex)));
     connect(Stats, SIGNAL(getGroupSignal(QModelIndex)), this, SLOT(getGroupSlot(QModelIndex)));
+
+
+
+
+
 }
 
 void FileExplorer::Expose_To_Js()
@@ -58,16 +77,13 @@ void FileExplorer::initializeDirectory()
 
     mainToolBar = new QToolBar (this);
     QWidget* groupBox = new QWidget(this);
-    QPushButton *upButton = new QPushButton(this);
-    QPushButton *backButton = new QPushButton(this);
-    QPushButton *forwardButton = new QPushButton(this);
-/*
-    upButton->setFixedSize(24, 24);
-    backButton->setFixedSize(24, 24);
-    forwardButton->setFixedSize(24, 24);
-*/
+    QToolButton *upButton = new QToolButton(this);
+    QToolButton *backButton = new QToolButton(this);
+    QToolButton *forwardButton = new QToolButton(this);
+
     QVBoxLayout *vbox = new QVBoxLayout(this);
-    QHBoxLayout *hbox = new QHBoxLayout(this);
+    //QHBoxLayout *hbox = new QHBoxLayout(this);
+    QToolBar * hbox = new QToolBar(this);
     hbox->addWidget(upButton);
     hbox->addWidget(backButton);
     hbox->addWidget(forwardButton);
@@ -76,46 +92,47 @@ void FileExplorer::initializeDirectory()
     QPixmap temppixmap(":/folder/icons/up_btn.png");
     QIcon buttonIcon= QIcon(temppixmap);
     upButton->setIcon(buttonIcon);
-    upButton->setIconSize(QSize(25, 25));
-    upButton->setFixedSize(QSize(25, 25));
+    upButton->setIconSize(QSize(30, 30));
+    upButton->setFixedSize(QSize(30, 30));
 
     temppixmap = QPixmap(":/folder/icons/back_btn.png");
     buttonIcon= QIcon(temppixmap);
     backButton->setIcon(buttonIcon);
-    backButton->setIconSize(QSize(25, 25));
-    backButton->setFixedSize(QSize(25, 25));
+    backButton->setIconSize(QSize(30, 30));
+    backButton->setFixedSize(QSize(30, 30));
 
     temppixmap= QPixmap(":/folder/icons/forward_btn.png");
     buttonIcon= QIcon(temppixmap);
     forwardButton->setIcon(buttonIcon);
-    forwardButton->setIconSize(QSize(25, 25)); //(temppixmap.rect().size());
-    forwardButton->setFixedSize(QSize(25, 25));
+    forwardButton->setIconSize(QSize(30, 30)); //(temppixmap.rect().size());
+    forwardButton->setFixedSize(QSize(30, 30));
 
+    /*
     QPixmap pixmap;
     //pixmap.load(":/folder/icons/up_btn.png");
     //upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskOutColor));
     pixmap.load(":/folder/icons/circle_btn_mask.png");
 
-    backButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(25, 25)));
-    forwardButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(25, 25)));
+    backButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(30, 30)));
+    forwardButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(QSize(30, 30)));
 
     pixmap.load(":/folder/icons/up_btn.png");
     upButton->setMask(pixmap.createMaskFromColor(Qt::transparent,Qt::MaskInColor).scaled(upButton->size()));
-
+    */
 
     dirListView->setResizeMode(QListView::Adjust);
 
 
-    vbox->addLayout(hbox);
+    vbox->addWidget(hbox);
     vbox->addWidget(dirListView);
     groupBox->setLayout(vbox);
 
     //groupBox->setStyleSheet("");
 
     dirTabWidget->addTab(dirTreeView, "");
-    dirTabWidget->setTabIcon(0, QIcon(":/folder/icons/tree.png"));
+    dirTabWidget->setTabIcon(0, QIcon(QPixmap(":/folder/icons/tree.png").scaledToHeight(30)));
     dirTabWidget->addTab(groupBox, "");
-    dirTabWidget->setTabIcon(1, QIcon(":/folder/icons/grid.png"));
+    dirTabWidget->setTabIcon(1, QIcon(QPixmap(":/folder/icons/grid.png").scaledToHeight(30)));
     dirTabWidget->setTabPosition(QTabWidget::West);
     ui->treeDockWidget->setWidget(dirTabWidget);
     ui->chart_widget->setWidget(chart->GetChart());
@@ -132,8 +149,6 @@ void FileExplorer::initializeDirectory()
     dirListView->setSpacing(10);
     dirListView->setUniformItemSizes(true);
     dirListView->setRootIndex(dirModel->index("/"));
-
-
 
     connect(dirListView, SIGNAL(clicked(QModelIndex)), this, SLOT(onListItemClicked(QModelIndex)));
     connect(chart->GetChart()->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()), this, SLOT(Expose_To_Js()));
@@ -154,22 +169,13 @@ void FileExplorer::extinit(){
     extModel = new ExtTreeModel(this, Stats);
     tv_ext->setModel(extModel);
     tv_ext->setAlternatingRowColors(true);
+    tv_ext->header()->close();
     ui->dw_ext->setWidget(tv_ext);
 }
 
 void FileExplorer::onListItemClicked(QModelIndex index)
 {
-    ui->informationDockWidget->setWidget(infoLoadingBar);
-    Stats->dirSize(index);
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
-    Stats->getOwn(index);
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
-    Stats->getGroup(index);
-    ui->dw_ext->setWidget(extensionsLoadingBar);
-    Stats->getExt(index);
-    updatePermissionsTable(index);
-
-    //chart->GetChart()->reload();
+    updateWholeView(index);
 }
 
 void FileExplorer::onListItemDoubleClicked(QModelIndex index)
@@ -199,6 +205,9 @@ void FileExplorer::onTreeItemClicked(QModelIndex index)
         backStack.push(dirModel->filePath(dirListView->rootIndex()));
         dirListView->setRootIndex(index);
     }
+
+    updateWholeView(index);
+
 }
 void FileExplorer::upButtonPressed()
 {
@@ -243,14 +252,13 @@ void FileExplorer::initializeOwnershipCharts()
     userOwnershipBarChart = new BarChart(this);
     groupOwnershipBarChart = new BarChart (this);
     ownershipTabBar = new QTabWidget (this);
-    ownershipTabBar->addTab(userOwnershipBarChart, "Users");
-    ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/tree.png"));
-    ownershipTabBar->addTab(groupOwnershipBarChart, "Groups");
-    ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/grid.png"));
+    ownershipTabBar->addTab(userOwnershipBarChart, "");
+    ownershipTabBar->setTabIcon(0, QIcon(QPixmap(":/folder/icons/owner.png").scaledToHeight(30)));
+    //ownershipTabBar->setTabIcon(0, QIcon(":/folder/icons/owner.png"));
+    ownershipTabBar->addTab(groupOwnershipBarChart, "");
+    ownershipTabBar->setTabIcon(1, QIcon(QPixmap(":/folder/icons/group.png").scaledToHeight(30)));
+    //ownershipTabBar->setTabIcon(1, QIcon(":/folder/icons/group.png"));
     ownershipTabBar->setTabPosition(QTabWidget::West);
-    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
-
-    ui->ownershipChartDockWidget->setMinimumSize(400,120);
 }
 void FileExplorer::initializePermissionsTable()
 {
@@ -268,8 +276,22 @@ void FileExplorer::initializeInfoBox()
 {
     infoLayout = new QVBoxLayout(this);
     selectedFileNameLabel = new QLabel(this);
-    selectedFileSizeLabel = new QLabel(this);
+    selectedFileSizeBytesLabel = new QLabel(this);
+    selectedFileSizeKiloBytesLabel= new QLabel(this);;
+    selectedFileSizeMegaBytesLabel= new QLabel(this);;
+    selectedFileSizeGigaBytesLabel= new QLabel(this);;
     fileInfo = new FileInfo(dirModel);
+    ui->informationDockWidget->setMinimumHeight(300);
+    ui->informationDockWidget->setMaximumHeight(300);
+}
+
+void FileExplorer::initializePermissionsOwnershipTab()
+{
+    permissons_ownership_tab = new QTabWidget(this);
+    permissons_ownership_tab->addTab(ownershipTabBar,"Tab 1");
+    permissons_ownership_tab->addTab(permissionsTable,"Tab 2");
+    ownershipTabBar->setTabPosition(QTabWidget::South);
+    ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
 }
 void FileExplorer::updatePermissionsTable(QModelIndex index)
 {
@@ -278,15 +300,94 @@ void FileExplorer::updatePermissionsTable(QModelIndex index)
         for (int j=0; j<3; j++)
            permissionsModel->setItem(i,j,new QStandardItem(QString::number(permissionsGrid.at(i).at(j))));
     permissionsTable->setModel(permissionsModel);
-    ui->permissionsDockWidget->setWidget(permissionsTable);
+    ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
 }
 
-void FileExplorer::dirSizeSlot(QModelIndex idx){
+void FileExplorer::initializeView()
+{
+    ui->dw_ext->setMinimumHeight(350);
+    ui->dw_ext->setMaximumHeight(350);
+
+    ui->chart_widget->setVisible(true);
+    ui->treeDockWidget->setVisible(true);
+    ui->informationDockWidget->setVisible(true);
+    ui->ownershipPermissionsChartDockWidget->setVisible(true);
+    ui->dw_ext->setVisible(true);
+    ui->ownershipPermissionsChartDockWidget->setVisible(false);
+
+    removeDockWidget(ui->chart_widget);
+    removeDockWidget(ui->treeDockWidget);
+    removeDockWidget(ui->informationDockWidget);
+    removeDockWidget(ui->ownershipPermissionsChartDockWidget);
+    removeDockWidget(ui->dw_ext);
+    removeDockWidget(ui->ownershipPermissionsChartDockWidget);
+
+    addDockWidget(Qt::LeftDockWidgetArea,ui->chart_widget);
+    setCentralWidget(ui->chart_widget);
+    addDockWidget(Qt::LeftDockWidgetArea,ui->treeDockWidget);
+
+    addDockWidget(Qt::RightDockWidgetArea,ui->informationDockWidget);
+
+    addDockWidget(Qt::BottomDockWidgetArea,ui->ownershipPermissionsChartDockWidget);
+    addDockWidget(Qt::BottomDockWidgetArea,ui->dw_ext);
+
+    ui->chart_widget->setFloating(false);
+    ui->treeDockWidget->setFloating(false);
+    ui->informationDockWidget->setFloating(false);
+    ui->ownershipPermissionsChartDockWidget->setFloating(false);
+    ui->dw_ext->setFloating(false);
+    ui->ownershipPermissionsChartDockWidget->setFloating(false);
+
+    ui->chart_widget->setVisible(true);
+    ui->treeDockWidget->setVisible(true);
+    ui->informationDockWidget->setVisible(true);
+    ui->ownershipPermissionsChartDockWidget->setVisible(true);
+    ui->dw_ext->setVisible(true);
+    ui->ownershipPermissionsChartDockWidget->setVisible(false);
+}
+
+void FileExplorer::updateWholeView(QModelIndex index)
+{
+    updatePermissionsTable(index);
+    ui->informationDockWidget->setWidget(infoLoadingBar);
+    Stats->dirSize(index);
+    ui->ownershipPermissionsChartDockWidget->setWidget(ownershipLoadingBar);
+    Stats->getOwn(index);
+    ui->ownershipPermissionsChartDockWidget->setWidget(ownershipLoadingBar);
+    Stats->getGroup(index);
+    ui->dw_ext->setWidget(extensionsLoadingBar);
+    Stats->getExt(index);
+}
+
+void FileExplorer::initializeLoadingBars()
+{
+    spinnerMovie = new QMovie(":/folder/icons/loading.gif");
+
+    ownershipLoadingBar = new QLabel();
+    ownershipLoadingBar->setMovie(spinnerMovie);
+    permissionsLoadingBar = new QLabel();
+    permissionsLoadingBar->setMovie(spinnerMovie);
+    infoLoadingBar = new QLabel();
+    infoLoadingBar->setMovie(spinnerMovie);
+    extensionsLoadingBar = new QLabel();
+    extensionsLoadingBar->setMovie(spinnerMovie);
+
+    spinnerMovie->start();
+}
+
+void FileExplorer::dirInfoSlot(QModelIndex idx){
     QWidget* multiWidget = new QWidget();
     selectedFileNameLabel->setText(fileInfo->getName(dirModel->fileInfo(idx).filePath()));
-    selectedFileSizeLabel->setText(QString::number(Stats->_dirSize(idx)));
+    quint64 sizeInBytes = Stats->_dirSize(idx);
+    selectedFileSizeBytesLabel->setText(QString::number(sizeInBytes) + " Bytes");
+    selectedFileSizeKiloBytesLabel->setText(QString::number(sizeInBytes/1024) + " KBytes");
+    selectedFileSizeMegaBytesLabel->setText(QString::number(sizeInBytes/1024/1024) + " MBytes");
+    selectedFileSizeGigaBytesLabel->setText(QString::number(sizeInBytes/1024/1024/1024)+" GBytes");
     infoLayout->addWidget(selectedFileNameLabel);
-    infoLayout->addWidget(selectedFileSizeLabel);
+    infoLayout->addWidget(selectedFileSizeBytesLabel);
+    infoLayout->addWidget(selectedFileSizeKiloBytesLabel);
+    infoLayout->addWidget(selectedFileSizeMegaBytesLabel);
+    infoLayout->addWidget(selectedFileSizeGigaBytesLabel);
     multiWidget->setLayout(infoLayout);
     ui->informationDockWidget->setWidget(multiWidget);
     Update_JSGraph(idx);
@@ -298,34 +399,42 @@ void FileExplorer::getExtSlot(QModelIndex idx){
 void FileExplorer::getOwnSlot(QModelIndex idx){
     const StatisticsThread::OwnStat* const owners = Stats->_getOwn(idx);
     QVector<Piece>* pieces = new QVector<Piece> ();
+    int count = 0;
     for(QMap<QString, quint64>::const_iterator it = owners->nOwn.begin(); it != owners->nOwn.end(); it++){
        Piece t;
-       t.color = Qt::green;
+       t.color = colors.at(count%colors.size());
        t.name = it.key();
        t.percentage = it.value();
        qDebug()<<t.name;
        pieces->push_back(t);
+       count ++;
     }
 
-    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
+   ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
+
     userOwnershipBarChart->setData(1,pieces);
     userOwnershipBarChart->update();
+   permissons_ownership_tab->update();
 }
 void FileExplorer::getGroupSlot(QModelIndex idx){
-    ui->ownershipChartDockWidget->setWidget(ownershipLoadingBar);
+    ui->ownershipPermissionsChartDockWidget->setWidget(ownershipLoadingBar);
     const StatisticsThread::GroupStat* const groups = Stats->_getGroup(idx);
     QVector<Piece>* pieces = new QVector<Piece> ();
+    int count = 0;
     for(QMap<QString, quint64>::const_iterator it = groups->nGroup.begin(); it != groups->nGroup.end(); it++){
        Piece t;
-       t.color = Qt::green;
+       t.color = colors[count%colors.size()];
        t.name = it.key();
        t.percentage = it.value();
        pieces->push_back(t);
+       count ++;
     }
 
-    ui->ownershipChartDockWidget->setWidget(ownershipTabBar);
+   ui->ownershipPermissionsChartDockWidget->setWidget(permissons_ownership_tab);
+
     groupOwnershipBarChart->setData(1,pieces);
     groupOwnershipBarChart->update();
+    permissons_ownership_tab->update();
 }
 
 void FileExplorer::Update_JSGraph(QModelIndex idx)

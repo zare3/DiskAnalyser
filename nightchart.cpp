@@ -292,7 +292,7 @@ int Nightcharts::draw(QPainter *painter)
         double pW = (cW-(pieces.size())*pDist)/pieces.size();
 
         QLinearGradient gradient(cX+cW/2,cY,cX+cW/2,cY+cH);
-        gradient.setColorAt(0,Qt::black);
+        //gradient.setColorAt(0,Qt::black);
         QPen pen;
         pen.setWidth(3);
 

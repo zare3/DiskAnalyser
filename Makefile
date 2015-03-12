@@ -507,6 +507,7 @@ qrc_directoryresources.cpp: directoryresources.qrc \
 		Sunburst.html \
 		loading.gif \
 		grid.png \
+		compressed.png \
 		directory.png \
 		tree.png \
 		music.png \
@@ -515,8 +516,6 @@ qrc_directoryresources.cpp: directoryresources.qrc \
 		TEMP_FILE.json \
 		back_btn.png \
 		document.png \
-		group.png \
-		owner.png \
 		up_btn.png \
 		image.png \
 		forward_btn.png \
@@ -876,6 +875,7 @@ moc_fileexplorer.cpp: ../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QTabWidget \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QToolBar \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QTime \
 		checkdiskfragmentation.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QDialog \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qdialog.h \
@@ -918,6 +918,7 @@ moc_fileexplorer.cpp: ../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		ExtTreeModel.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QAbstractItemModel \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QString \
+		../../Qt5.3.2/5.3/gcc_64/include/QtGui/QIcon \
 		interactivechart.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/QWebView \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/qwebview.h \
@@ -937,6 +938,8 @@ moc_fileexplorer.cpp: ../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QPushButton \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/QWebFrame \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/qwebframe.h \
 		barchart.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtGui/QColor \
 		fileinfo.h \
@@ -2214,6 +2217,7 @@ main.o: main.cpp fileexplorer.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QTabWidget \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QToolBar \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QTime \
 		checkdiskfragmentation.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QDialog \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qdialog.h \
@@ -2256,6 +2260,7 @@ main.o: main.cpp fileexplorer.h \
 		ExtTreeModel.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QAbstractItemModel \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QString \
+		../../Qt5.3.2/5.3/gcc_64/include/QtGui/QIcon \
 		interactivechart.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/QWebView \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/qwebview.h \
@@ -2275,6 +2280,8 @@ main.o: main.cpp fileexplorer.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QPushButton \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/QWebFrame \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/qwebframe.h \
 		barchart.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtGui/QColor \
 		fileinfo.h \
@@ -2604,6 +2611,7 @@ fileexplorer.o: fileexplorer.cpp fileexplorer.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QTabWidget \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QToolBar \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QTime \
 		checkdiskfragmentation.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QDialog \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qdialog.h \
@@ -2646,6 +2654,7 @@ fileexplorer.o: fileexplorer.cpp fileexplorer.h \
 		ExtTreeModel.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QAbstractItemModel \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QString \
+		../../Qt5.3.2/5.3/gcc_64/include/QtGui/QIcon \
 		interactivechart.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/QWebView \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/qwebview.h \
@@ -2665,6 +2674,8 @@ fileexplorer.o: fileexplorer.cpp fileexplorer.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QPushButton \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/QWebFrame \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWebKitWidgets/qwebframe.h \
 		barchart.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtGui/QColor \
 		fileinfo.h \
@@ -3279,15 +3290,7 @@ ExtTreeModel.o: ExtTreeModel.cpp ExtTreeModel.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qstringmatcher.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QList \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QString \
-		StatisticsThread.h \
-		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QThread \
-		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qthread.h \
-		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QFileSystemModel \
-		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qfilesystemmodel.h \
-		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qdir.h \
-		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qfileinfo.h \
-		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qfile.h \
-		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qfiledevice.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtGui/QIcon \
 		../../Qt5.3.2/5.3/gcc_64/include/QtGui/qicon.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qsize.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtGui/qpixmap.h \
@@ -3307,6 +3310,15 @@ ExtTreeModel.o: ExtTreeModel.cpp ExtTreeModel.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtGui/qregion.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qline.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtGui/qpainterpath.h \
+		StatisticsThread.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QThread \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qthread.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/QFileSystemModel \
+		../../Qt5.3.2/5.3/gcc_64/include/QtWidgets/qfilesystemmodel.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qdir.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qfileinfo.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qfile.h \
+		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/qdiriterator.h \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QMap \
 		../../Qt5.3.2/5.3/gcc_64/include/QtCore/QVector \
